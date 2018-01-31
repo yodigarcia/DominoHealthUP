@@ -1,8 +1,6 @@
 from Person import Person
 
-
 class Patient(Person):
-
     def __init__(self, firstname, lastname, gender, contact, address, zip, dateobirth, admissiondate, nric):
         Person.__init__(self, gender, contact, address, dateobirth, nric)
         self.__fname = firstname

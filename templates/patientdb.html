@@ -16,12 +16,14 @@
     </header>
 
     <div class="container">
-        <table class="table table-bordered">
+        <table class="table" id="patientsdb">
             <tr>
                 <th>Name</th>
                 <th>Condition</th>
                 <th>Schedule Date</th>
                 <th>Contact</th>
+                <th>Time</th>
+                <th>Update</th>
             </tr>
             {% for patients in booked %}
             <tr>
@@ -29,6 +31,7 @@
                 <td>{{ patients.get_condition() }}</td>
                 <td>{{ patients.get_schedule() }}</td>
                 <td>{{ patients.get_mobile() }}</td>
+                <td>{{ patients.get_time() }}</td>
                 <td><a href="/update/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
             </tr>
             {% endfor %}

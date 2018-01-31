@@ -31,11 +31,11 @@ from water import Water
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kheehing desktop --->
-cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # <!--- kheehing laptop --->
 # cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-default_app = firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://dominohealth.firebaseio.com'})
+# default_app = firebase_admin.initialize_app(cred, {
+    # 'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
 # cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -844,9 +844,10 @@ def home():
 ####################################################################################################
 # --- KHEE HING  CLASS---
 class Aft_dis(Form):
-    nric = StringField("")
-    status = RadioField("",choices=[(0,'0%'),(10,'10%'),(20,'20%'),(30,'30%'),(40,'40%'),(50,'50%'),(60,'60%'),(70,'70%'),(80,'80%'),(90,'90%'),(100,'100%')])
-    eye_problem = TextAreaField("Are you experiencing any problems?<small>&nbsp;if yes please state</small>")
+    nric = StringField("", validators=[validators.DataRequired])
+    status = RadioField("",choices=[(33,'0% - 33%'),(66,'34% - 66'),(99,'67% - 99%')],validators=[validators.DataRequired])
+    eye_problem = BooleanField('eye')
+    # copy paste more stuff
     medication = TextAreaField("Do you have any problems with your medication?<small>&nbsp;if yes please state</small>")
     others = TextAreaField("Do you have any other enquires ?")
 

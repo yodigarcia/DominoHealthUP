@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect, session, flash
-from ChronicIllness import BloodPressure, BloodGlucose, Weight, Information
-from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, TextAreaField, validators, FloatField ,SelectField,TextAreaField,BooleanField
-from wtforms.fields.html5 import DateField
+from ChronicIllness import BloodPressure, BloodGlucose, Weight
+from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, TextAreaField, validators, FloatField, SelectField, DateTimeField
+from wtforms.fields.html5 import DateField, DateTimeLocalField
+from wtforms_components import TimeField
 from datetime import datetime 
 from Account import Account
 from Schedule import Schedule
@@ -10,7 +11,6 @@ from water import Water
 from water2 import Water2
 from water3 import Water3
 from water4 import Water4
-from Food_Select import Food_Select
 from Food_1 import Food
 from comment import DocNote
 from Calories_Graph import Calories
@@ -21,33 +21,31 @@ import json
 
 
 #<!--- yodi --->
-#red = credentials.Certificate(r"C:\Users\yodigarcia\PycharmProjects\DominoHealth (testing)\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-#default_app = firebase_admin.initialize_app(cred, {
-#   'databaseURL': 'https://dominohealth.firebaseio.com'})
-# cred = credentials.Certificate(r"C:\Users\yodigarcia\PycharmProjects\DominoHealth (testing)\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#    'databaseURL': 'https://dominohealth.firebaseio.com'})
-
+cred = credentials.Certificate(r"C:\Users\yodigarcia\PycharmProjects\DominoHealth (testing)\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+default_app = firebase_admin.initialize_app(cred, {
+   'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kiahzuo desktop --->
+# cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
+# default_app = firebase_admin.initialize_app(cred, {
+#      'databaseURL': 'https://dominohealth.firebaseio.com'})
 #cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 #default_app = firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
-
 #<!--- kheehing desktop --->
 # cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# <!--- kheehing laptop --->
-cred = credentials.Certificate(r"C:\Users\kheehing\Desktop\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+#<!--- kheehing laptop --->
+# cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 #<!--- kheehing school desktop --->
 # cred = credentials.Certificate(r"C:\Users\171723R\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-default_app = firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://dominohealth.firebaseio.com'})
+# default_app = firebase_admin.initialize_app(cred, {
+    # 'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
 # cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # default_app = firebase_admin.initialize_app(cred, {
-#       'databaseURL': 'https://dominohealth.firebaseio.com'})
+#     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 app = Flask(__name__)
@@ -73,7 +71,6 @@ class Waterer4(Form):
                                    ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
     water44 = StringField("Date of Intake")
     name4=StringField("Name")
-
 
 
 class DocComment(Form):
@@ -169,19 +166,25 @@ class Waterer3(Form):
                                   ('4', 'Unbearable (Unbearable pain even on painkillers)')])
 
 
+class BloodA(Form):
+    month = IntegerField("Month", [validators.NumberRange(min=1, max=12, message='Invalid month')])
+    day = IntegerField("Day", [validators.NumberRange(min=1, max=31, message='Invalid day')])
+    blood_glucose = FloatField("Blood Glucose")
+    blood_pressure = FloatField("Blood Pressure")
+    weight = FloatField("Weight")
+    text_doc = StringField("Text")
+
+
 class Staff(Form):
     username = StringField('', [validators.DataRequired()])
     password = PasswordField('', [validators.DataRequired()])
 
-
 class Patients(Form):
     firstname = StringField('First Name ')
     lastname = StringField('Last Name ')
-    gender = RadioField('Gender ', choices=[('male', 'Male'), ('female', 'Female')])
+    gender = RadioField('Gender ', choices=[('Male', 'Male'), ('Female', 'Female')])
     contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
     nric = StringField('NRIC ')
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
-    nric = IntegerField('NRIC ')
     address = StringField('Address ')
     zip = IntegerField('Zip')
     date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
@@ -193,81 +196,21 @@ class Schedules(Form):
     gender = RadioField('Gender ', choices=[('Male', 'Male'), ('Female', 'Female')])
     contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
     nric = StringField('NRIC ')
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
-    nric = IntegerField('NRIC ')
     address = StringField('Address ')
     date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
     condition = TextAreaField('')
-    scheduledate = DateField('Schedule Checkup ', format='%Y-%m-%d')
+    scheduledate = DateField('Schedule Checkup ')
+    test = TimeField('Time ', format='%H:%M')
     contactname = StringField('')
     email = StringField('')
-    # emergency = IntegerField('', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
-
-class Fud_Select(Form):
-    my_food_order = SelectField(u'Steamed Rice',
-                           choices=[('-', '-'), ('1 Steamed Rice', '1 Serving (~295 cal)'), ('2 Steamed Rice', '2 Servings (~590 cal)'),
-                                    ('3 Steamed Rice', '3 Servings (~885 cal)')])
-
-    my_food_order2 = SelectField(u'Vegetable Porridge',
-                           choices=[('-', '-'), ('1 Porridge', '1 Serving (~240 Cal)'), ('2 Porridge', '2 Servings (~480 cal)'),
-                                    ('3 Porridge', '3 Servings (~720 cal)')])
-
-    my_food_order3 = SelectField(u'Mixed Rice(Beef)',
-                           choices=[('-', '-'), ('1 Mixed Rice', '1 Serving (~390 cal)'), ('2 Mixed Rice', '2 Servings (~780 cal)'),
-                                    ('3 Mixed Rice', '3 Servings (~1,170 cal)')])
-
-    my_food_order4 = SelectField(u'Vegetable Fusilli',
-                                 choices=[('-', '-'), ('1 Vegetable Fusilli', '1 Serving (~345 cal)'), ('2 Vegetable Fusilli', '2 Servings (~690 cal)'),
-                                          ('3 Vegetable Fusilli', '3 Servings (~1,035 cal)')])
-
-    my_food_order5 = SelectField(u'Mixed Fruit Yogurt',
-                                 choices=[('-', '-'), ('1 Mixed Fruit Yogurt', '1 Serving (~218 cal)'), ('2 Mixed Fruit Yogurt', '2 Servings (~436 cal)'),
-                                          ('3 Mixed Fruit Yogurt', '3 Servings (~654 cal)')])
-
-    my_food_order6 = SelectField(u'Mushroom Soup',
-                                 choices=[('-', '-'), ('1 Mushroom Soup', '1 Serving (~110 cal)'), ('2 Mushroom Soup', '2 Servings (~220 cal)'),
-                                          ('3 Mushroom Soup', '3 Servings (~330 cal)')])
-
-    my_food_order7 = SelectField(u'Yogurt Special',
-                                 choices=[('-', '-'), ('1 Yogurt Special', '1 Serving (~145 cal)'), ('2 Yogurt Specials', '2 Servings (~290 cal)'),
-                                          ('3 Yogurt Specials', '3 Servings (~345 cal)')])
-
-    my_food_order8 = SelectField(u'Steamed Salmon',
-                                 choices=[('-', '-'), ('1 Steamed Salmon', '1 Serving (~436 cal)'), ('2 Steamed Salmon', '2 Servings (~872 cal)')])
-
-    my_food_order9 = SelectField(u'Salad & Eggs',
-                                 choices=[('-', '-'), ('1 Salad & Eggs', '1 Serving (~238 cal)'), ('2 Salad & Eggs', '2 Servings (~476 cal)'),
-                                          ('3 Salad & Eggs', '3 Servings (~714 cal)')])
-
-    my_food_order10 = SelectField(u'Breakfast Set',
-                                 choices=[('-', '-'), ('1 Breakfast Set', '1 Serving (~550 cal)'), ('2 Breakfast Set', '2 Servings (~1,100 cal)'),
-                                          ('3 Breakfast Set', '3 Servings (~1,650 cal)')])
-
-    my_food_order11 = SelectField(u'Vegetables & Rice',
-                                 choices=[('-', '-'), ('1 Vegetables & Rice', '1 Serving (~320 cal)'), ('2 Vegetables & Rice', '2 Servings (~640 cal)'),
-                                          ('3 Vegetables & Rice', '3 Servings (~960 cal)')])
-
-    my_food_order12 = SelectField(u'Breakfast Omelette',
-                                  choices=[('-', '-'), ('1 Omelette', '1 Serving (~140 cal)'), ('2 Omelette', '2 Servings (~280 cal)'),
-                                           ('3 Omelette', '3 Servings (~400 cal)')])
+    emergency = IntegerField('', [validators.NumberRange(min=8, message='Invalid number provided')])
+    doctoravail = DateField('', format='%Y-%m-%d')
 
 @app.context_processor
 def utility_processor():
     def test():
         currentuser = root.child('loggedin').get()
-        list = []
-
-        for pubid in currentuser:    #-L2cm2FcD-Pb_LUpP6Zf
-
-            logged = currentuser[pubid]
-
-            if logged['currentuser'] != '':
-                current = Account(logged['currentuser'], logged['currentuser'])
-                current.set_pubid(pubid)
-                print(current.get_pubid())
-                list.append(current)
-        
-        return currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser'][1:]
+        return currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser']
 
     return dict(test=test)
 
@@ -321,8 +264,8 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/profile', methods=["GET", "POST"])
-def profile():
+@app.route('/register', methods=["GET", "POST"])
+def register():
     form = Patients(request.form)
     if request.method == "POST" and form.validate():
         fname = form.firstname.data
@@ -349,15 +292,15 @@ def profile():
             'admission date': pdb.get_admissiondate(),
             'nric': pdb.get_nric()
          })
-        return redirect(url_for('profile'))
+        return redirect(url_for('register'))
 
-    return render_template('profile.html', form=form)
+    return render_template('register.html', form=form)
 
 
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
     form = Schedules(request.form)
-    if request.method == "POST" and form.validate():
+    if request.method == "POST":
         fullname = form.fullname.data
         gender = form.gender.data
         contact = form.contact.data
@@ -368,43 +311,72 @@ def schedule():
         email = form.email.data
         emgname = form.contactname.data
         scheduledate = str(form.scheduledate.data)
+        emergency = form.emergency.data
+        time = str(form.test.data)
 
-        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname)
+        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname, emergency, time)
 
         schd_db = root.child('Checkup')
         schd_db.push({
             'fullname': schd.get_fullname(),
             'gender': schd.get_gender(),
-            'emergencycontact': schd.get_mobile(),
+            'contact': schd.get_mobile(),
             'address': schd.get_address(),
             'dateofbirth': schd.get_dateobirth(),
             'nric': schd.get_nric(),
             'condition': schd.get_condition(),
             'email': schd.get_email(),
             'scheduledate': schd.get_schedule(),
-            'emergencycontactname': schd.get_emgname()
+            'emergencycontactname': schd.get_emgname(),
+            'emergencycontact': schd.get_emergency(),
+            'time': schd.get_time()
          })
         return redirect(url_for('schedule'))
 
     return render_template('schedule.html', form=form)
 
+@app.route('/patientsdatabase')
+def patientsdb():
+    patients = root.child('Patient_Information').get()
+    list = []
+
+    for ids in patients:
+        patientsinfo = patients[ids]
+        if patientsinfo['firstname']:
+            patientinfo = Patient(patientsinfo['firstname'], patientsinfo['lastname'], patientsinfo['gender'], patientsinfo['contact'],
+                                  patientsinfo['address'], patientsinfo['zip'],  patientsinfo['dateofbirth'], patientsinfo['admission date'],
+                                  patientsinfo['nric'])
+            patientinfo.set_pubid(ids)
+            print(patientinfo.get_pubid)
+            list.append(patientinfo)
+    print(list)
+    return render_template('patientsdb.html', patientsdb=list)
 
 @app.route('/patientdb')
 def patientdb():
     booked = root.child('Checkup').get()
     list = []
+    name = []
 
     for pubid in booked:
 
         bookedpatients = booked[pubid]
 
-        if bookedpatients['fullname'] != '':
-            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['emergencycontact'], bookedpatients['address'],
+        if bookedpatients['fullname']:
+            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['contact'], bookedpatients['address'],
                                      bookedpatients['dateofbirth'], bookedpatients['nric'], bookedpatients['condition'],
-                                     bookedpatients['email'], bookedpatients['scheduledate'],bookedpatients['emergencycontactname'])
+                                     bookedpatients['email'], bookedpatients['scheduledate'],bookedpatients['emergencycontactname'],
+                                     bookedpatients['emergencycontact'], bookedpatients['time'])
             bookedpatient.set_pubid(pubid)
             print(bookedpatient.get_pubid())
-            list.append(bookedpatient)
+            name.append(bookedpatient.get_fullname())
+            name.sort()
+        for i in name:
+            if bookedpatients['fullname'] == i:
+                print(name)
+                list.append(bookedpatient)
+            else:
+                continue
 
     return render_template('patientdb.html', booked=list)
 
@@ -423,33 +395,38 @@ def update_patient(id):
         email = form.email.data
         emgname = form.contactname.data
         scheduledate = str(form.scheduledate.data)
+        emergency = str(form.emergency.data)
+        time = str(form.test.data)
 
-        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname)
+        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname, emergency, time)
 
         schd_db = root.child('Checkup/' + id)
         schd_db.set({
             'fullname': schd.get_fullname(),
             'gender': schd.get_gender(),
-            'emergencycontact': schd.get_mobile(),
+            'contact': schd.get_mobile(),
             'address': schd.get_address(),
             'dateofbirth': schd.get_dateobirth(),
             'nric': schd.get_nric(),
             'condition': schd.get_condition(),
             'email': schd.get_email(),
             'scheduledate': schd.get_schedule(),
-            'emergencycontactname': schd.get_emgname()
+            'emergencycontactname': schd.get_emgname(),
+            'emergencycontact': schd.get_emergency(),
+            'time': schd.get_time()
         })
         flash('Updated successfully', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('patientdb'))
 
     else:
         url = 'Checkup/'+id
         bookedpatients = root.child(url).get()
 
         if bookedpatients['fullname'] != '':
-            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['emergencycontact'], bookedpatients['address'],
+            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['contact'], bookedpatients['address'],
                                      bookedpatients['dateofbirth'], bookedpatients['nric'], bookedpatients['condition'],
-                                     bookedpatients['email'], bookedpatients['scheduledate'],bookedpatients['emergencycontactname'])
+                                     bookedpatients['email'], bookedpatients['scheduledate'],bookedpatients['emergencycontactname'], 
+                                     bookedpatients['emergencycontact'], bookedpatients['time'])
 
             bookedpatient.set_pubid(id)
             form.fullname.data = bookedpatient.get_fullname()
@@ -462,13 +439,10 @@ def update_patient(id):
             form.email.data = bookedpatient.get_email()
             form.scheduledate.data = datetime.strptime(bookedpatient.get_schedule(), '%Y-%m-%d')
             form.contactname.data = bookedpatient.get_emgname()
+            form.emergency.data = bookedpatient.get_emergency()
+            form.test.data = datetime.strptime(bookedpatient.get_time(), '%H:%M:%S')
 
         return render_template('updatepatient.html', form=form)
-
-
-@app.route('/profile_page')
-def ProfilePage():
-    return render_template('profile_page.html')
 
 # Kiahzuo
 
@@ -530,7 +504,6 @@ def docupdate():
         comment = form.comment1.data
         date= form.date.data
 
-
         dc = DocNote(comment,date)
 
         dc_db = root.child("Doc1")
@@ -540,7 +513,6 @@ def docupdate():
 
     comment=root.child('Doc1').get()
     list2=[]
-
 
     water4 = root.child('long').get()
     list = []
@@ -606,7 +578,6 @@ def update_publication(id):
                 "water43":longupdate.get_water41(),
                 "water44":longupdate.get_water44(),
                 "name4":longupdate.get_name4()
-
             })
 
             flash('Magazine Updated Sucessfully.', 'success')
@@ -748,55 +719,10 @@ def tracker2():
     return render_template('tracker2.html', form=form)
 
 
-@app.route('/patientdb')
-def Patientdb():
-    return render_template('patientdb.html')
+@app.route('/After_discharge', methods=["GET", "POST"])
+def after_discharge():
+    return render_template('after_discharge.html')
 
-
-@app.route('/layout')
-def layout():
-    return render_template('layout.html')
-
-
-class Aft_dis(Form):
-    nric = StringField("")
-    status = RadioField("",choices=[(0,'0%'),(10,'10%'),(20,'20%'),(30,'30%'),(40,'40%'),(50,'50%'),(60,'60%'),(70,'70%'),(80,'80%'),(90,'90%'),(100,'100%')])
-    eye_problem = TextAreaField("Are you experiencing any problems?<small>&nbsp;if yes please state</small>")
-    medication = TextAreaField("Do you have any problems with your medication?<small>&nbsp;if yes please state</small>")
-    others = TextAreaField("Do you have any other enquires ?")
-
-@app.route('/after_discharge', methods=["GET", "POST"])
-def after_discharge_():
-    form = Aft_dis(request.form)
-    if request.method == "POST":
-        nric = form.nric.data
-        status = form.status.data
-        eye_problem = form.eye_problem.data
-        medication = form.medication.data
-        others = form.others.data  
-        currentuser = root.child('loggedin').get()
-        info = Information(nric,status,problem,medication,others)
-        info_db = root.child(currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser'][1:]).child("outpatient")
-        if nric != None:
-            info_db.push({
-                'nric': info.get_informationzero(),
-                'status': info.get_informationone(),
-                'problem': info.get_informationtwo(),
-                'medication': info.get_informationthree(),
-                'others': info.get_informationfour(),
-            })
-        return redirect(url_for('after_discharge_'))
-
-    return render_template('after_discharge.html', form = form)
-
-
-class BloodA(Form):
-    month = IntegerField("Month", [validators.NumberRange(min=1, max=12, message='Invalid month')])
-    day = IntegerField("Day", [validators.NumberRange(min=1, max=31, message='Invalid day')])
-    blood_glucose = FloatField("Blood Glucose")
-    blood_pressure = FloatField("Blood Pressure")
-    weight = FloatField("Weight")
-    text_doc = StringField("Text")
 
 @app.route('/chronic_illness', methods=["GET", "POST"])
 def chronic_illness_():
@@ -873,6 +799,81 @@ def chronic_illness_():
     return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg,wi=list_wi)
 
 
+@app.route('/chronic_illness_s')
+def chronic_illness():
+    form = BloodA(request.form)
+    if request.method == "POST" and form.validate():
+        month = form.month.data
+        month = month-1 
+        day = form.day.data
+        blood_pressure = form.blood_pressure.data
+        blood_glucose = form.blood_glucose.data
+        weight = form.weight.data
+        bg = BloodGlucose(month, day, blood_glucose)
+        bp = BloodPressure(month, day, blood_pressure)
+        weight = Weight(month, day, weight)
+
+        bp_db = root.child('Diabetes_bp')
+        bg_db = root.child('Diabetes_bg')
+        weight_db = root.child('Diabetes_weight')
+        if blood_pressure != None:
+            bp_db.push({
+                'month': bp.get_month(),
+                'day': bp.get_day(),
+                'blood pressure': bp.get_blood_pressure(),
+            })
+        elif blood_glucose != None:
+            bg_db.push({
+                'month': bg.get_month(),
+                'day': bg.get_day(),
+                'blood glucose': bg.get_blood_glucose(),
+            })
+        elif weight != None:
+            weight_db.push({
+                'month': weight.get_month(),
+                'day': weight.get_day(),
+                'weight': weight.get_weight(),
+            })
+        return redirect(url_for('chronic_illness_s'))
+
+    bp = root.child('Diabetes_bp').get()
+    bg = root.child('Diabetes_bg').get()
+    wi = root.child('Diabetes_weight').get()
+    list_bg = []
+    list_bp = []
+    list_wi = []
+
+    try:
+        for data in bp:
+            i = bp[data]
+            if 'blood pressure' in i:
+                if i['blood pressure'] != None:
+                    db_data = BloodPressure(i['month'], i['day'], i['blood pressure'])
+                    db_data.set_data(data)
+                    # print(db_data.get_data())
+                    list_bp.append(db_data)
+        for data in bg:
+            j = bg[data]
+            if 'blood glucose' in j:
+                if j['blood glucose'] != None:
+                    db_data = BloodGlucose(j['month'], j['day'], j['blood glucose'])
+                    db_data.set_data(data)
+                    # print(db_data.get_data())
+                    list_bg.append(db_data)
+        for data in wi:
+            k = wi[data]
+            if 'weight' in k:
+                if k['weight'] != None:
+                    db_data = Weight(k['month'], k['day'], k['weight'])
+                    db_data.set_data(data)
+                    # print(db_data.get_data())
+                    list_wi.append(db_data)
+    except:
+        TypeError
+
+    return render_template('Chronic_illness_staff.html', form=form, bp=list_bp, bg=list_bg,wi=list_wi)
+
+
 @app.route('/menu', methods=["GET", "POST"])
 def food():
     form = Fooder(request.form)
@@ -918,47 +919,9 @@ def Food_Health():
     return render_template("Food_Health.html", form=form, calories=list)
 
 
-@app.route('/fud', methods= ["GET", "POST"])
+@app.route('/fud')
 def fud():
-    form = Fud_Select(request.form)
-    if request.method == "POST":
-        food_quantity = form.my_food_order.data
-        food_quantity2 = form.my_food_order2.data
-        food_quantity3 = form.my_food_order3.data
-        food_quantity4 = form.my_food_order4.data
-        food_quantity5 = form.my_food_order5.data
-        food_quantity6 = form.my_food_order6.data
-        food_quantity7 = form.my_food_order7.data
-        food_quantity8 = form.my_food_order8.data
-        food_quantity9 = form.my_food_order9.data
-        food_quantity10 = form.my_food_order10.data
-        food_quantity11 = form.my_food_order11.data
-        food_quantity12 = form.my_food_order12.data
-
-        food_q = Food_Select(food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
-                             food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12)
-
-        food_q_db = root.child('food_quantity')
-        food_q_db.push({
-            "food_queue": food_q.get_food_quantity(),
-            "food_queue2": food_q.get_food_quantity2(),
-            "food_queue3": food_q.get_food_quantity3(),
-            "food_queue4": food_q.get_food_quantity4(),
-            "food_queue5": food_q.get_food_quantity5(),
-            "food_queue6": food_q.get_food_quantity6(),
-            "food_queue7": food_q.get_food_quantity7(),
-            "food_queue8": food_q.get_food_quantity8(),
-            "food_queue9": food_q.get_food_quantity9(),
-            "food_queue10": food_q.get_food_quantity10(),
-            "food_queue11": food_q.get_food_quantity11(),
-            "food_queue12": food_q.get_food_quantity12(),
-        })
-
-    return render_template('Fud.html', form=form)
-
-@app.route('/food_info')
-def food_info():
-    return render_template('Food_Information.html')
+    return render_template('Fud.html')
 
 
 @app.route('/events')
@@ -969,3 +932,7 @@ def events_page():
 if __name__ == '__main__':
     app.secret_key = 'secret123'
     app.run(debug=True)
+
+
+
+

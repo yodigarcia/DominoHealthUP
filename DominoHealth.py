@@ -821,7 +821,18 @@ def Patientdb():
 ####################################################################################################
 ####################################################################################################
 # --- GARETH ClASS---
-
+class EventForms(Form):
+    title = StringField('Title')
+    category = SelectField('Category', choices=[('', 'Select'), ('6:00', '6:00'), ('6.30', '6.30'),
+                                                ('THRILLER', 'Thriller'), ('CRIME', 'Crime'), ('BUSINESS', 'Business')],
+                           default='')
+    publisher = StringField('Publisher')
+    status = SelectField('Status', choices=[('', 'Select'), ('P', 'Pending'), ('A', 'Available For Borrowing'),
+                                            ('R', 'Only For Reference')], default='')
+    isbn = StringField('ISBN No')
+    author = StringField('Author')
+    synopsis = TextAreaField('Synopsis')
+    frequency = RadioField('Frequency', choices=[('D', 'Daily'), ('W', 'Weekly'), ('M', 'Monthly')])
 ####################################################################################################
 ######################################### Gareth APP ROUTE #########################################
 @app.route('/home')

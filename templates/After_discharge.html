@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
-              <h1>Outpatient</h1>
+              <h1>After Discharge</h1>
               <span class="subheading">{{ name }}</span>
             </div>
           </div>
@@ -23,34 +23,93 @@
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
-			      <div class="container">
+			<div class="container">
                 <p>Effective discharge planning can decrease the chances of you readmitting to the hospital, and can also help in recovery, ensure medications are prescribed and given correctly, and adequately prepare you to take care of yourself.</p>
-                    <form method="POST" action="/after_discharge">
-                                  {{ render_field(form.nric, class="form-control col-sm-4", placeholder="NRIC", id="tis_nric")}}<br>
-                                  <label>Rate your overall recovery status</label>
-                                  {{ form.status(class="form-check", id="tis_status_li") }}
-                                  <h3>Current problems<small>&nbsp;(if any)</small></h3>
-                                  {{ render_field(form.eye_problem, class="form-control",id="tis_eye_problem", rows="3")}}<br>
-                                  {{ render_field(form.medication, class="form-control",id="tis_medication", rows="3")}}<br>
-                                  {{ render_field(form.others, class="form-control",id="tis_others", rows="3")}}<br><br>
-                                <input id="tis_submit" type="submit" class="form-control col-sm-1" value="submit">
+
+                <ul class="container row tablenav list-unstyled">
+                    <li><a class="col"><button class="khbutton" onclick="">Minor surgery</button></a></li>
+                    <li><a class="col"><button class="khbutton" onclick="">major surgery</button></a></li>
+                    <li><a class="col"><button class="khbutton" onclick="">physical injuries</button></a></li>
+                    <li><a class="col"><button class="khbutton" onclick="">mental illness</button></a></li>
+                    <li><a class="col"><button class="khbutton" onclick=""></button></a></li>
+                    <li><a class="col"><button class="khbutton" onclick=""></button></a></li>
+                </ul>
+
+                <div id="Minor_Surgery">
+                    <br>
+                    <form method="POST" action="">
+                        <div class="form-group">
+                            <form>
+                                <label>Rate your recovery rate</label><br><!-- Question 1 -->
+                                <div class="form-check form-check-inline">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox1" value="option1"> 0%
+                                  </label>
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2"> 10%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox3" value="option3"> 20%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox4" value="option4"> 30%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox5" value="option5"> 40%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox6" value="option6"> 50%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox7" value="option7"> 60%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox8" value="option8"> 70%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox9" value="option9"> 80%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox10" value="option10"> 90%
+                                  </label>
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="inlineCheckbox11" value="option11"> 100%
+                                  </label>
+                                </div>
+                                <br><br>
+                                <label for="Problem_textarea">Do feel any sharp pain or aching ? (if yes please state)</label>
+                                <textarea class="form-control" id="Problem_textarea" rows="4"></textarea>
+                                <br><br>
+                                <label for="Problem_textarea">Any comments ?</label>
+                                <textarea class="form-control" id="Problem_textarea" rows="2"></textarea>
+                            </form>
+                        </div>
                     </form>
+                </div>
+                <div id="Major_Surgery">
+                    <p>Please check that you have the currently medication:</p>
+                    <ul>
+                        <li>20 packets - Abilify</li>
+                        <li>15 bottle - Nexium</li>
+                        <li>20 syringe - Humira</li>
+                        <li>30 packets - Crestor</li>
+                    </ul>
                     <br>
-                    <h1>FAQ</h1>
-                    <br>
-                    <h3>Need a follow-up appointment or tests ?</h3>
-                    <p>You can book an appointment <a href="/schedule">Here</a>, or if you have any more enquiries you may contact us at <b>61234567</b>.</p>
                     <h3>How do I get more supplies of my medicines ?</h3>
                     <p>Take your discharge letter to your GP as soon as possible. They will update your records and give you a prescription before you run out of the medicines you were given when you left hospital.</p>
                     <h3>Where should I store my medicines ?</h3>
-                    <p>Always store them out of reach and sight of children, in a cool dark place.<br>Some medicines need to be stored in the fridge – it will tell you on the label.<br>Try to keep medicines in their original box or packet as the information on it may be important. </p>
+                    <p>Always store them out of reach and sight of children, in a cool dark place.<br><br>Some medicines need to be stored in the fridge – it will tell you on the label.<br><br>Try to keep medicines in their original box or packet as the information on it may be important. </p>
+                </div>
+                <div id="Physical_Injuries">
+                    <p>3</p>
+                </div>
+                <div id="Mental_Illness">
+                    <p>4</p>
+                </div>
+                <div id="Brain">
+                    <p>5</p>
+                </div>
             </div>
         </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
 {% endblock %}

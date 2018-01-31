@@ -1,0 +1,24 @@
+<!Doctype HTML>
+<html>
+    <head>
+        <title> Notification </title>
+        <script>
+            if( "Notification" in window ) {
+                let ask = Notification.requuestPermission();
+                ask.then( permission => {
+                    if ( permission == "granted" ) {
+                        let msg = new Notification( "Title", {
+                            body: "Hello, World",
+                        });
+                        msg.addEventListener( "click", event => {
+                            alert( "Click Received" );
+                        });
+                    }
+                });
+            }
+        </script>
+    
+    </head>
+
+
+</html>

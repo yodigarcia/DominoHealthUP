@@ -3,7 +3,7 @@
 {% from "includes/_formhelperv2.html" import render_field %}
     <!-- Page Content -->
     <header class="masthead" style="background-image: url('../static/images/home-bg.jpg')">
-      <div class="overlay"></div>
+    <div class="overlay"></div>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
@@ -15,63 +15,87 @@
       </div>
     </header>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <form method="POST" action="/schedule">
-                        <table class="scheduletable">
-                            <tr>
-                                <th>General Information</th>
-                            </tr>
-                            <tr>
-                                <td>Patient's Name</td>
-                                <td>{{ render_field(form.fullname, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td>NRIC</td>
-                                <td>{{ render_field(form.nric, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td>Date of Birth</td>
-                                <td>{{ render_field(form.date_o_birth, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td>Schedule Date</td>
-                                <td>{{ render_field(form.scheduledate, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td>Gender</td>
-                                <td>{{ render_field(form.gender, class='form-control', style="list-style: none; border: none;")}}</td>
-                            </tr>
-                            <tr>
-                                <td>Address</td>
-                                <td>{{ render_field(form.address, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td>Medical Condition</td>
-                                <td>{{ render_field(form.condition, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <th>Contact Information</th>
-                            </tr>
-                            <tr>
-                                <td>Name(Optional)</td>
-                                <td>{{ render_field(form.contactname, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td>Phone</td>
-                                <td>{{ render_field(form.contact, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td>Email</td>
-                                <td>{{ render_field(form.email, class='form-control')}}</td>
-                            </tr>
-                            <tr>
-                                <td><input type="submit" class="btn btn-primary" value="Book" style="background-color:grey"></td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
+    <!--Scheduling Form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form method="POST" action="/schedule">
+                    <table id="scheduletable">
+                        <tr>
+                            <th>Doctor's Availability</th>
+                            <th colspan="2" style="text-align:center;">General Information</th>
+                        </tr>
+                        <tr>
+                            <td>{{ render_field(form.doctoravail, class='form-control')}}</td>
+                            <td>Patient's Name</td>
+                            <td>{{ render_field(form.fullname, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>NRIC</td>
+                            <td>{{ render_field(form.nric, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Phone</td>
+                            <td>{{ render_field(form.contact, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Date of Birth</td>
+                            <td>{{ render_field(form.date_o_birth, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Schedule Date</td>
+                            <td>{{ render_field(form.scheduledate, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Time</td>
+                            <td>{{ render_field(form.test, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Gender</td>
+                            <td>{{ render_field(form.gender, style="list-style: none; border: none; padding-left: 0%; padding-top: 0.5px;")}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Address</td>
+                            <td>{{ render_field(form.address, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Medical Condition</td>
+                            <td>{{ render_field(form.condition, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <th>Contact Information</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Name(Optional)</td>
+                            <td>{{ render_field(form.contactname, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Emergency Contact</td>
+                            <td>{{ render_field(form.emergency, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Email</td>
+                            <td>{{ render_field(form.email, class='form-control')}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" class="btn btn-primary" value="Book" style="background-color:grey"></td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
+    </div>
 {% endblock %}

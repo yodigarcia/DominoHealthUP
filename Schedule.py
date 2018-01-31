@@ -2,7 +2,7 @@ from Person import Person
 
 class Schedule(Person):
 
-    def __init__(self, fullname, gender, contact, address, dateobirth, nric, condition, email, scheduledate, emgname):
+    def __init__(self, fullname, gender, contact, address, dateobirth, nric, condition, email, scheduledate, emgname, emergency, time):
         Person.__init__(self, gender, contact, address, dateobirth, nric)
         self.__pubid = ''
         self.__fullname = fullname
@@ -10,6 +10,8 @@ class Schedule(Person):
         self.__email = email
         self.__scheduledate = scheduledate
         self.__emgname = emgname
+        self.__emergency = emergency
+        self.__time = time
 
     def get_pubid(self):
         return self.__pubid
@@ -32,4 +34,9 @@ class Schedule(Person):
     def get_email(self):
         return self.__email
 
+    def get_emergency(self):
+        return self.__emergency
+
+    def get_time(self):
+        return self.__time
 

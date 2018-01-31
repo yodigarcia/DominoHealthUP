@@ -16,8 +16,10 @@
     </header>
 
 
-      <div id="wrapper">
-   {% include 'includes/sidebar.html' %}
+  <div id="wrapper">
+  {% if session.logged_in == True %}
+    {% include 'includes/sidebar.html' %}
+  {% endif %}
   </div>
 
     <!-- Main Content -->

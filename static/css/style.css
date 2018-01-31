@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 .nb-profile {
     border-radius: 50%;
@@ -30,7 +31,7 @@
 
 #username, #password {
     margin: 0 auto 10px;
-    font-family: 'Montserrat Alternates', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     color: black;
     border: none;
     border-bottom: 1px solid black;
@@ -46,7 +47,7 @@
     font-size: 15px;
     width: 100%;
     height: 30px;
-    font-family: 'Montserrat Alternates', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     color: black;
 }
 
@@ -57,44 +58,67 @@
 .login-form p {
     font-size: 15px;
     line-height: 0;
-    font-family: 'Montserrat Alternates', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
-::-webkit-input-placeholder {
-    font-size: 15px;
-    text-align: center;
-    font-family: 'Montserrat Alternates', sans-serif;
-    color: black;
-    height: 40px;
-    
-    #schedule {
-        margin: 0 10px 10px 10px;
-        border: 2px #000 solid;
-        width: auto;
-        height: 575px;
-        background-color: #f3f3f3;
-    }
+#scheduletable {
+    font-family: 'Open Sans', sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border-spacing: 5px;
 }
 
-.scheduletable, th{
+#scheduletable th{
     border-style: none;
 }
 
-.scheduletable, tr:nth-child(odd) {
+#scheduletable tr:nth-child(odd) {
     background-color: transparent;
     color: black;
 }
 
-.scheduletable, td:first-child {
+#scheduletable, td:first-child {
     font-size: 17px;
 }
-table.scheduletable {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+
+#scheduletable td {
+    text-align: left;
+    padding: 8px
 }
 
-.scheduletable td, th {
-    text-align: left;
-    padding: 8px;
+#patientsdb {
+    font-family: 'Open Sans';
+}
+
+#patientsdb th {
+    background-color: #e1e4ea;
+    text-align: center;
+    color: #555555;
+    font-size: 25px;
+}
+
+#patientsdb tr {
+    background-color: #f5f5f5;
+    font-size: 17px;
+}
+
+#patientsdb tr:hover {
+    color: #555555;
+    background-color: #e1e4ea;
+}
+
+#patientsdb td a {
+    text-decoration: none;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+/* #patientsdb tr:nth-child(2) td:nth-last-child(1):hover {
+    background-color: #006491;
+} */
+
+#patientsdb td a:hover{
+    color: white;
 }

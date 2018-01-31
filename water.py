@@ -1,6 +1,6 @@
 class Water:
 
-    def __init__(self,water,water2,water3,note1,note2,pain1,pain2,pain3):
+    def __init__(self,water,water2,water3,note1,note2,pain1):
         self.__pubid = ''
         self.__water=water
         self.__water2=water2
@@ -8,8 +8,6 @@ class Water:
         self.__note1=note1
         self.__note2=note2
         self.__pain1 = pain1
-        self.__pain2 = pain2
-        self.__pain3 = pain3
 
     def get_pubid(self):
         return self.__pubid
@@ -56,15 +54,4 @@ class Water:
     def get_pain1(self):
         return self.__pain1
 
-    def set_pain2(self,pain2):
-        self.__pain2=pain2
-
-    def get_pain2(self):
-        return self.__pain2
-
-    def set_pain3(self,pain3):
-        self.__pain3=pain3
-
-    def get_pain3(self):
-        return self.__pain3
 

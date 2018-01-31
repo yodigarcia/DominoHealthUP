@@ -1,3 +1,5 @@
+{% extends 'layout.html' %}
+
 {% include 'includes/_navbar.html' %}
 
 <head>
@@ -36,19 +38,7 @@
 
 
 
-<style>
 
-.formbg {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-    width:80%;
-    margin-left: 100px;
-}
-
-
-
-</style>
 
 
 
@@ -61,7 +51,7 @@
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
-              <h1>Feedback</h1>
+              <h1>Update Wiki</h1>
 
             </div>
           </div>
@@ -71,49 +61,48 @@
 
 
 
-{% from "includes/_formhelper.html" import render_field %}
-    <div class="container">
-    <div class="formbg">
 
-        <form method="POST" >
 
-            <h2>Feedback form</h2>
+<form method="POST">
+        {% from "includes/_formhelper.html" import render_field %}
+
+        <div class="form-group">
             <div class="form-row">
-
-        <div class="form-group col-md-10">
-            <p>Patient Name:</p>
-            {{ render_field(form.name1, id="name1", placeholder="Enter Patient Name" ,class="form-control")}}
-        </div>
-            <br>
-
-                <div class="form-group col-md-10">
-            {{ render_field(form.date, id="date", placeholder="How do you find the staff here",class="form-control")}}
+                {{ render_field(form.water2, class_="form-control") }}
             </div>
-            <br><br><br><br>
+        </div>
+        <div class="form-group">
+            {{ render_field(form.water, class_="form-control") }}
+        </div>
 
-
-            <div class="form-group col-md-10">
-            {{ render_field(form.feed2, id="feed2", placeholder="How do you find the staff here",class="form-control")}}
+        <div class="form-group">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ render_field(form.water3, class_="form-control") }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ render_field(form.note1, class_="form-control") }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ render_field(form.pain1, class_="form-control") }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ render_field(form.note2, class_="form-control") }}
+                </div>
             </div>
-            <br><br><br><br>
-
-
-
-        <div class="form-group col-md-10">
-
-            {{ render_field(form.feed3, id="feed3", placeholder="Was your stay here pleasant?" ,class="form-control")}}
-
-        </div>
-                <div class="form-group col-md-10">
-            <p>Any discomforts to let the nurse know :</p>
-            {{ render_field(form.feed1, id="feed1", placeholder="Please inform the nurse if you are feeling unwell / in unbearable pain" ,class="form-control")}}
-
         </div>
 
-        </div>
-            <input class="btn btn-primary" type="submit" value="Submit" formaction="/feedbackpage">
+                    <div class="form-group col-md-1">
+                    <input type="submit" value="Update" class="btn btn-info"/>
+                </div>
 
-        </form>
-</div>
-    </div>
+
+    </form>
+
+
+
+
+
+
+
 {% endblock body %}

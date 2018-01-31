@@ -35,14 +35,7 @@
     </script>
 </head>
 
-<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:8%">
-          <h4 class="w3-bar-item">Menu</h4>
-            <a href="/select" class="w3-bar-item w3-button">Options</a>
-          <a href="/tracker" class="w3-bar-item w3-button">Day 1</a>
-          <a href="/tracker2" class="w3-bar-item w3-button">Day 2</a>
-          <a href="/tracker3" class="w3-bar-item w3-button">Day 3</a>
 
-        </div>
 
 {% block body %}
 <!-- Page Header -->
@@ -52,7 +45,7 @@
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
-              <h1>Self Tracking System</h1>
+              <h1>Admin Wiki</h1>
 
             </div>
           </div>
@@ -67,52 +60,21 @@
 
 <div class="container">
 
+
+
     {% from "includes/_formhelper.html" import render_field %}
         <form method="POST">
-            <h2>Water Level Day 1</h2>
+            <h2>Create Wiki</h2>
             <br>
             <div class="form-row">
 
             <div class="form-group col-md-5">
-            {{ render_field(form.water , id="water" , placeholder="Enter water drank in ML in Morning (8am - 12pm )",class="form-control")}}
+            {{ render_field(form.water2 , id="water" , placeholder="Enter general info",class="form-control")}}
             </div>
                 <br>
 
             <div class="form-group col-md-5">
-            {{ render_field(form.water2, id="water2", placeholder="Enter water drank in ML in Afternoon (12pm - 5pm)", class="form-control")}}
-                </div>
-
-                </div>
-                <br>
-            <div class="form-row">
-
-            <div class="form-group col-md-5">
-            {{ render_field(form.water3, id="water3", placeholder="Enter water drank in ML at Night (5pm onwards)",class="form-control")}}
-                </div>
-                <br>
-
-
-            <div class="form-group col-md-5">
-            {{ render_field(form.note1, id="note1", placeholder="Any other drinks taken" ,class="form-control")}}
-            </div>
-                    </div>
-            <br>
-
-
-            <br>
-
-            <h2>Pain Level Day 1</h2>
-            <br>
-
-            <div class="form-row">
-
-            <div class="form-group col-md-5">
-            {{ render_field(form.pain1 , id="pain1" , placeholder="Enter pain level (1-10) during Morning (8am - 12pm) ",class="form-control")}}
-            </div>
-                <br>
-
-            <div class="form-group col-md-5">
-            {{ render_field(form.pain2, id="pain2", placeholder="Enter pain level (1-10) during afternoon (12pm - 5pm)", class="form-control")}}
+            {{ render_field(form.water, id="water2", placeholder="Enter symptoms occured", class="form-control")}}
                 </div>
 
                 </div>
@@ -120,36 +82,44 @@
             <div class="form-row">
 
             <div class="form-group col-md-5">
-            {{ render_field(form.pain3, id="pain3", placeholder="Enter pain level (1-10) during night (5pm onwards)",class="form-control")}}
+            {{ render_field(form.water3, id="water3", placeholder="Surgery required?",class="form-control")}}
                 </div>
                 <br>
+
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.note1, id="note1", placeholder="Different types of the same disease ?" ,class="form-control")}}
             </div>
 
-
-
-            <h2>General Enquries</h2>
             <br>
-                    <div class="form-row">
 
 
-            <div class="form-group col-md-10">
-            {{ render_field(form.note2, id="note2", placeholder="Enter any questions " ,class="form-control")}}
+            <div class="form-group col-md-5">
+            {{ render_field(form.pain1 , id="pain1" , placeholder="Long term consequences ? ",class="form-control")}}
+            </div>
+                <br>
+
+
+
+
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.note2, id="note2", placeholder="How long needed to stay in hospital " ,class="form-control")}}
             </div>
              </div>
 
 
 
 
+            <input class="btn" type="submit" value="Submit" formaction="/adminwiki">
 
-
-
-
-
-
-
-
-            <input class="btn" type="submit" value="Submit" formaction="/tracker">
         </form>
+
+
+
+</form>
+
+
 </div>
 
 

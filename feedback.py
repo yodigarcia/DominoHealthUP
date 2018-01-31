@@ -2,12 +2,19 @@
 
 class Feedback1:
 
-    def __init__(self,name1,feed1,feed2,feed3):
+    def __init__(self,name1,feed1,feed2,feed3,date):
         self.__pubid = ''
         self.__feed1=feed1
         self.__feed2=feed2
         self.__name1=name1
         self.__feed3=feed3
+        self.__date=date
+
+    def get_date(self):
+        return self.__date
+
+    def set_date(self,date):
+        self.__date=date
 
     def get_pubid(self):
         return self.__pubid

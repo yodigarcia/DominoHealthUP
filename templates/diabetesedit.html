@@ -156,7 +156,9 @@
                     </div>
             </div>
             </div>
-
+{% for Water in water %}
+    <td><a href="/updatewiki/{{Water.get_pubid()}}" class="btn btn-primary">Update</a></td>
+    {% endfor %}
 </div>
     </div>
 

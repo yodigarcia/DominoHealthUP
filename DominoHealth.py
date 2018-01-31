@@ -1,46 +1,39 @@
-from flask import Flask, render_template, request, url_for, redirect, session, flash
-from ChronicIllness import BloodPressure, BloodGlucose, Weight, Information
 from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, TextAreaField, validators, FloatField ,SelectField,TextAreaField,BooleanField
+from flask import Flask, render_template, request, url_for, redirect, session, flash
 from wtforms.fields.html5 import DateField
+from firebase_admin import credentials, db
 from datetime import datetime 
-from Account import Account
+import firebase_admin
+import json
+from ChronicIllness import BloodPressure, BloodGlucose, Weight, Information
+from Calories_Graph import Calories
+from Food_Select import Food_Select
+from feedback import Feedback1
 from Schedule import Schedule
+from Account import Account
 from Patient import Patient
-from water import Water
+from comment import DocNote
 from water2 import Water2
 from water3 import Water3
 from water4 import Water4
-from Food_Select import Food_Select
 from Food_1 import Food
-from comment import DocNote
-from Calories_Graph import Calories
-from feedback import Feedback1
-import firebase_admin
-from firebase_admin import credentials, db
-import json
+from water import Water
 
 
 #<!--- yodi --->
-#red = credentials.Certificate(r"C:\Users\yodigarcia\PycharmProjects\DominoHealth (testing)\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-#default_app = firebase_admin.initialize_app(cred, {
-#   'databaseURL': 'https://dominohealth.firebaseio.com'})
 # cred = credentials.Certificate(r"C:\Users\yodigarcia\PycharmProjects\DominoHealth (testing)\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # default_app = firebase_admin.initialize_app(cred, {
 #    'databaseURL': 'https://dominohealth.firebaseio.com'})
-
 
 #<!--- kiahzuo desktop --->
 #cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 #default_app = firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
-
 #<!--- kheehing desktop --->
-# cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # <!--- kheehing laptop --->
-cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-#<!--- kheehing school desktop --->
-# cred = credentials.Certificate(r"C:\Users\171723R\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 default_app = firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
@@ -53,155 +46,16 @@ default_app = firebase_admin.initialize_app(cred, {
 app = Flask(__name__)
 root = db.reference()
 
-
+####################################################################################################
+####################################################################################################
+####################################################################################################
+# --- MATTHEW CLASS ---
 class Fooder(Form):
     quantity = StringField("")
 
 class Caloriess(Form):
     time = StringField("")
     calories = StringField("")
-
-class Waterer4(Form):
-    water41 = SelectField(u'Morning',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water42 = SelectField(u'Noon',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water43 = SelectField(u'Night',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water44 = StringField("Date of Intake")
-    name4=StringField("Name")
-
-
-
-class DocComment(Form):
-    comment1=StringField("")
-    date= StringField("")
-
-
-class Feedbacker(Form):
-    feed1=StringField("")
-    feed2=StringField("")
-    name1=StringField("")
-    feed3=SelectField(u'Service Rating',
-                          choices=[('Bad', 'Bad'), ('Normal', 'Normal'), ('Good', 'Good'),
-                                   ])
-
-
-class Waterer(Form):
-    water = SelectField(u'Morning',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water2 = SelectField(u'Noon',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water3 = SelectField(u'Night',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    note1= StringField("Note")
-    note2= TextAreaField("Questions")
-    pain1 = SelectField(u'Morning',
-                         choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '),
-                                  ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                  ('3', 'Close to unbearable (Painful even when on pain killers) '),
-                                  ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-    pain2 = SelectField(u'Noon',
-                         choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '),
-                                  ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                  ('3', 'Close to unbearable (Painful even when on pain killers) '),
-                                  ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-    pain3 = SelectField(u'Night',
-                         choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '),
-                                  ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                  ('3', 'Close to unbearable (Painful even when on pain killers) '),
-                                  ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-
-
-class Waterer2(Form):
-    water21 = SelectField(u'Morning',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water22 = SelectField(u'Noon',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water23 = SelectField(u'Night',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water24 = StringField("Note")
-    pain21 = SelectField(u'Morning',
-                          choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '), ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                   ('3', 'Close to unbearable (Painful even when on pain killers) '), ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-    pain22 =SelectField(u'Noon',
-                          choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '), ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                   ('3', 'Close to unbearable (Painful even when on pain killers) '), ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-    pain23 = SelectField(u'Night',
-                          choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '), ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                   ('3', 'Close to unbearable (Painful even when on pain killers) '), ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-
-
-class Waterer3(Form):
-    water31 = SelectField(u'Morning',
-                          choices=[('Water Intake Inadequate. Drink at least 600ML', 'Low'), ('600', 'Normal'),
-                                   ('Drink Lesser Abit', 'High ')])
-    water32 = SelectField(u'Noon',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water33 = SelectField(u'Night',
-                          choices=[('0', '0/4 Jug (0ML)'), ('300', '1/4 Jug (300ML)'), ('600', '1/2 Jug (600ML)'),
-                                   ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
-    water34 = StringField("Note")
-    pain31 = SelectField(u'Morning',
-                         choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '),
-                                  ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                  ('3', 'Close to unbearable (Painful even when on pain killers) '),
-                                  ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-    pain32 = SelectField(u'Noon',
-                         choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '),
-                                  ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                  ('3', 'Close to unbearable (Painful even when on pain killers) '),
-                                  ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-    pain33 = SelectField(u'Night',
-                         choices=[('0', 'No Pain ( 0 Pain Felt)'), ('1', 'Slight Pain (Bearable without pain killers '),
-                                  ('2', 'Moderate Pain (Requires Pain Killer to be bearable)'),
-                                  ('3', 'Close to unbearable (Painful even when on pain killers) '),
-                                  ('4', 'Unbearable (Unbearable pain even on painkillers)')])
-
-
-class Staff(Form):
-    username = StringField('', [validators.DataRequired()])
-    password = PasswordField('', [validators.DataRequired()])
-
-
-class Patients(Form):
-    firstname = StringField('First Name ')
-    lastname = StringField('Last Name ')
-    gender = RadioField('Gender ', choices=[('male', 'Male'), ('female', 'Female')])
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
-    nric = StringField('NRIC ')
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
-    nric = IntegerField('NRIC ')
-    address = StringField('Address ')
-    zip = IntegerField('Zip')
-    date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
-    admission_date = DateField('Admission Date ', format='%Y-%m-%d')
-
-
-class Schedules(Form):
-    fullname = StringField('')
-    gender = RadioField('Gender ', choices=[('Male', 'Male'), ('Female', 'Female')])
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
-    nric = StringField('NRIC ')
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
-    nric = IntegerField('NRIC ')
-    address = StringField('Address ')
-    date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
-    condition = TextAreaField('')
-    scheduledate = DateField('Schedule Checkup ', format='%Y-%m-%d')
-    contactname = StringField('')
-    email = StringField('')
-    # emergency = IntegerField('', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
 
 class Fud_Select(Form):
     my_food_order = SelectField(u'Steamed Rice',
@@ -251,6 +105,507 @@ class Fud_Select(Form):
                                   choices=[('-', '-'), ('1 Omelette', '1 Serving (~140 cal)'), ('2 Omelette', '2 Servings (~280 cal)'),
                                            ('3 Omelette', '3 Servings (~400 cal)')])
 
+####################################################################################################
+######################################## MATTHEW APP ROUTE #########################################
+@app.route('/food_info')
+def food_info():
+    return render_template('Food_Information.html')
+
+@app.route('/fud', methods= ["GET", "POST"])
+def fud():
+    form = Fud_Select(request.form)
+    if request.method == "POST":
+        food_quantity = form.my_food_order.data
+        food_quantity2 = form.my_food_order2.data
+        food_quantity3 = form.my_food_order3.data
+        food_quantity4 = form.my_food_order4.data
+        food_quantity5 = form.my_food_order5.data
+        food_quantity6 = form.my_food_order6.data
+        food_quantity7 = form.my_food_order7.data
+        food_quantity8 = form.my_food_order8.data
+        food_quantity9 = form.my_food_order9.data
+        food_quantity10 = form.my_food_order10.data
+        food_quantity11 = form.my_food_order11.data
+        food_quantity12 = form.my_food_order12.data
+
+        food_q = Food_Select(food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
+                             food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12)
+
+        food_q_db = root.child('food_quantity')
+        food_q_db.push({
+            "food_queue": food_q.get_food_quantity(),
+            "food_queue2": food_q.get_food_quantity2(),
+            "food_queue3": food_q.get_food_quantity3(),
+            "food_queue4": food_q.get_food_quantity4(),
+            "food_queue5": food_q.get_food_quantity5(),
+            "food_queue6": food_q.get_food_quantity6(),
+            "food_queue7": food_q.get_food_quantity7(),
+            "food_queue8": food_q.get_food_quantity8(),
+            "food_queue9": food_q.get_food_quantity9(),
+            "food_queue10": food_q.get_food_quantity10(),
+            "food_queue11": food_q.get_food_quantity11(),
+            "food_queue12": food_q.get_food_quantity12(),
+        })
+
+    return render_template('Fud.html', form=form)
+
+@app.route('/Food_Health', methods= ["GET", "POST"])
+def Food_Health():
+    form = Caloriess(request.form)
+    if request.method == "POST":
+        time = form.time.data
+        calories = form.calories.data
+
+        calories = Calories(time, calories)
+
+        calories_db = root.child('Calories')
+        calories_db.push({
+            "time": calories.get_time(),
+            "calories": calories.get_calories(),
+        })
+
+    calories = root.child('Calories').get()
+    list = []
+
+    for pubid in calories:
+        timecalories = calories[pubid]
+
+        if timecalories['time'] != '':
+            timecaloriespatient = Calories(timecalories["calories"], timecalories["time"])
+            timecaloriespatient.set_pubid(pubid)
+            print(timecaloriespatient.get_pubid())
+            list.append(timecaloriespatient)
+
+    return render_template("Food_Health.html", form=form, calories=list)
+
+@app.route('/menu', methods=["GET", "POST"])
+def food():
+    form = Fooder(request.form)
+    if request.method == "POST":
+        quantity = form.quantity.data
+
+        send = Food(quantity)
+        send_db = root.child('selected')
+        send_db.push({
+            "Steamed_Rice": send.get_quantity(),
+        })
+
+    return render_template('food.html', form = form)
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+# --- KIAH ZUO CLASS ---
+class Waterer(Form):
+    water = TextAreaField("General Information")
+    water2 = TextAreaField("Symptoms")
+    water3 = TextAreaField("Is Surgery Required for my instance")
+    note1= TextAreaField("What are the different type of diabetes")
+    note2= TextAreaField("How long do I need to stay in the hospital")
+    pain1 = TextAreaField("Will there be long term consequences ?")
+
+class Waterer4(Form):
+    water41 = SelectField(u'Morning',
+                          choices=[(0, '0/4 Jug (0ML)'), (300, '1/4 Jug (300ML)'), (600, '1/2 Jug (600ML)'),
+                                   (900, '3/4 Jug ( 900ML) '), (1200, '1 Jug(1200ML)')])
+    water42 = SelectField(u'Noon',
+                          choices=[(0, '0/4 Jug (0ML)'), (300, '1/4 Jug (300ML)'), (600, '1/2 Jug (600ML)'),
+                                   (900, '3/4 Jug ( 900ML) '), (1200, '1 Jug(1200ML)')])
+    water43 = SelectField(u'Night',
+                          choices=[(0, '0/4 Jug (0ML)'), (300, '1/4 Jug (300ML)'), (600, '1/2 Jug (600ML)'),
+                                   (900, '3/4 Jug ( 900ML) '), (1200, '1 Jug(1200ML)')])
+    water44 = DateField('Date of Intake ', format='%Y-%m-%d')
+    name4=StringField("Name")
+
+class DocComment(Form):
+    name=StringField("Patient Name")
+    comment1=TextAreaField("Comment")
+    date= DateField('Date ', format='%Y-%m-%d')
+    date2 = DateField('Estimated date of discharge ', format='%Y-%m-%d')
+
+class Feedbacker(Form):
+    feed1=TextAreaField("")
+    feed2=SelectField(u'Pain Level',
+                          choices=[('1', '1 (Little to no pain )'), ('2', '2 ( Slight pain but bearable )'), ('3', '3 ( Moderate Pain '),('4','4 ( Painful and needs attention )'),('5','Overwhelming Pain')
+
+                                   ])
+    name1=StringField("")
+    feed3=SelectField(u'Status',
+                          choices=[('Refill Jug', 'Require Refilling Of Water'), ('Require Food', 'Need some food'), ('Patient requires clarification regarding Medication', 'Require clarification regarding medication')
+                              , ("Require assistance to the toilet","Need help going to the toilet ")
+                                   ])
+    date = DateField('Date ', format='%Y-%m-%d')
+
+####################################################################################################
+######################################## KIAH ZUO APP ROUTE ########################################
+@app.route('/viewfeedback')
+def viewfeedback():
+    feedback = root.child('feedback').get()
+    list =[]
+
+    for pubid in feedback:
+
+        eachfeedback= feedback[pubid]
+
+        if eachfeedback['name1'] !="":
+            feedbackpatient=Feedback1(eachfeedback['name1'],eachfeedback['feed1'],eachfeedback['feed2'],eachfeedback['feed3'],eachfeedback['date'])
+            feedbackpatient.set_pubid(pubid)
+            print(feedbackpatient.get_pubid())
+            list.append(feedbackpatient)
+
+    return render_template('feedbackview.html', feedback=list)
+#patient view own self charting
+@app.route('/selfprofile')
+def selfprofile():
+    water4 = root.child('long').get()
+    list = []
+    comment=root.child('Doc1').get()
+    list2=[]
+
+    for pubid in water4:
+        waterdata= water4[pubid]
+
+        if waterdata['water44'] != " ":
+            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
+            waterdatapatient.set_pubid(pubid)
+            print(waterdatapatient.get_pubid())
+            list.append(waterdatapatient)
+
+    for pubid in comment:
+        commentdata = comment[pubid]
+
+        if commentdata['DocComment'] != " ":
+            commentdatapatient = DocNote(commentdata['Name'], commentdata['DocComment'], commentdata['Date'],
+                                         commentdata['Discharge'])
+            commentdatapatient.set_pubid(pubid)
+            print(commentdatapatient.get_pubid())
+            list2.append(commentdatapatient)
+
+    return render_template('selfprofile.html',comment=list2 ,water4= list)
+
+
+
+#view patient input and add doc comment
+@app.route('/docprofile', methods=["GET", "POST"])
+def docupdate():
+    form = DocComment(request.form)
+    if request.method == "POST":
+        comment = form.comment1.data
+        date= str(form.date.data)
+        name=form.name.data
+        discharge=str(form.date2.data)
+
+
+        dc = DocNote(name,comment,date,discharge)
+
+        dc_db = root.child("Doc1")
+        dc_db.push({
+            "Name": dc.return_name(),'DocComment': dc.get_comment1() ,"Date":dc.get_commentdate() ,"Discharge":dc.get_discharge()
+        })
+
+    comment=root.child('Doc1').get()
+    list2=[]
+
+
+    water4 = root.child('long').get()
+    list = []
+
+    for pubid in comment:
+        commentdata= comment[pubid]
+
+        if commentdata['DocComment'] != " ":
+                commentdatapatient=DocNote(commentdata['Name'],commentdata['DocComment'],commentdata['Date'],commentdata['Discharge'])
+                commentdatapatient.set_pubid(pubid)
+                print(commentdatapatient.get_pubid())
+                list2.append(commentdatapatient)
+
+    for pubid in water4:
+
+        waterdata = water4[pubid]
+        waterdata= water4[pubid]
+
+        if waterdata['water44'] != " ":
+            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
+            waterdatapatient.set_pubid(pubid)
+            print(waterdatapatient.get_pubid())
+            list.append(waterdatapatient)
+
+    return render_template('docprofile.html',form=form ,comment=list2,water4= list)
+
+
+
+@app.route('/doctorselect')
+def doctorselect():
+    return render_template('doctorselect.html')
+
+
+@app.route('/diabetesedit')
+def diabetesedit():
+    water = root.child('water').get()
+    list = []
+
+    for pubid in water:
+
+        admindata = water[pubid]
+
+        if admindata['Note1'] != " ":
+            admindatapage = Water(admindata['Water'], admindata['Water2'], admindata['Water3'], admindata['Note1'],
+                                  admindata['Pain1'], admindata['Note2'])
+            admindatapage.set_pubid(pubid)
+            print(admindatapage.get_pubid())
+            list.append(admindatapage)
+
+    return render_template('diabetes.html', water=list)
+
+
+# allow admin to edit the wiki
+@app.route('/editwiki')
+def diabetes():
+    water = root.child('water').get()
+    list = []
+
+    for pubid in water:
+
+        admindata=water[pubid]
+
+        if admindata['Note1'] != " ":
+            admindatapage=Water(admindata['Water'],admindata['Water2'],admindata['Water3'],admindata['Note1'],admindata['Pain1'],admindata['Note2'])
+            admindatapage.set_pubid(pubid)
+            print(admindatapage.get_pubid())
+            list.append(admindatapage)
+
+    return render_template('diabetesedit.html', water=list)
+
+#going to the wiki page
+@app.route('/wiki')
+def Wiki():
+    return render_template('wiki.html')
+
+#go to the patient select page
+@app.route('/select')
+def select():
+    return render_template('select.html')
+
+
+#allow admin to add stuff to the wiki
+@app.route('/adminwiki', methods=["GET", "POST"])
+def tracker():
+    form = Waterer(request.form)
+    if request.method=="POST":
+        fire = form.water.data
+        fire2= form.water2.data
+        fire3= form.water3.data
+
+        fire6= form.note1.data
+        fire7= form.note2.data
+        fire8 = form.pain1.data
+
+
+        fire10= Water(fire,fire2,fire3,fire6,fire7,fire8)
+
+        water_db = root.child('water')
+        water_db.push({
+            'Water': fire10.get_water(),
+            "Water2": fire10.get_water2(),
+            "Water3": fire10.get_water3(),
+            "Note1": fire10.get_note1(),
+            "Note2": fire10.get_note2(),
+            "Pain1": fire10.get_pain1(),
+
+        })
+    return render_template('tracker.html',form=form)
+
+# update wiki
+@app.route('/updatewiki/<string:id>/', methods=['GET','POST'])
+def update_wiki(id):
+    form=Waterer(request.form)
+    if request.method=='POST':
+        general=form.water2.data
+        symptoms=form.water.data
+        surgery=form.water3.data
+        types=form.note1.data
+        longtermeffect=form.pain1.data
+        stay=form.note2.data
+
+        wikiupdate=Water(symptoms,general,surgery,types,stay,longtermeffect)
+        wikiupdate_db= root.child('water/'+id)
+
+        wikiupdate_db.set({
+            "Water2":wikiupdate.get_water2(),
+            "Water":wikiupdate.get_water(),
+            "Water3":wikiupdate.get_water3(),
+            "Note1":wikiupdate.get_note1(),
+            "Pain1":wikiupdate.get_pain1(),
+            'Note2':wikiupdate.get_note2(),
+        })
+
+        flash('Magazine Updated Sucessfully.', 'success')
+
+        return redirect(url_for('diabetes'))
+    else:
+        url = 'water/'+id
+        wikidata=root.child(url).get()
+
+        if wikidata['Water'] != " ":
+            wikiadmin= Water(wikidata['Water'],wikidata['Water2'],wikidata['Water3'],wikidata['Note1'],wikidata['Note2'],wikidata['Pain1'])
+            wikiadmin.set_pubid((id))
+            form.water2.data=wikiadmin.get_water2()
+            form.water.data=wikiadmin.get_water()
+            form.water3.data=wikiadmin.get_water3()
+            form.note1.data=wikiadmin.get_note1()
+            form.pain1.data=wikiadmin.get_pain1()
+            form.note2.data=wikiadmin.get_note2()
+
+        return render_template('updatewiki.html',form=form)
+
+
+
+# Update the user intake
+@app.route('/updatelong/<string:id>/', methods=['GET', 'POST'])
+def update_publication(id):
+    form = Waterer4(request.form)
+    if request.method == 'POST':
+            morning=form.water41.data
+            afternoon=form.water43.data
+            night=form.water42.data
+            date=str(form.water44.data)
+            name=form.name4.data
+
+            longupdate = Water4(morning,afternoon,night,date,name)
+            longupdate_db = root.child('long/' + id)
+
+            longupdate_db.set({
+                "water41":longupdate.get_water43(),
+                "water42":longupdate.get_water42(),
+                "water43":longupdate.get_water41(),
+                "water44":longupdate.get_water44(),
+                "name4":longupdate.get_name4()
+
+            })
+
+            flash('Magazine Updated Sucessfully.', 'success')
+
+            return redirect(url_for('selfprofile'))
+
+    else:
+        url = 'long/'+id
+        waterdata = root.child(url).get()
+
+        if waterdata['name4'] != " ":
+            waterdatapatient = Water4(waterdata['water43'], waterdata['water41'], waterdata['water42'],
+                                          waterdata['water44'], waterdata['name4'])
+            waterdatapatient.set_pubid(id)
+            form.water44.data=datetime.strptime(waterdatapatient.get_water44(), '%Y-%m-%d')
+            form.water43.data=waterdatapatient.get_water43()
+            form.water42.data=waterdatapatient.get_water42()
+            form.water41.data=waterdatapatient.get_water41()
+            form.name4.data=waterdatapatient.get_name4()
+
+        return render_template('updatelong.html',form=form)
+
+
+#doctor comment deletion
+@app.route('/delete_comment/<string:id>',methods=['POST'])
+def delete_comment(id):
+    dc_db = root.child('Doc1/'+id)
+    dc_db.delete()
+
+    return redirect(url_for('docupdate'))
+
+
+#Self charting Deletion
+@app.route('/delete_publication/<string:id>', methods=['POST'])
+def delete_publication(id):
+    mag_db = root.child('long/' + id)
+    mag_db.delete()
+
+    return redirect(url_for('selfprofile'))
+
+#Input for self tracker
+@app.route('/trackerlong', methods=["GET","POST"])
+def longterm():
+    form = Waterer4(request.form)
+    if request.method=="POST":
+        cloud=form.water41.data
+        cloud2=form.water42.data
+        cloud3=form.water43.data
+        cloud4=str(form.water44.data)
+        cloud5=form.name4.data
+
+        cloud10=Water4(cloud,cloud2,cloud3,cloud4,cloud5)
+
+        cloud_db = root.child('long')
+        cloud_db.push({
+            "water41":cloud10.get_water41(),
+            "water42":cloud10.get_water42(),
+            "water43":cloud10.get_water43(),
+            "water44":cloud10.get_water44(),
+            "name4":cloud10.get_name4()
+        })
+    return render_template('longterm.html', form=form)
+
+# feed back page for users to push
+@app.route('/feedbackpage', methods=["GET","POST"])
+def feedback():
+    form = Feedbacker(request.form)
+    if request.method=="POST":
+        earth = form.feed1.data
+        earth1= form.feed2.data
+        earth2= form.name1.data
+        earth3=form.feed3.data
+        date=str(form.date.data)
+
+
+        earth10= Feedback1(earth,earth1,earth2,earth3,date)
+
+        water_db = root.child('feedback')
+        water_db.push({
+            'feed1': earth10.get_feed1(),
+            "feed2": earth10.get_feed2(),
+            "name1": earth10.get_name1(),
+            "feed3": earth10.get_feed3(),
+            "date":earth10.get_date()
+        })
+    return render_template('feedback.html', form=form)
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+# --- YODI CLASSS ---
+class Staff(Form):
+    username = StringField('', [validators.DataRequired()])
+    password = PasswordField('', [validators.DataRequired()])
+
+class Patients(Form):
+    firstname = StringField('First Name ')
+    lastname = StringField('Last Name ')
+    gender = RadioField('Gender ', choices=[('male', 'Male'), ('female', 'Female')])
+    contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
+    nric = StringField('NRIC ')
+    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
+    nric = IntegerField('NRIC ')
+    address = StringField('Address ')
+    zip = IntegerField('Zip')
+    date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
+    admission_date = DateField('Admission Date ', format='%Y-%m-%d')
+
+class Schedules(Form):
+    fullname = StringField('')
+    gender = RadioField('Gender ', choices=[('Male', 'Male'), ('Female', 'Female')])
+    contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
+    nric = StringField('NRIC ')
+    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
+    nric = IntegerField('NRIC ')
+    address = StringField('Address ')
+    date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
+    condition = TextAreaField('')
+    scheduledate = DateField('Schedule Checkup ', format='%Y-%m-%d')
+    contactname = StringField('')
+    email = StringField('')
+    # emergency = IntegerField('', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
+
+####################################################################################################
+########################################## YODI APP ROUTE ##########################################
 @app.context_processor
 def utility_processor():
     def test():
@@ -270,12 +625,6 @@ def utility_processor():
         return currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser'][1:]
 
     return dict(test=test)
-
-
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -307,7 +656,6 @@ def login():
 
     return render_template('login.html', form=form)
 
-
 @app.route('/logout')
 def logout():
     session.clear()
@@ -319,7 +667,6 @@ def logout():
     })
 
     return redirect(url_for('login'))
-
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
@@ -352,7 +699,6 @@ def profile():
         return redirect(url_for('profile'))
 
     return render_template('profile.html', form=form)
-
 
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
@@ -388,7 +734,6 @@ def schedule():
 
     return render_template('schedule.html', form=form)
 
-
 @app.route('/patientdb')
 def patientdb():
     booked = root.child('Checkup').get()
@@ -407,7 +752,6 @@ def patientdb():
             list.append(bookedpatient)
 
     return render_template('patientdb.html', booked=list)
-
 
 @app.route('/update/<string:id>/', methods=["GET","POST"])
 def update_patient(id):
@@ -465,299 +809,29 @@ def update_patient(id):
 
         return render_template('updatepatient.html', form=form)
 
-
 @app.route('/profile_page')
 def ProfilePage():
     return render_template('profile_page.html')
-
-# Kiahzuo
-
-@app.route('/viewfeedback')
-def viewfeedback():
-    feedback = root.child('feedback').get()
-    list =[]
-
-    for pubid in feedback:
-
-        eachfeedback= feedback[pubid]
-
-        if eachfeedback['name1'] !="":
-            feedbackpatient=Feedback1(eachfeedback['name1'],eachfeedback['feed1'],eachfeedback['feed2'],eachfeedback['feed3'])
-            feedbackpatient.set_pubid(pubid)
-            print(feedbackpatient.get_pubid())
-            list.append(feedbackpatient)
-
-    return render_template('feedbackview.html', feedback=list)
-
-
-@app.route('/selfprofile')
-def selfprofile():
-    water4 = root.child('long').get()
-    list = []
-    comment=root.child('Doc1').get()
-    list2=[]
-
-    for pubid in water4:
-        waterdata= water4[pubid]
-
-        if waterdata['water44'] != " ":
-            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
-            waterdatapatient.set_pubid(pubid)
-            print(waterdatapatient.get_pubid())
-            list.append(waterdatapatient)
-
-    for pubid in comment:
-        commentdata= comment[pubid]
-
-        if commentdata['DocComment'] != " ":
-                commentdatapatient=DocNote(commentdata['DocComment'],commentdata['Date'])
-                commentdatapatient.set_pubid(pubid)
-                print(commentdatapatient.get_pubid())
-                list2.append(commentdatapatient)
-
-    return render_template('selfprofile.html',comment=list2 ,water4= list)
-
-
-@app.route('/docupdate')
-def docprofile():
-    return render_template('docupdate.html')
-
-
-@app.route('/docprofile', methods=["GET", "POST"])
-def docupdate():
-    form = DocComment(request.form)
-    if request.method == "POST":
-        comment = form.comment1.data
-        date= form.date.data
-
-
-        dc = DocNote(comment,date)
-
-        dc_db = root.child("Doc1")
-        dc_db.push({
-            'DocComment': dc.get_comment1() ,"Date":dc.get_commentdate()
-        })
-
-    comment=root.child('Doc1').get()
-    list2=[]
-
-
-    water4 = root.child('long').get()
-    list = []
-
-    for pubid in comment:
-        commentdata= comment[pubid]
-
-        if commentdata['DocComment'] != " ":
-                commentdatapatient=DocNote(commentdata['DocComment'],commentdata['Date'])
-                commentdatapatient.set_pubid(pubid)
-                print(commentdatapatient.get_pubid())
-                list2.append(commentdatapatient)
-
-    for pubid in water4:
-
-        waterdata = water4[pubid]
-
-        if waterdata['water44'] != " ":
-            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
-            waterdatapatient.set_pubid(pubid)
-            print(waterdatapatient.get_pubid())
-            list.append(waterdatapatient)
-
-    return render_template('docprofile.html',form=form ,comment=list2,water4= list)
-
-
-@app.route('/doctorselect')
-def doctorselect():
-    return render_template('doctorselect.html')
-
-
-@app.route('/diabetes')
-def diabetes():
-    return render_template('diabetes.html')
-
-
-@app.route('/wiki')
-def Wiki():
-    return render_template('wiki.html')
-
-
-@app.route('/select')
-def select():
-    return render_template('select.html')
-
-
-@app.route('/updatelong/<string:id>/', methods=['GET', 'POST'])
-def update_publication(id):
-    form = Waterer4(request.form)
-    if request.method == 'POST':
-            morning=form.water41.data
-            afternoon=form.water43.data
-            night=form.water42.data
-            date=form.water44.data
-            name=form.name4.data
-
-            longupdate = Water4(morning,afternoon,night,date,name)
-            longupdate_db = root.child('long/' + id)
-
-            longupdate_db.set({
-                "water41":longupdate.get_water43(),
-                "water42":longupdate.get_water42(),
-                "water43":longupdate.get_water41(),
-                "water44":longupdate.get_water44(),
-                "name4":longupdate.get_name4()
-
-            })
-
-            flash('Magazine Updated Sucessfully.', 'success')
-
-            return redirect(url_for('selfprofile'))
-
-    else:
-        url = 'long/'+id
-        waterdata = root.child(url).get()
-
-        if waterdata['name4'] != " ":
-            waterdatapatient = Water4(waterdata['water43'], waterdata['water41'], waterdata['water42'],
-                                          waterdata['water44'], waterdata['name4'])
-            waterdatapatient.set_pubid(id)
-            form.water44.data=waterdatapatient.get_water44()
-            form.water43.data=waterdatapatient.get_water43()
-            form.water42.data=waterdatapatient.get_water42()
-            form.water41.data=waterdatapatient.get_water41()
-            form.name4.data=waterdatapatient.get_name4()
-
-        return render_template('updatelong.html',form=form)
-
-
-#comment deletion
-@app.route('/delete_comment/<string:id>',methods=['POST'])
-def delete_comment(id):
-    dc_db = root.child('Doc1/'+id)
-    dc_db.delete()
-
-    return redirect(url_for('docupdate'))
-
-
-#tracker long
-@app.route('/delete_publication/<string:id>', methods=['POST'])
-def delete_publication(id):
-    mag_db = root.child('long/' + id)
-    mag_db.delete()
-
-    return redirect(url_for('selfprofile'))
-
-
-@app.route('/trackerlong', methods=["GET","POST"])
-def longterm():
-    form = Waterer4(request.form)
-    if request.method=="POST":
-        cloud=form.water41.data
-        cloud2=form.water42.data
-        cloud3=form.water43.data
-        cloud4=form.water44.data
-        cloud5=form.name4.data
-
-        cloud10=Water4(cloud,cloud2,cloud3,cloud4,cloud5)
-
-        cloud_db = root.child('long')
-        cloud_db.push({
-            "water41":cloud10.get_water41(),
-            "water42":cloud10.get_water42(),
-            "water43":cloud10.get_water43(),
-            "water44":cloud10.get_water44(),
-            "name4":cloud10.get_name4()
-        })
-    return render_template('longterm.html', form=form)
-
-
-@app.route('/feedbackpage', methods=["GET","POST"])
-def feedback():
-    form = Feedbacker(request.form)
-    if request.method=="POST":
-        earth = form.feed1.data
-        earth1= form.feed2.data
-        earth2= form.name1.data
-        earth3=form.feed3.data
-
-        earth10= Feedback1(earth,earth1,earth2,earth3)
-
-        water_db = root.child('feedback')
-        water_db.push({
-            'feed1': earth10.get_feed1(),
-            "feed2": earth10.get_feed2(),
-            "name1": earth10.get_name1(),
-            "feed3": earth10.get_feed3()
-        })
-    return render_template('feedback.html', form=form)
-
-
-@app.route('/tracker', methods=["GET", "POST"])
-def tracker():
-    form = Waterer(request.form)
-    if request.method=="POST":
-        fire = form.water.data
-        fire2= form.water2.data
-        fire3= form.water3.data
-
-        fire6= form.note1.data
-        fire7= form.note2.data
-        fire8 = form.pain1.data
-        fire9 = form.pain2.data
-        fire11 = form.pain3.data
-
-        fire10= Water(fire,fire2,fire3,fire6,fire7,fire8,fire9,fire11)
-
-        water_db = root.child('water')
-        water_db.push({
-            'Water': fire10.get_water(),
-            "Water2": fire10.get_water2(),
-            "Water3": fire10.get_water3(),
-            "Note1": fire10.get_note1(),
-            "Note2": fire10.get_note2(),
-            "Pain1": fire10.get_pain1(),
-            "Pain2": fire10.get_pain2(),
-            "Pain3": fire10.get_pain3()
-        })
-    return render_template('tracker.html',form=form)
-
-
-@app.route('/tracker2', methods=["GET", "POST"])
-def tracker2():
-    form= Waterer2(request.form)
-    if request.method == "POST":
-        grass = form.water21.data
-        grass2= form.water22.data
-        grass3= form.water23.data
-        grass4=form.water24.data
-        grass5 = form.pain21.data
-        grass6 = form.pain22.data
-        grass7 = form.pain23.data
-
-        grass10=Water2(grass, grass2, grass3, grass4, grass5, grass6, grass7)
-        grass_db = root.child('water2')
-        grass_db.push({
-            "Water21": grass10.getwater21(),
-            "Water22": grass10.getwater22(),
-            "Water23": grass10.getwater23(),
-            "Water24": grass10.getwater24(),
-            "Pain21" : grass10.getpain21(),
-            "Pain22" : grass10.getpain22(),
-            "Pain23" : grass10.getpain23()
-        })
-    return render_template('tracker2.html', form=form)
-
 
 @app.route('/patientdb')
 def Patientdb():
     return render_template('patientdb.html')
 
+####################################################################################################
+####################################################################################################
+####################################################################################################
+# --- GARETH ClASS---
 
-@app.route('/layout')
-def layout():
-    return render_template('layout.html')
+####################################################################################################
+######################################### Gareth APP ROUTE #########################################
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
-
+####################################################################################################
+####################################################################################################
+####################################################################################################
+# --- KHEE HING  CLASS---
 class Aft_dis(Form):
     nric = StringField("")
     status = RadioField("",choices=[(0,'0%'),(10,'10%'),(20,'20%'),(30,'30%'),(40,'40%'),(50,'50%'),(60,'60%'),(70,'70%'),(80,'80%'),(90,'90%'),(100,'100%')])
@@ -765,6 +839,16 @@ class Aft_dis(Form):
     medication = TextAreaField("Do you have any problems with your medication?<small>&nbsp;if yes please state</small>")
     others = TextAreaField("Do you have any other enquires ?")
 
+class BloodA(Form):
+    month = IntegerField("Month", [validators.NumberRange(min=1, max=12, message='Invalid month')])
+    day = IntegerField("Day", [validators.NumberRange(min=1, max=31, message='Invalid day')])
+    blood_glucose = FloatField("Blood Glucose")
+    blood_pressure = FloatField("Blood Pressure")
+    weight = FloatField("Weight")
+    text_doc = StringField("Text")
+
+####################################################################################################
+######################################## KHEE HING APP ROUTE #######################################
 @app.route('/after_discharge', methods=["GET", "POST"])
 def after_discharge_():
     form = Aft_dis(request.form)
@@ -788,15 +872,6 @@ def after_discharge_():
         return redirect(url_for('after_discharge_'))
 
     return render_template('after_discharge.html', form = form)
-
-
-class BloodA(Form):
-    month = IntegerField("Month", [validators.NumberRange(min=1, max=12, message='Invalid month')])
-    day = IntegerField("Day", [validators.NumberRange(min=1, max=31, message='Invalid day')])
-    blood_glucose = FloatField("Blood Glucose")
-    blood_pressure = FloatField("Blood Pressure")
-    weight = FloatField("Weight")
-    text_doc = StringField("Text")
 
 @app.route('/chronic_illness', methods=["GET", "POST"])
 def chronic_illness_():
@@ -872,100 +947,11 @@ def chronic_illness_():
 
     return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg,wi=list_wi)
 
-
-@app.route('/menu', methods=["GET", "POST"])
-def food():
-    form = Fooder(request.form)
-    if request.method == "POST":
-        quantity = form.quantity.data
-
-        send = Food(quantity)
-        send_db = root.child('selected')
-        send_db.push({
-            "Steamed_Rice": send.get_quantity(),
-        })
-
-    return render_template('food.html', form = form)
-
-
-@app.route('/Food_Health', methods= ["GET", "POST"])
-def Food_Health():
-    form = Caloriess(request.form)
-    if request.method == "POST":
-        time = form.time.data
-        calories = form.calories.data
-
-        calories = Calories(time, calories)
-
-        calories_db = root.child('Calories')
-        calories_db.push({
-            "time": calories.get_time(),
-            "calories": calories.get_calories(),
-        })
-
-    calories = root.child('Calories').get()
-    list = []
-
-    for pubid in calories:
-        timecalories = calories[pubid]
-
-        if timecalories['time'] != '':
-            timecaloriespatient = Calories(timecalories["calories"], timecalories["time"])
-            timecaloriespatient.set_pubid(pubid)
-            print(timecaloriespatient.get_pubid())
-            list.append(timecaloriespatient)
-
-    return render_template("Food_Health.html", form=form, calories=list)
-
-
-@app.route('/fud', methods= ["GET", "POST"])
-def fud():
-    form = Fud_Select(request.form)
-    if request.method == "POST":
-        food_quantity = form.my_food_order.data
-        food_quantity2 = form.my_food_order2.data
-        food_quantity3 = form.my_food_order3.data
-        food_quantity4 = form.my_food_order4.data
-        food_quantity5 = form.my_food_order5.data
-        food_quantity6 = form.my_food_order6.data
-        food_quantity7 = form.my_food_order7.data
-        food_quantity8 = form.my_food_order8.data
-        food_quantity9 = form.my_food_order9.data
-        food_quantity10 = form.my_food_order10.data
-        food_quantity11 = form.my_food_order11.data
-        food_quantity12 = form.my_food_order12.data
-
-        food_q = Food_Select(food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
-                             food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12)
-
-        food_q_db = root.child('food_quantity')
-        food_q_db.push({
-            "food_queue": food_q.get_food_quantity(),
-            "food_queue2": food_q.get_food_quantity2(),
-            "food_queue3": food_q.get_food_quantity3(),
-            "food_queue4": food_q.get_food_quantity4(),
-            "food_queue5": food_q.get_food_quantity5(),
-            "food_queue6": food_q.get_food_quantity6(),
-            "food_queue7": food_q.get_food_quantity7(),
-            "food_queue8": food_q.get_food_quantity8(),
-            "food_queue9": food_q.get_food_quantity9(),
-            "food_queue10": food_q.get_food_quantity10(),
-            "food_queue11": food_q.get_food_quantity11(),
-            "food_queue12": food_q.get_food_quantity12(),
-        })
-
-    return render_template('Fud.html', form=form)
-
-@app.route('/food_info')
-def food_info():
-    return render_template('Food_Information.html')
-
-
-@app.route('/events')
-def events_page():
-    return render_template('Events.html')
-
-
+###**  #######  #   #  ###    **###
+###**  #        ##  #  #  #   **###
+###**  ####     # # #  #   #  **###
+###**  #        #  ##  #  #   **###
+###**  #######  #   #  ###    **###
 if __name__ == '__main__':
     app.secret_key = 'secret123'
     app.run(debug=True)

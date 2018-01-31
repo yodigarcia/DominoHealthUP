@@ -64,9 +64,35 @@
     </header>
 
 
+ <style>
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: coral;
+    color: white;
+}
+</style>
+
+<div class="container">
 
 
-<table class="table table-bordered" style=" float: left; ">
+<table id="customers" class="table table-bordered" style=" float: left; ">
         <thead>
         <tr>
             <th>Name</th>
@@ -74,6 +100,8 @@
             <th>Morning</th>
             <th>Noon</th>
             <th>Night</th>
+            <th>Delete</th>
+            <th>Update</th>
 
 
 
@@ -92,6 +120,9 @@
         <td>{{ Water4.get_water44() }} ML</td>
         <td>{{ Water4.get_water42() }} ML</td>
         <td>{{ Water4.get_water43() }} ML</td>
+       <td><form action="{{url_for('delete_publication', id=Water4.get_pubid())}}" method="post">
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"></form></td>
+        <td><a href="/updatelong/{{Water4.get_pubid()}}" class="btn btn-primary">Update</a></td>
 
 
         {% endfor %}
@@ -103,20 +134,26 @@
 
 
 
-<table class="table table-bordered" style=" float:right; ">
+<table id="customers" class="table table-bordered" style=" float:right; ">
     <thead>
         <tr>
 
-            <th>Comment</th>
+            <th>For Patient</th>
             <th>Date</th>
+            <th>Comment</th>
+            <th>Estimated Date of discharge</th>
+            <th>Delete</th>
 
 
         </tr>
         </thead>
     <tr>
         {% for DocNote in comment %}
-        <td>{{ DocNote.get_comment1()}}</td>
+            <td>{{ DocNote.return_name() }}</td>
             <td>{{ DocNote.get_commentdate() }}</td>
+        <td>{{ DocNote.get_comment1()}}</td>
+            <td>{{ DocNote.get_discharge() }}</td>
+
             <td><form action="{{url_for('delete_comment', id=DocNote.get_pubid())}}" method="post">
             <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"></form></td>
 
@@ -127,35 +164,20 @@
     {% endfor %}
 
 </table>
+</div>
 
 
 
 
 
 
-
-
+<br><br><br><br><br><br><br><br><br><br><br><br>
 
 
     <input type="button" class="btn" data-toggle="modal" data-target="#modal_addition1" value="Add">
 
 
 
-{#											<form method="POST">#}
-{#												<div class="modal-body">#}
-{#													<table>#}
-{#														<tr></tr>#}
-{#														<td>#}
-{#															<div class="row">#}
-{#																{{ render_field(form.comment1, id="comment1", placeholder="Doctor Comment " ,class="form-control")}}#}
-{##}
-{#															</div>#}
-{#														</td>#}
-{##}
-{#													</table>#}
-{#												</div>#}
-{#													<input type="submit" class="btn btn-default" value="Submit">#}
-{#											</form>#}
 
 {% from "includes/_formhelper.html" import render_field %}
 								<!-- modal addition-->
@@ -172,10 +194,15 @@
 
 														<tr>
 														<td>
+                                                            <div class="container">
 
-																{{ render_field(form.comment1, id="comment1", placeholder="Doctor Comment " ,class="form-control")}}
-                                                            {{ render_field(form.date, id="date" ,placeholder="Enter date of entry",class="form-control")}}
+                                                                {{ render_field(form.name, id="name" ,placeholder="Enter name of the patient",class="form-control")}}
+                                                                {{ render_field(form.date, id="date" ,placeholder="Enter date of entry",class="form-control")}}
+                                                                {{ render_field(form.comment1, id="comment1", placeholder="Doctor Comment " ,class="form-control")}}
+                                                                {{ render_field(form.date2, id="discharge", placeholder="Estimated Date Of Discharge " ,class="form-control")}}
 
+                                                            </div>
+                                                            <br>
 
 														</td>
                                                         </tr>

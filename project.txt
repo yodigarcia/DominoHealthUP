@@ -1,0 +1,27 @@
+--OUTPATIENT--
+high bp
+dropdrown			D
+radio changed to checkbox	D
+bloodpressure checkbox range	
+dun use textarea except others	D
+
+
+--CHRONIC--
+try to remove hour
+bmi
+cleaner navbar			
+feedback on data
+simple formula
+simple threshold (warning)
+---
+--/
+///
+\\\
+
+replace data if month and day is in database.
+
+comfirmation-replace
+
+
+---------------------------
+ajax		cant manage

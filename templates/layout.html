@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Domino Healthcare</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static' ,filename ='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static' ,filename ='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'> -->
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/clean-blog.min.css')}}" rel="stylesheet" type="text/css">
+	<link href="{{ url_for('static', filename='sidebar/css/simple-sidebar.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet" type="text/css">
+
+    <link href="{{ url_for('static', filename='css/style_kh.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet" type ="text/css"><!-- not working kh-->
+    <link href="{{ url_for('static', filename='css/style-homepage.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet" type ="text/css">
+    <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/Style_Food.css') }}" rel="stylesheet" type="text/css">
+
+    <!-- Icon for Domino-->
+	<link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Domino_pizza_logo.svg/1200px-Domino_pizza_logo.svg.png" type="image/png">
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+{% block additionalscripts %}{% endblock %}
+{% include 'includes/_navbar.html' %}
+{% block body %}{% endblock %}
+<br><br><br>
+<br><br><br>
+{% include 'includes/_footer.html' %}
+</body>
+<!-- Bootstrap core JavaScript -->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Firebase js -->
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-messaging.js"></script>
+<!-- Leave out Storage(idk why) -->
+<!-- <script src="/__/firebase/4.8.1/firebase-storage.js"></script> -->
+<!-- Custom scripts for this template -->
+<script src="../static/js/kh_chart.js"></script>
+<script src="../static/js/clean-blog.min.js"></script>
+<script src="../static/js/jqBootstrapValidation.js"></script>
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript" src="../static/js/canvasjs.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="../static/js/kh_js_on_chronic.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- Menu Toggle Script for sidebar -->
+<script>$("#menu-toggle").click(function(e) {e.preventDefault();$("#wrapper").toggleClass("toggled");});</script>
+</html>

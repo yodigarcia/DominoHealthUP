@@ -1,0 +1,1005 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from "includes/_formhelper.html" import render_field %}
+<!-- Page Content -->
+    <header class="masthead" style="background-image: url('../static/images/header_body.jpg'); height:500px; width:100%;">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Chronic Illness Staff</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="wrapper" onload="clearInp()">
+
+        {% include 'includes/sidebar.html' %}
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="container-fluid">
+
+                    <div class="container">
+                        <p><b>Chronic condition under Medisave use for Chronic Disease Management Programme (CDMP)</b> such as diabetes, hypertension, lipids disorders, stroke, chronic obstructive pulmonary disease (COPD), asthma, schizophrenia, major depression, Dementia, bipolar disorder, Osteoarthritis, benign prostatic hyperplasia, anxiety, Parkinson’s disease, nephrosis/nephritis, Epilepsy, osteoporosis, psoriasis, rheumatoid arthritis.</p>
+                        <ul class="container row tablenav list-unstyled">
+                            <li><a class="col"><button class="khbutton" onclick="td_nvbr();show_chart();">Diabetes</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="toggle_hypertension_navbar()">Hypertension</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="">Lipids disorders</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="">Stroke</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="">Schizophrenia</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="">Depression</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="">Asthma</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="">COPD</button></a></li>
+                            <li><a class="col"><button class="khbutton" onclick="">Asthma</button></a></li>
+                        </ul>
+                    </div>
+
+                    <div id="hypertension_navbar">
+                        <div class="container">
+                            <p><b>Hypertension</b> What information are you looking for:</p>
+                            <ul class="container row tablenav list-unstyled">
+                                <li><a class="col"><button class="khbutton" onclick="toggle_hypertension_understanding()">Understanding</button></a></li>
+                                <li><a class="col"><button class="khbutton" onclick="toggle_hypertension_treatment()">Treatment</button></a></li>
+                                <li><a class="col"><button class="khbutton" onclick="toggle_hypertension_medication()">Medication</button></a></li>
+                                <li><a class="col"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                <li><a class="col"><button class="khbutton" onclick="navbar_none();">&times;</button></a></li>
+                            </ul>
+                        </div>
+                    </div>
+<!-- First -->
+                <div class="container" id="CIP_blood">
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="patientic" placeholder="Patient's IC" name="patientic"> 
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="submit" class="form-control" value="submit">
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Blood Pressure</div> <!-- Title -->
+                        <div class="card-body">
+                            <div id="cip_blood_chart" style="height: 400px ;width: 100%;"></div> <!--Graph -->
+                        </div>
+                        <div class="card-footer">
+                            <div class="row pull-right"> <!-- buttons -->
+                                <div class="col"> <!-- button 1 -->
+                                    <button type="button" class="btn col" data-toggle="modal" data-target="#CIP_blood_history">Show History</button>
+                                </div>
+                                <div class="col"> <!-- button 2 -->
+                                    <button type="button" class="btn col" data-toggle="modal" data-target="#CIP_blood_add">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="CIP_blood_add" role="dialog"><!-- CIP_blood_add -->
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Blood Pressure <!-- drop down or click --> </h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form method="POST" action="/chronic_illness_s">
+                                <div class="modal-body">
+                                    <table class="kheehing">
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ render_field(form.month, class="form-control")}}</div>
+                                                    <div class="col">{{ render_field(form.day, class="form-control")}}</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ render_field(form.blood_pressure, class="form-control")}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-default" value="Submit">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearInp()">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- CIP_blood_add -->
+
+                <div class="modal fade" id="CIP_blood_history" role="dialog"><!-- CIP_blood_history -->
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">History Blood Pressure Level</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form method="POST" action="/chronic_illness_s">
+                                <div class="modal-body">
+                                    <table class="kheehing">
+                                        <tr>
+                                            <th>
+                                                <div class="row">
+                                                    <div class="col">Month</div>
+                                                    <div class="col">Day</div>
+                                                </div>
+                                            </th>
+                                            <th>Blood Pressure</th>
+                                        </tr>
+                                        <div id="bp_results">
+                                            {% for i in bp %}
+                                            <tr>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col">{{ i.get_month() }}</div>
+                                                        <div class="col">{{ i.get_day() }}</div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col">{{ i.get_blood_pressure() }}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </div>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- CIP_blood_history -->
+<!-- SECOND -->
+                <div class="container" id="CIP_glucose">
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Blood Glucose Level</div> <!-- Title -->
+                        <div class="card-body">
+                            <div id="cip_blood_glucose_chart" style="height: 400px ;width: 100%;"></div> <!-- Graph -->
+                        </div>
+                        <div class="card-footer">
+                            <div class="row pull-right"> <!-- buttons -->
+                                <div class="col"> <!-- button 1 -->
+                                    <button type="button" class="btn col" data-toggle="modal" data-target="#CIP_blood_glucose_history">Show History</button>
+                                </div>
+                                <div class="col"> <!-- button 2 -->
+                                    <button type="button" class="btn col" data-toggle="modal" data-target="#CIP_blood_glucose_add">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="CIP_blood_glucose_add" role="dialog"><!-- CIP_blood_glucose_add -->
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Blood Glucose Level <!-- drop down or click --> </h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form method="POST" action="/chronic_illness_s">
+                                <div class="modal-body">
+                                    <table class="kheehing">
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ render_field(form.month, class="form-control")}}</div>
+                                                    <div class="col">{{ render_field(form.day, class="form-control")}}</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ render_field(form.blood_glucose, class="form-control")}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-default" value="Submit">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" onclick="return resetForm(this.form);" value="Close">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- CIP_blood_glucose_add -->
+
+                <div class="modal fade" id="CIP_blood_glucose_history" role="dialog"><!-- CIP_blood_glucose_history -->
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">History Blood Glucose Level</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form method="POST" action="/chronic_illness_s">
+                                <div class="modal-body">
+                                    <table class="kheehing">
+                                        <tr>
+                                            <th>
+                                                <div class="row">
+                                                    <div class="col">Month</div>
+                                                    <div class="col">Day</div>
+                                                </div>
+                                            </th>
+                                            <th>Blood Glucose</th>
+                                        </tr>
+                                        {% for j in bg %}
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ j.get_month() }}</div>
+                                                    <div class="col">{{ j.get_day() }}</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ j.get_blood_glucose() }}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- CIP_blood_glucose_history -->
+<!-- Third -->
+                <div class="container" id="CIP_weight">
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Weight</div> <!-- Title -->
+                        <div class="card-body">
+                            <div id="cip_weight_chart" style="height: 400px ;width: 100%;"></div> <!-- Graph -->
+                        </div>
+                        <div class="card-footer">
+                            <div class="row pull-right"> <!-- buttons -->
+                                <div class="col"> <!-- button 1 -->
+                                    <button type="button" class="btn col" data-toggle="modal" data-target="#CIP_weight_history">Show History</button>
+                                </div>
+                                <div class="col"> <!-- button 2 -->
+                                    <button type="button" class="btn col" data-toggle="modal" data-target="#CIP_weight_add">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="CIP_weight_add" role="dialog"><!-- CIP_weight_add -->
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">weight <!-- drop down or click --> </h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form method="POST" action="/chronic_illness_s">
+                                <div class="modal-body">
+                                    <table class="kheehing">
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ render_field(form.month, class="form-control")}}</div>
+                                                    <div class="col">{{ render_field(form.day, class="form-control")}}</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ render_field(form.weight, class="form-control")}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-default" value="Submit">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" value="reset" onclick="clearInp()">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- CIP_weight_add -->
+
+                <div class="modal fade" id="CIP_weight_history" role="dialog"><!-- CIP_weight_history -->
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">History Weight</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form method="POST" action="/chronic_illness_s">
+                                <div class="modal-body">
+                                    <table class="kheehing">
+                                        <tr>
+                                            <th>
+                                                <div class="row">
+                                                    <div class="col">Month</div>
+                                                    <div class="col">Day</div>
+                                                </div>
+                                            </th>
+                                            <th>Weight <small>(kg)</small></th>
+                                        </tr>
+                                        {% for k in wi %}
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ k.get_month() }}</div>
+                                                    <div class="col">{{ k.get_day() }}</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col">{{ k.get_weight() }}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-default" value="Submit">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" onlick='clearInp()'>Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- CIP_blood_glucose_history -->
+
+
+
+
+
+
+
+                    <div id="diabetes_navbar">
+                        <div class="container">
+                            <br><h1>More Information</h1><p><b>Diabetes</b> What information are you looking for:</p>
+                            <ul class="container row tablenav list-unstyled">
+                                <li><a class="col"><button class="khbutton" onclick="toggle_diabetes_understanding()">Understanding</button></a></li>
+                                <li><a class="col"><button class="khbutton" onclick="toggle_diabetes_treatment()">Treatment</button></a></li>
+                                <li><a class="col"><button class="khbutton" onclick="toggle_diabetes_medication()">Medication</button></a></li>
+                                <li><a class="col"><button class="khbutton" onclick="toggle_diabetes_exercise()">Exercise</button></a></li>
+                                <li><a class="col"><button class="khbutton" onclick="toggle_diabetes_dental()">Dental Health</button></a></li>
+                                <li><a class="col"><button class="khbutton" onclick="toggle_diabetes_sexual()">Sexual Disfunction</button></a></li>
+                                <li><a class="col "><button class="khbutton" onclick="toggle_diabetes_pregnancy()">Pregnancy</button></a></li>
+                                <li><b class="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></li>
+                                <li><a class="col"><button class="khbutton" onclick="navbar_none();">&times;</button></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- <div id="selection">
+                        <div class="container">
+                                <b>What do you want to do:</b>
+                                <div class="container-fluid">
+                                  <button type="button" class="toi btnb" data-toggle="modal" data-target="#Add_information_s">Add information</button>
+                                  <button type="button" class="toi btnb" data-toggle="modal" data-target="#Change_information_s">Change information</button>
+                                  <button type="button" class="toi btnb" data-toggle="modal" data-target="#Delete_information_s">Delete information</button>
+                                </div>
+                        </div> -->
+                        <!-- Add|Change|delete div -->
+                        <!-- <div id="this_boxy"></div> -->
+
+                        <!-- Add information -->
+                        <!-- <div class="modal fade" id="Add_information_s" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <b class="font_OS">In which format do you want to Add ?</b>
+                                    </div>
+                                    <div class="modal-body">
+                                            <div class="row">
+                                                <button class="toi btnb col" data-toggle="">Table</button>
+                                                <button class="toi btnb col" data-toggle="">Text</button>                                            
+                                                <button class="toi btnb col" data-toggle="">list</button>
+                                            </div>
+                                        <br>
+                                    </div>
+                                    <div class="modal-footer">
+                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Add information -->
+                        <!-- <div class="modal fade" id="Add_Table" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3>Table</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                            <form>
+                                                <label>Number of Column</label>
+                                                <input>
+                                                <label>Number of Row</label>
+                                                <input>
+                                            </form>
+                                        <br>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Change information -->
+                        <!-- <div class="modal fade" id="Change_information_s" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="container">
+                                            <p class="font_OS font_s24">What information do you want to Change ?</p>
+                                            <table class="kheehing">
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>4</td>
+                                                </tr>
+                                            </table>
+                                            <br>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Delete information -->
+                        <!-- <div class="modal fade" id="Delete_information_s" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="container">
+                                            <p class="font_OS font_s24">What information do you want to Delete ?</p>
+                                            <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+
+
+
+
+
+                    
+                    <div id="diabetes_understanding_content">
+                        <div class="container">
+                          <div id="diabetes_understanding_content_edit">
+                              
+                          </div>
+                            <h1>Understanding Diabetes Mellitus</h1>
+                            <hr>
+                            <p><small><b>Summary: </b>Diabetes Mellitus is a disease where there is too much glucose in the blood.</small></p>
+
+                            <h3>What is Diabetes Mellitus</h3>
+                            <p>Diabetes mellitus is a condition in which patients have high blood sugar. It is a common condition and affects 8.6% of the population in Singapore. This is an increase from 4.7% in 1984. It is an important condition because there are many complications that can occur as a result of diabetes mellitus. These can be divided broadly into those that occur in the short term (the acute complications) and those that occur over a long time (the chronic complications).
+                            <br><br>Before we go into details of these complications, there is one very important message that we must get across to you as patients and members of the public. These complications are preventable. Although this is not true in every case, well controlled diabetes mellitus through your own efforts and working with your doctor and other health workers, will at least delay the onset of these complications. Patients with diabetes mellitus can live healthy, active, rewarding lives.</p>
+
+                            <h3>Types of Diabetes Mellitus</h3>
+                            <p><b>Type 1 diabetes mellitus</b> has also been known as juvenile-onset diabetes mellitus or insulin dependant diabetes mellitus. This is the less common type and usually occurs in young persons below the age of 35. In this condition, the body is unable to produce insulin. Insulin is a hormone produced by the pancreas, a gland that is in the abdomen. Insulin is a hormone that controls the use of different fuels for energy. It is especially important because it allows the body to use glucose (simple sugar) instead of fats. When there is no insulin, the body cannot use or store the glucose that comes from food and this causes the blood sugars to become very high. Instead, the body uses fat as a source of fuel giving rise to some of the acute complications of diabetes mellitus.</p>
+                            <p><b>Type 2 (adult-onset or non-insulin requiring) diabetes mellitus</b> is much more common and is the type of diabetes that affects most Singaporeans. In this type of diabetes, there is no shortage of insulin (at least at the start of the disease). Instead, the cells and tissues of the body are unable to respond to the insulin produced by the pancreas. They have "insulin resistance." (see cartoon below).</p>
+                            <p><b>Gestational diabetes</b> occurs in pregnancy and significantly increases the risk of complications. The blood glucose levels have to be carefully controlled during pregnancy to avoid problems in both mother and child. Gestational diabetes also increases the woman’s risk of developing type 2 diabetes later in life.</p>
+
+                            <h3>Symtoms</h3>
+                            <ul>
+                                <li>Frequent passing of urine.</li>
+                                <li>Increased thirst.</li>
+                                <li>Weight loss despite good appetite.</li>
+                                <li>Hunger.</li>
+                                <li>General weakness and fatigue.</li>
+                                <li>Blurred vision.</li>
+                                <li>Reduced feelings in hands or feet.</li>
+                                <li>Itchy skin, especially in the genital areas.</li>
+                                <li>Slow healing of cuts and wounds.</li>
+                            </ul>
+                            <p>If you have any of these symptoms, particularly if you are overweight, have high blood pressure or close family members with diabetes mellitus, you should see your doctor to ask him/her to test you for diabetes mellitus.</p>
+
+                            <h3>Dignosis</h3>
+                            <p>Diabetes is diagnosed via a blood test and not a urine test. If you have the above symptoms, it may be possible to make the diagnosis on 1 blood test. However, if the blood sugar is not very high, you may require 2 separate blood tests on different days. Sometimes an oral glucose tolerance test is required. For this test, you will be required to see your doctor in the morning after fasting for at least 8 hours. This means that you should not eat or drink anything except water the night before the test. You should have been eating a normal diet for 3 days prior to the blood test and not exercise heavily the day before the test. Your doctor will give you a very sweet drink containing glucose and will take blood from you after 1 and 2 hours to decide if you have diabetes mellitus.</p>
+                        </div>
+                    </div>
+                    <div id="diabetes_treatment_content" class="container">
+                        <h1>Treatment for Diabetes</h1>
+                        <hr>
+                        <h3>Diabetic Diet</h3>
+                        <p>A diabetic diet is one which promotes a healthy balanced diet for all individuals rather than a diet for the sick. The total energy needs of the individual will be calculated at a level to achieve and/or maintain a desirable body weight. The proportion of energy from each of the major energy groups is such that 50-60% of energy should be derived from carbohydrate, 25-30% from fat and 15-20% from protein (The protein intake may need to be reduced in renal disease).
+                        <br><br>Do not delay or skip your meals or snacks (if allowed) as this may lead to fluctuations of your blood sugar levels. If in doubt, you should seek medical nutrition therapy from a qualified dietitian who will help tailor a meal plan to suit your lifestyle and medical condition.</p>
+
+                        <h3>Meal Planning for People with Diabetes</h3>
+                        <p>The good news is, if you know how to choose your food wisely you may be able to control your diabetes with less or no medication at all. Meal planning is the cornerstone to good diabetes control.
+                        <br>The aims of meal planning in diabetes are:</p>
+                        <ul>
+                            <li>To achieve as near normal a blood glucose level as possible to prevent and slow down the development of complications.</li>
+                            <li>To achieve adequate nutrition.</li>
+                            <li>To achieve a healthy weight which is important for good diabetes control.</li>
+                        </ul>
+                        <h3>weight Management</h3>
+                        <p>If you are overweight, you should try to lose some weight. Studies have shown that a 5% weight loss can very much improve diabetes control. A Body Mass Index (BMI) of between 18.5 to 23 is considered healthy.
+                        <br>You can calculate your BMI using the following formula:
+                        <br>Body Mass Index(BMI)= Weight (kg) / [Height (m) x Height (m)]</p>
+                    </div>
+                    <div id="diabetes_medication_content" class="container">
+                        <h1>Medication</h1>
+                        <hr>
+                        <p>The tablets are not insulin . Insulin cannot be taken orally it would be destroyed by digestive enzymes.
+                        <br><br>The tablets are effective only when the pancreas still produces some insulin. Therefore they are prescribed for people with Type 2 diabetes mellitus.
+                        <br><br>Medication currently available for the treatment of diabetes mellitus can be divided into 3 broad categories as shown in the table below</p>
+                        <table class="kheehing">
+                            <tr>
+                                <th>Type</th>
+                                <th>Drugs</th>
+                                <th>uses</th>
+                                <th>How to consume</th>
+                                <th>Common side effects</th>
+                                <th>Precautions</th>
+                            </tr>
+                            <tr>
+                                <td rowspan="5">Sulphonylureas</td>
+                                <td>Glibenclamide (Daonil)</td>
+                                <td rowspan="5">Helps to reduce the amount of sugar in the blood by stimulating insulin release</td>
+                                <td rowspan="5">should be taken half an hour before food</td>
+                                <td rowspan="5">Side effects are mild and infrequent and include nausea, vomiting, loss of appetite, diarrhea and constipation, weight gain, gastric discomfort</td>
+                                <td rowspan="14">Some of these medications can cause low blood sugar (hypoglycemia). Symptoms include chills, cold sweat, tremors, fast heart rate, weakness, headache, fainting, hunger, dizziness, drowsiness, tingling of the hands or feet.
+                                <br><br>If you experience any of these symptoms, eat a quick source of sugar such as table sugar, orange juice or honey.
+                                <br><br>It is a good habit to carry glucose tablets around with you to treat low blood sugar (in case of emergencies)
+                                <br><br>To prevent hypoglycemia, eat meals on a regular schedule and do not skip meals
+                                <br><br>Avoid alcohol
+                                <br><br>For patients on metformin, please inform your doctor when going for X-ray/scanning procedures. You will need to stop the medication temporarily before the procedure
+                                <br><br>Symptoms of high blood sugar(hyperglycemia) include thirst, increased urination, confusion, drowsiness, flushing, rapid breathing or fruity breath odor. If any of these symptoms occur, contact your doctor immediately</td>
+                            </tr>
+                            <tr><td>Gliclazide</td></tr>
+                            <tr><td>Glimepiride</td></tr>
+                            <tr><td>Glipizide</td></tr>
+                            <tr><td>Tolbutamide</td></tr>
+                            <tr>
+                                <td>Thiazolidinedione</td>
+                                <td>Rosiglitazone</td>
+                                <td>Improves body’s response to insulin</td>
+                                <td>May be taken without regards to meals</td>
+                                <td>Headache, weight gain, swelling and diarrhea</td>
+                            </tr>
+                            <tr>
+                                <td>Alpha-glucosidase inhibitors</td>
+                                <td>Acarbose</td>
+                                <td>Helps to lower blood sugar by decreasing the absorption of glucose</td>
+                                <td>Take with the first bite of each main meal or immediately before a meal</td>
+                                <td>Excess wind in the stomach, diarrhea, stomach distention</td>
+                            </tr>
+                            <tr>
+                                <td>Biguanide</td>
+                                <td>Metformine</td>
+                                <td>Improves body’s response to insulin</td>
+                                <td>should be taken half an hour after food.</td>
+                                <td>Nausea, vomiting, stomach upset, diarrhea, metallic taste</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Insulin <br>SHORT-acting</td>
+                                <td>Actrapid</td>
+                                <td rowspan="6">Reduces the sugar level in the blood</td>
+                                <td rowspan="6">30 minutes before a meal. It may also be injected at bedtime</td>
+                                <td rowspan="6">May cause temporary irritation, pain, redness at the injection site and weight gain</td>
+                            </tr>
+                            <tr><td>Humulin R</td></tr>
+                            <tr>
+                                <td rowspan="2">Insulin <br>INTERMEDIATE-acting</td>
+                                <td>Insulatard</td>
+                            </tr>
+                            <tr><td>Humulin N</td></tr>
+                            <tr>
+                                <td rowspan="2">MIXED Insulins</td>
+                                <td>Mixtard 30/70</td>
+                            </tr>
+                            <tr><td>Humulin 30/70</td></tr>
+                        </table>
+                        <h3>Oral Medication</h3>
+                        <p>You may take more than one type of medication at the same time, once a day or as many as 3 times a day. It is important to take medication as prescribed by the doctor, not only when you think your blood glucose is high.
+                        <br><br>If you are ill and unable to eat, you still need to take your tablets, because your sickness can raise your blood glucose. Eat your normal meals if you can. If you cannot eat your usual meals, take at least the carbohydrate in the form of fruit juices, soft drinks.
+                        <br><br>Store your tablets at room temperature Do not use if they are passed the expiry date or if the tablets are discoloured.
+                        <br><br>Take it at the same time each day. You may want to take your medication with the same time when you do a routine activity. e.g brushing teeth to help you to remember your medication. Always keep your medicines with you when travelling. Take enough for the trip, plus extras</p>
+                        <h3>Insulin Injections</h3>
+                        <p>This section provides information about what insulin is, how it works, and how it is administered to lower/maintain blood glucose of 4 - 8 mmol/litre. Discrd one month after opening. Insulins should be stored in the refrigerator but not frozen.
+                        <br><br>Types of Insulin: Approximate effect/action *</p>
+                        <table class="kheehing">
+                            <tr>
+                                <th>Characteristics</th>
+                                <th>Onset</th>
+                                <th>Peak</th>
+                                <th>Duration</th>
+                            </tr>
+                            <tr>
+                                <td>Short/Fast-Acting (clear)</td>
+                                <td>5 - 30 mins</td>
+                                <td>1 - 3 hrs</td>
+                                <td>4 - 8 hrs</td>
+                            </tr>
+                            <tr>
+                                <td>Intermediate-Acting (milky)</td>
+                                <td>1 - 2 hrs</td>
+                                <td>4 - 12 hrs</td>
+                                <td>16 - 24 hrs</td>
+                            </tr>
+                            <tr>
+                                <td>Premixed (Short & Intermediate)</td>
+                                <td>1/2 hrs</td>
+                                <td>2 - 12 hrs</td>
+                                <td>16 - 24 hrs</td>
+                            </tr>
+                        </table>
+                        <p>Variation between and within patients may occur *depending upon injection site and technique, insulin dosage, diet and exercise. Some insulins are available in penfill-catridges, and and may be more convenient, especially when travelling.</p>
+                    </div>
+                    <div id="diabetes_exercise_content" class="container">
+                        <h1>Exercise</h1>
+                        <hr>
+                        <p>People with diabetes can keep themselves active as one of the best ways to keep your blood sugar in control. It will make you feel better and reduce your risk of complications.</p>
+                        <p>Exercises can help you to:</p>
+                        <ul>
+                            <li>Improve your body’s ability to use insulin</li>
+                            <li>Improve your blood pressure</li>
+                            <li>Improve your cholesterol level</li>
+                            <li>Lowers risk of osteoporosis</li>
+                            <li>Control or maintain your weight</li>
+                            <li>Improve muscle strength and tone</li>
+                            <li>Reduce stress</li>
+                        </ul>
+                        <h3>Selection of exercise programme</h3>
+                        <p>The type of exercise that is suitable for you depends on your age, physical fitness and preferences. You may need to consult your doctor or nurse educator when planning for an exercise program. Choose an exercise that you would enjoy doing. Brisk walking, jogging and cycling are good examples. Exercise regularly, every day if you can or at least 3 times a week and 30 minutes for each session. Plan your programme, start slowly and gradually. Increase the amount of exercise you do each session.<br><br>Always start with warm up (stretching) for 5 – 10 minutes follow by the actual exercise, and end with cool down exercise, just as you would do for the warm up.</p>
+                        <p>Type of exercises you can try:</p>
+                        <ul>
+                            <li>Aerobic exercise eg: brisk walking, swimming, cycling etc</li>
+                            <li>Strength straining eg: hand weights, elastic bands etc</li>
+                            <li>Keep active throughout the day eg: walk around at home, mopping floor etc</li>
+                            <li>Stretching exercises to improve flexibility of joints</li>
+                        </ul>
+                        <h3>How much and how long</h3>
+                        <ul>
+                            <li>Frequency - at least 3 times per week</li>
+                            <li>Intensity* – able to talk during exercise</li>
+                            <li>Time – at least 20-30minutes each time</li>
+                            <li>Types of Exercise – choose an exercise that you enjoy doing</li>
+                            <li class="list-unstyled"><b>*It is advisable to build up your intensity of your exercise slowly*</b></li>
+                        </ul>
+                        <p>Points to remember:</p>
+                        <ul>
+                            <li>Test your blood glucose before and after exercise. It is not safe to exercise if your blood glucose is above 15 mmol/L, if you are feeling unwell or if there are ketones in your urine.</li>
+                            <li>If blood glucose is low, eat a snack.</li>
+                            <li>If blood glucose is normal, you do not need a snack unless you are doing some strenous exercise.</li>
+                            <li>Alternatively, you can reduce your insulin dose before exercise. Consult your doctor or nurse educator on what is best for you.</li>
+                            <li>Always carry quick sugar, such as glucose tablets candy etc. With you when you exercise (especially if you are on insulin). Hypoglycaemia (Low blood sugar) may occur during or after exercise due to increased transport of glucose into the muscles by insulin.</li>
+                            <li>If possible, exercise with your spouse or a friend.</li>
+                        </ul>
+                    </div>
+                    <div id="diabetes_dental_content" class="container">
+                        <h1>Dental Health</h1>
+                        <hr>
+                        <h3>Diabetes and Gum Disease</h3>
+                        <p>Periodontal (gum) disease is often linked to the control of diabetes. People with inadequate blood sugar control appear to develop periodontal disease more often, more severe and lose more teeth than people with good control of their diabetes. This is due to the lowered resistance and longer healing process in people with diabetes. That makes good control of sugar levels, good oral care and regular dental checkup an important part of your diabetes management.</p>
+                        <h3>Maintain Good Blood Sugar Control</h3>
+                        <p>Good blood sugar control is unlikely to lead to development of gum (periodontal) diseases that may affect the lost of teeth.</p>
+                        <h3>Oral Hygiene</h3>
+                        <ul>
+                            <li>Use a soft bristled toothbrush</li>
+                            <li>Replace the toothbrush every 3 months</li>
+                            <li>Brush at least twice a day with fluoride toothpaste</li>
+                            <li>Floss at least once a day or an interdental cleaner may help to remove decay-causing plague</li>
+                            <li>If you wear dentures, remove them and clean them daily</li>
+                        </ul>
+                        <h3>Dental Check-Up</h3>
+                        <p>Have regular dental check up at least two times per year and also to treat any dental health problems early.</p>
+                        <h3>What Information Do You Need to Inform Your Dentist?</h3>
+                        <ul>
+                            <li>You have diabetes mellitus and any other medical conditions</li>
+                            <li>Your current treatment especially if you are on ‘blood-thining medications’ e.g. aspirin, warfarin etc</li>
+                            <li>Your current blood sugar level</li>
+                            <li>Names of any supplements that you are currently taking</li>
+                        </ul>
+                    </div>
+                    <div id="diabetes_sexual_content" class="container">
+                        <h1>Sexual Dysfunction</h1>
+                        <hr>
+                        <p>Sexual dysfunction is a condition that interferes with a person’s sexual performance. People with diabetes are more likely to experience sexual dysfunction than people without diabetes. <br><br>Sexual dysfunction in people with diabetes involves the blood vessels (diabetic angiopathy) and nerve damage (diabetic neuropathy) that may hinder sexual performance and enjoyment. This condition usually results from blood sugars that are not managed well. Other factors that may contribute to sexual dysfunction include psychological issues, obesity, depression, medications, smoking and other medical conditions.</p>
+                        <h3>Sexual Dysfunction in Men</h3>
+                        <p>Sexual dysfunction in men with diabetes includes erectile dysfunction (impotence) and ejaculation problems. This condition is due to nerve and artery damage in the genital area that may cause a disruption to the blood flow that is necessary for an erection.</p>
+                        <h3>Sexual Dysfunction in Women</h3>
+                        <p>Sexual dysfunction in women with diabetes may experience vaginal dryness. The women may experience some discomfort during sexual intercourse due to the lack of lubrication. Additional symptoms of sexual dysfunction may include: decreased vaginal sensitivity, difficulty climaxing and decreased sexual desire due to diabetes related nerve damage.</p>
+
+
+                        <h3>What are the Concerns for Both Sexes?</h3>
+                        <ol>
+                            <li>Blood sugar levels that are constantly high can lead to:</li>
+                                <ul>
+                                    <li>Reduction of testosterone levels. This may contribute to the decreased in sexual interest (libido).</li>
+                                    <li>Abnormal nerve function (diabetic neuropathy) may lead to feeling of pain during sexual intercourse. This heightened the sense of pain that can make sexual relations uncomfortable.</li>
+                                </ul>
+                            <li>Hypoglycemia</li>
+                            <ul>
+                                <li>Hypoglycemia is a sign that people with diabetes need to look out for as sexual intercourse is a form of exercise.</li>
+                            </ul>
+                        </ol>
+                        <h3>Treatment of Sexual Dysfunction in Men</h3>
+                        <p>It is advisable and important to discuss with your spouse or partner when selecting a treatment to maintain a fulfilling relationship.<br>Several treatments are available:</p>
+                        <ol>
+                            <li>Oral Medications:</li>
+                            <ul>
+                                <li>Viagra</li>
+                                <li>Cialis</li>
+                                <li>Levitr</li>
+                            </ul>
+                            <li>Mechanicaal Methods</li>
+                            <ul>
+                                <li>Vacuum pumps</li>
+                                <li>Constriction rings</li>
+                            </ul>
+                            <li>Local Therapies</li>
+                            <ul>
+                                <li>Suppositories</li>
+                                <li>injections</li>
+                            </ul>
+                            <li>Surficaal Methods</li>
+                            <ul>
+                                <li>Penile implant</li>
+                            </ul>
+                        </ol>
+                        <h3>Treatment of Sexual Dysfunction in Women</h3>
+                        <p>The use of water-based lubricants like K-Y jelly may help to improve sexual pleasure for women.</p>
+                        <h3>Maintaining Sexual Health with Diabetes</h3>
+                        <p>Diabetes Mellitus is a leading cause of sexual health issues in people with diabetes accompanied by other health conditions such as hypertension, high cholesterol and smoking. Men with poorly controlled diabetes are more likely to have sexual issues as compared to men who have good control of their diabetes. However, complications and sexual issues can be avoided by taking proper care of your diabetes, blood pressure, cholesterol and quit smoking. People with diabetes who experience sexual difficulties can lead an enjoyable and fulfilling sexual life by discussing it over with their doctor. It is advisable to seek early treatment to prevent the condition from becoming too severe to be successfully treated.</p>
+                    </div>
+                    <div id="diabetes_pregnancy_content" class="container">
+                        <h1>Pregnancy</h1>
+                        <hr>
+                        <h3>Diabetes in Pregnancy</h3>
+                        <p>There are three main types of diabetic pregnancies:</p>
+                        <ul>
+                            <li>A woman with type 1 (insulin dependent) diabetes who becomes pregnant.</li>
+                            <li>A woman with type 2 (non-insulin dependent) diabetes who becomes pregnant.</li>
+                            <li>A woman with gestational diabetes who is diagnosed with diabetes during her pregnancy. This form of diabetes usually ‘disappears’ upon delivery of the baby but there is a higher risk of it occurring in subsequent pregnancies or later in life.</li>
+                        </ul>
+                        <p>A high blood glucose level left untreated has major consequences for the mother and the foetus. If present early in the pregnancy, the result may be physical abnormalities in the foetus. In the later part of the pregnancy, the growing foetus may have macrosomia (abnormal largeness) that can lead to too early a delivery, or damage to the baby or mother during delivery of the very large baby.</p>
+                        <h3>Planning for a baby</h3>
+                        <p>Whatever the type of diabetes, it is very important to achieve good diabetes control before you plan to have a baby. If you have diabetes and want to become pregnant, you need to check with your doctor or diabetic care team before you plan to conceive. If you are taking oral medication for diabetes, it is likely that your doctor will consider switching you to insulin and allowing your diabetes control to stabilise before you conceive.</p>
+                        <h3>Treating Diabetes in Pregnancy</h3>
+                        <table class="kheehing">
+                            <tr>
+                                <th>Types of Diabetes</th>
+                                <td>Type 1 (Insulin Dependent) Diabetes</td>
+                                <td>Type 2 (non-Insulin Dependent) Diabetes</td>
+                                <td>Gestational Diabetes</td>
+                            </tr>
+                            <tr>
+                                <th>Treatment</th>
+                                <td>Diet and insulin doses up to four times daily. The dose in pregnancy may be more than the dose in non-pregnant state.</td>
+                                <td>Diet & insulin</td>
+                                <td>Diet alone or diet & insulin</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <h3>During the Pregnancy</h3>
+                        <ul>
+                            <li>Measure your blood glucose before meals, at bedtime, and 2 hours after eating according to your doctor or diabetes care team's instructions.</li>
+                            <li>Control your diet. It may be helpful if you take frequent but small meals e.g. breakfast, mid-morning snack, lunch, mid-afternoon snack, dinner, and bedtime snack.</li>
+                            <li>Inject your insulin as prescribed by your doctor.</li>
+                            <li>Exercise regularly e.g. swimming or walking.</li>
+                            <li>Learn to balance your meals, insulin and exercise.</li>
+                        </ul>
+                        <h3>After the Pregnancy</h3>
+                        <ul>
+                            <li>If you have type 1 diabetes, you will usually be able to return to the pre-pregnancy dosage very soon after delivery. The doctor will advise accordingly.</li>
+                            <li>If you have type 2 diabetes and intend to breastfeed your baby, you may have to continue to be on insulin. The doctor may change the treatment back to oral medication after you stop breastfeeding.</li>
+                            <li>If you have gestational diabetes, the doctor will advise on when and how to slowly stop your insulin should you no longer need it. You will need to be tested for glucose tolerance at 6 weeks after delivery. This will enable the doctors to confirm whether you have diabetes and give you appropriate advice.</li>
+                        </ul>
+                        <h3>Post-natal Visits</h3>
+                        <p>Do not miss postnatal visits to your doctor. It is important, as he will advise you on your type of diabetes and how to manage it well. He will also discuss your future family plans as well as caring of yourself and your child.</p>
+                        <h3>Breastfeeding</h3>
+                        <p>You should be able to breastfeed if you are not taking oral medication for control of diabetes. However, you need to be careful with the following:</p>
+                        <ul>
+                            <li>Cracked nipples and breast infections. Check with your doctor if you are not sure.</li>
+                            <li>Very low blood glucose (hypoglycaemia). There is a need to increase the carbohydrate content in your diet. Consult your dietitian for help. You could also time your meals and snacks about half to one hour before you breastfeed.</li>
+                            <li>Frequent high blood glucose (hyperglycaemia), due to poor control of diabetes, will result in high sugar content in the breast milk.</li>
+                        </ul>
+                        <h3>Your Baby</h3>
+                        <p>Your baby’s blood glucose level is affected by your blood glucose level before delivery. This does not mean that your baby will have diabetes in later life. The doctor will observe your baby, who may be placed in a special-care unit so that his breathing and blood glucose can be monitored carefully. The insulin injections given during pregnancy to control your diabetes does not affect the health of your baby.</p>
+
+                        <h1>Diabetes in Children</h1>
+                        <hr>
+                        <p>Most children and adolescents diagnosed with diabetes usually have type 1 or insulin dependent diabetes. They need insulin, dietary management and exercise to control their diabetes.</p>
+                        <h3>Parent's Role</h3>
+                        <p>If your child is diagnosed with diabetes, learn more about your child’s diabetes, and how to administer his/her insulin, how to plan his/her meals and exercise programmes. As your child grows, he/she must learn from you how to control his/her diabetes. In this way, your child will gradually assume responsibility in managing his/her diabetes.</p>
+                        <h3>Psychological and Social Issues</h3>
+                        <p>As your child goes to school, he/she interacts with other children and wants their approval and wants to fit in. Your child may consider diabetes a stigma. He/she may be unwilling to tell other children about it. A plan of treatment that interferes with school and friendships may be unwelcome. So you will have to consider these problems of psychological and social adjustment and help your child adopt a positive and healthy attitude towards his/her diabetes. Encourage early self-care in the sports and activities that he/she can carry out as well as the types of foods and drinks he/she can or cannot take.</p>
+                        <h3>Hypoglycaemia</h3>
+                        <p>When parents tighten the control of the level of glucose in the child’s blood, low blood glucose or hypoglycaemia becomes a real risk. Very active, young children are also prone to hypoglycaemia. It is important to make sure that there is good meal planning and regular monitoring. It is crucial that your child takes their meals on time and snack in between meals. Teach him/her to recognise the signs and symptoms of low blood glucose reaction and how to manage it.</p>
+                        <h3>School</h3>
+                        <p>The school should be told of your child’s diabetes. By understanding that your child has diabetes, special privileges may be allowed for your child to take meals and snacks on time, even during class. The school would also allow your child to go for appointments to the doctors as well as to use the restroom. A friendly schoolmate should also be taught how to recognise and treat low blood glucose reaction. As far as possible, allow your child to participate fully in all school and after school activities. Teach your child to have healthy and regular meals and stick to the medication schedule. If the activity your child participates in is hard and tiring he/she should take a small snack before starting on the activity.</p>
+                        <h3>Growing up</h3>
+                        <p>As your child enters adolescence, encourage him/her to assume more responsibility for his/her diabetes such as giving himself/herself insulin injections, making wise decisions on his/her diet as well as frequent monitoring of blood glucose levels. Your child must also know the possible complications resulting from an unhealthy lifestyle. Therefore, he/she must learn not to smoke, take drugs or alcohol, which could increase the risk of complications from the diabetes.</p>
+                        <br>
+                    </div>
+                    <div id="hypertension_understanding_content" class="container">
+                            <h1>Understanding Hypertension</h1>
+                            <hr>
+                            <p>Hypertension is a fairly common problem in Singapore. Slightly less than 1 in 4 Singapore residents aged 30 to 69 years have hypertension. The older you are, the more likely you are to have hypertension. In the 60 - 69 years age group, more than 1 in 2 persons have hypertension.<br><br>Hypertension or high blood pressure refers to the condition in which the blood is pumped around the body at too high a pressure.<br><br>Blood Pressure (BP) is described by two numbers, for example, if your BP is 120/80, the systolic BP is 120mmHg and the diastolic BP is 80mmHg.<br><br>You have hypertension if your systolic BP is 140mmHg or more, or your diastolic BP is 90mmHg or more, or both (mmHg is millimetres of mercury , a measure of pressure).</p>
+                            <h3>Causes and Risk Factors</h3>
+                            <p>In 95% of cases, the cause of hypertension is unknown. In 5% of cases, hypertension may be due to causes such as kidney disease, narrowing of certain blood vessels or hormonal imbalance. Certain risk factors increase the chance of developing hypertension. These include obesity and diabetes.</p>
+                            <h3>Signs and Symptoms</h3>
+                            <p>Hypertension is often called the silent killer . This is because, even when severe, it may not give rise to any symptoms.<br><br>Occasionally, you may have headaches or giddiness when the hypertension is severe. However, these symptoms are not specific to hypertension; they are also present in other diseases.<br><br>Sometimes, hypertension is only discovered when complications set in, for example, a stroke or heart attack.</p>
+                    </div>
+                    <div id="hypertension_treatment_content" class="container">
+                        <h1>Treatment for Hypertension</h1>
+                        <hr>
+                        <p>The randomised trials conducted to date have shown clear evidence of a lower incidence of major CVD events after high BP was treated with antihypertensive drugs. There is as yet no evidence that the main beneﬁt of treating hypertension is due to a particular drug properly rather than to lowering BP per se.<br><br>From the results of randomised controlled trials, it appears that each reduction of 10-14 mmHg in systolic BP and 5-6 mml-lg in diastolic BP confers about two-ﬁfths reduction in stroke, one-sixth reduction in coronary heart disease and. in Western populations. one-third reduction in major cardiovascular events.<br><br>There are no data which suggest that this effect of lowering BP is significantly different in Asian populations.<br><br>In patients with Grade 1 hypertension. monotherapy with most agents will produce reductions in systolic/diastolic BP of about 10/5 mmHg. In patients with higher grades of hypertension, it is possible to achieve sustained blood pressure reductions of 20110 mmHg or more, particularly if combination drug therapy is used.<br><br>The 1999 WHOIlSl-l guidelines’ estimates that the absolute effects of such blood pressure reductions on CVD risks (fatal plus nonfatal stroke or myocardial infarction) are shown in Table 7 below.</p>
+                        <h3>Effects of antihypertensive treatment</h3>
+                        <table class="kheehing">
+                            <tr>
+                                <th rowspan="2">Patient Group</th>
+                                <th rowspan="2">Absolute risk of CVD events over 10 years (%)</th>
+                                <th colspan="2">Absolute treatment effects(CVD events prevented per 1000 patient-years)</th>
+                            </tr>
+                            <tr>
+                                <th>10/5 mmHG</th>
+                                <th>20/10 mmHg</th>
+                            </tr>
+                            <tr>
+                                <td>Low risk patients</td>
+                                <td><15</td>
+                                <td><5</td>
+                                <td><9</td>
+                            </tr>
+                            <tr>
+                                <td>Medium risk patients</td>
+                                <td>15-20</td>
+                                <td>5-7</td>
+                                <td>8-11</td>
+                            </tr>
+                            <tr>
+                                <td>High risk patients</td>
+                                <td>20-30</td>
+                                <td>7-10</td>
+                                <td>11-17</td>
+                            </tr>
+                            <tr>
+                                <td>Very high risk patients</td>
+                                <td>>30</td>
+                                <td>>10</td>
+                                <td>>17</td>
+                            </tr>
+                        </table>
+                        <p>Between these strata. the estimated absolute treatment benefits will range from less than 5 events prevented per thousand patient-years of treatment (low risk) to more than 17 events prevented per thousand patient-years of treatment (very high risk).<br><br>The absolute benefits for stroke and coronary heart disease are greater than the absolute benefits for congestive heart failure andrenal disease.<br><br>These estimates of benefits are based on relative risk reductions observed in trials of about 5 years duration. Long-term treatment over decades could produce larger risk reductions.</p>
+                    </div>
+                    <div id="hypertension_medication_content" class="container">
+                            <h1>Medication</h1>
+                            <hr>
+                            <table class="kheehing">
+                                <tr>
+                                    <th> Drugs you were Given </th>
+                                    <th> How it works </th>
+                                    <th> How to take the medication </th>
+                                    <th> Common Side Effects </th>
+                                    <th> Precautions</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Diuretics</b>
+                                        <ul>
+                                            <li>Hydrochlorothiazide</li>
+                                            <li>Frusemide</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                            <p>Gets rid of excess water and salt from the body.</p>
+                                    </td>
+                                    <td>Can be taken with or without food.</td>
+                                    <td>
+                                        <ul>
+                                            <li>Increased frequency of urination, dizziness, loss of appetite.</li>
+                                            <li>Inform the doctor if you develop persistent and severe muscle cramps or weakness.</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>Rise slowly from a sitting or lying position to minimize dizziness.</li>
+                                            <li>If you need to take a 2nd dose, do so at least 6 hours before your bedtime.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Beta-blockers</b>
+                                        <ul>
+                                            <li>Atenolol</li>
+                                            <li>Propranolol</li>
+                                        </ul>
+                                    </td>
+                                    <td>Reduces heart rate and blood pressure to reduce strain on the heart.</td>
+                                    <td>Can be taken with or without food.</td>
+                                    <td>Fatigue, dizziness, numbness or tingling of fingers and toes</td>
+                                    <td>
+                                        <ul>
+                                            <li>Rise slowly from a sitting or lying position to minimize dizziness
+                                            <li>Avoid alcohol</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Calcium channel blockers</b>
+                                        <ul>
+                                            <li>Amlodipine</li>
+                                            <li>Nifedipine LA</li>
+                                        </ul>
+                                    </td>
+                                    <td>Keeps calcium from entering the muscle cells of the heart and blood vessels. This relaxes and widens the blood vessels.</td>
+                                    <td>Can be taken with or without food</td>
+                                    <td>Constipation, dizziness, swelling of legs, headache, flushing</td>
+                                    <td>
+                                        <ul>
+                                            <li>Rise slowly from a sitting or lying position to minimize dizziness</li>
+                                            <li>Avoid alcohol</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Alpha blockers</b>
+                                        <ul>
+                                            <li>Prazosin</li>
+                                        </ul>
+                                    </td>
+                                    <td>Relaxes and widens blood vessels</td>
+                                    <td>Can be taken with or without food</td>
+                                    <td>Drowsiness, headache, dizziness</td>
+                                    <td>
+                                        <ul>
+                                            <li>Take first dose at bedtime</li>
+                                            <li>Rise slowly from a sitting or lying position to minimize dizziness</li>
+                                            <li>Avoid alcohol</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p>It should be emphasized that the ultimate objective of treatment of hypertension is not to lower BP per se but to reduce overall morbidity and mortality risk, which is also influenced by other concomitant risk factors. The greater the risk profile, the more rigorous should the BP control be.<br><br>However, BP level attainable with treatment may also be influenced by medication side effects and other co-morbidities, such as cerebrovascular disease.</p>
+                    </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

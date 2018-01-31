@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates');
+
+.nb-profile {
+    border-radius: 50%;
+    background-color: white;
+    height: 20px;
+    width: auto;
+    padding: 2px;
+}
+
+.loginbg {
+    background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url('../images/loginbg.jpg');
+    height: 100%;
+    background-position: center;
+}
+
+.login-page {
+    width: 360px;
+    padding: 15% 0 0;
+    margin: auto;
+}
+
+.form {
+    position: relative;
+    background: #b8b8b8;
+    max-width: 360px;
+    margin: 0 auto 50px;
+    padding: 45px;
+}
+
+#username, #password {
+    margin: 0 auto 10px;
+    font-family: 'Montserrat Alternates', sans-serif;
+    color: black;
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+    background: transparent;
+}
+
+.login-form input[type='submit']
+{
+    border: none;
+    outline: none;
+    background: grey;
+    font-size: 15px;
+    width: 100%;
+    height: 30px;
+    font-family: 'Montserrat Alternates', sans-serif;
+    color: black;
+}
+
+.login-form input[type='submit']:hover {
+    opacity: 0.9;
+}
+
+.login-form p {
+    font-size: 15px;
+    line-height: 0;
+    font-family: 'Montserrat Alternates', sans-serif;
+}
+
+::-webkit-input-placeholder {
+    font-size: 15px;
+    text-align: center;
+    font-family: 'Montserrat Alternates', sans-serif;
+    color: black;
+    height: 40px;
+    
+    #schedule {
+        margin: 0 10px 10px 10px;
+        border: 2px #000 solid;
+        width: auto;
+        height: 575px;
+        background-color: #f3f3f3;
+    }
+}
+
+.scheduletable, th{
+    border-style: none;
+}
+
+.scheduletable, tr:nth-child(odd) {
+    background-color: transparent;
+    color: black;
+}
+
+.scheduletable, td:first-child {
+    font-size: 17px;
+}
+table.scheduletable {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.scheduletable td, th {
+    text-align: left;
+    padding: 8px;
+}

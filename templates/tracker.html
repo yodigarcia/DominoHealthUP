@@ -1,0 +1,158 @@
+{% include 'includes/_navbar.html' %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Domino Healthcare</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static' ,filename ='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static' ,filename ='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static' ,filename ='css/clean-blog.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{url_for('static', filename= 'css/style.css')}}" rel="stylesheet" type = "text/css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCqk7saUxrniqmu914PiyznojPxVLnikc4",
+            authDomain: "dominohealth.firebaseapp.com",
+            databaseURL: "https://dominohealth.firebaseio.com",
+            storageBucket: "dominohealth.appspot.com"
+        };
+        firebase.initializeApp(config);
+    </script>
+</head>
+
+<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:8%">
+          <h4 class="w3-bar-item">Menu</h4>
+            <a href="/select" class="w3-bar-item w3-button">Options</a>
+          <a href="/tracker" class="w3-bar-item w3-button">Day 1</a>
+          <a href="/tracker2" class="w3-bar-item w3-button">Day 2</a>
+          <a href="/tracker3" class="w3-bar-item w3-button">Day 3</a>
+
+        </div>
+
+{% block body %}
+<!-- Page Header -->
+    <header class="masthead" style="background-image: url('../static/images/home-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Self Tracking System</h1>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+
+
+
+
+<div class="container">
+
+    {% from "includes/_formhelper.html" import render_field %}
+        <form method="POST">
+            <h2>Water Level Day 1</h2>
+            <br>
+            <div class="form-row">
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.water , id="water" , placeholder="Enter water drank in ML in Morning (8am - 12pm )",class="form-control")}}
+            </div>
+                <br>
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.water2, id="water2", placeholder="Enter water drank in ML in Afternoon (12pm - 5pm)", class="form-control")}}
+                </div>
+
+                </div>
+                <br>
+            <div class="form-row">
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.water3, id="water3", placeholder="Enter water drank in ML at Night (5pm onwards)",class="form-control")}}
+                </div>
+                <br>
+
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.note1, id="note1", placeholder="Any other drinks taken" ,class="form-control")}}
+            </div>
+                    </div>
+            <br>
+
+
+            <br>
+
+            <h2>Pain Level Day 1</h2>
+            <br>
+
+            <div class="form-row">
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.pain1 , id="pain1" , placeholder="Enter pain level (1-10) during Morning (8am - 12pm) ",class="form-control")}}
+            </div>
+                <br>
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.pain2, id="pain2", placeholder="Enter pain level (1-10) during afternoon (12pm - 5pm)", class="form-control")}}
+                </div>
+
+                </div>
+                <br>
+            <div class="form-row">
+
+            <div class="form-group col-md-5">
+            {{ render_field(form.pain3, id="pain3", placeholder="Enter pain level (1-10) during night (5pm onwards)",class="form-control")}}
+                </div>
+                <br>
+            </div>
+
+
+
+            <h2>General Enquries</h2>
+            <br>
+                    <div class="form-row">
+
+
+            <div class="form-group col-md-10">
+            {{ render_field(form.note2, id="note2", placeholder="Enter any questions " ,class="form-control")}}
+            </div>
+             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            <input class="btn" type="submit" value="Submit" formaction="/tracker">
+        </form>
+</div>
+
+
+
+
+{% endblock body %}

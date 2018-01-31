@@ -1,0 +1,191 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from "includes/_formhelperv2.html" import render_field %}
+    <header class="masthead" style="background-image: url('../static/images/home-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Feeling Hungry?</h1>
+                <h3>Our nutritious meals & snacks will fill you up! </h3> <h5>(Do take note that our portions are smaller than usual)</h5> <br>
+                <h6>Food is STRICTLY for Patients only</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCqk7saUxrniqmu914PiyznojPxVLnikc4",
+                authDomain: "dominohealth.firebaseapp.com",
+                databaseURL: "https://dominohealth.firebaseio.com",
+                storageBucket: "dominohealth.appspot.com"
+            };
+            firebase.initializeApp(config);
+        </script>
+
+    </header>
+
+    <div id="wrapper">
+        {% include 'includes/sidebar.html' %}
+    </div>
+
+    <body>
+
+    <div class="container">
+        <form method="post" action="/fud">
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/1.jpg">
+                    </div>
+                    <h5 class="food_title">Steamed Rice</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/2.jpg">
+                    </div>
+                    <h5 class="food_title2">Vegetable Porridge</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order2, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/3.jpg">
+                    </div>
+                    <h5 class="food_title3">Mixed Rice(Beef)</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order3, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/4.jpg">
+                    </div>
+                    <h5 class="food_title3">Vegetable Fusilli</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order4, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/5.jpg">
+                    </div>
+                    <h5 class="food_title2">Mixed Fruit Yogurt</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order5, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/6.jpg">
+                    </div>
+                    <h5 class="food_title3"> Mushroom Soup</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order6, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/7.jpg">
+                    </div>
+                    <h5 class="food_title">Yogurt Special</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order7, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/8.jpg">
+                    </div>
+                    <h5 class="food_title3">Steamed Salmon</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order8, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/9.jpg">
+                    </div>
+                    <h5 class="food_title">Salad & Eggs</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order9, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/10.jpg">
+                    </div>
+                    <h5 class="food_title">Breakfast Set</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order10, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/11.jpg">
+                    </div>
+                    <h5 class="food_title2">Vegetables & Rice</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order11, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+
+            <div class="box-pos">
+                <div class="ins-box">
+                    <div class="inn-box food-item">
+                        <img src="../static/images/12.jpg">
+                    </div>
+                    <h5 class="food_title2">Breakfast Omelette</h5>
+                        <div class="row">
+                            {{ render_field(form.my_food_order12, class="form-control col-sm-9 Food_order" )}}
+                        </div>
+                </div>
+            </div>
+            <br><br>
+
+            <input type="submit" value="Order" class="form-control Food_quantity" formaction="/fud">
+        </form>
+    </div>
+    </body>
+
+
+{% endblock %}

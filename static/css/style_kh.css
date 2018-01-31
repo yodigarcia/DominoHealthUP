@@ -1,0 +1,157 @@
+.nb-profile{
+    background-color: snow;
+    border-radius: 50%;
+    height: 20px;
+    padding: 1px;
+}
+
+.stickleft{
+	position: inherit;
+	left:0;
+	width:0;
+	margin-top: inherit;
+}
+
+.button{
+	z-index: 1000;
+	position: fixed;
+	color: white;
+    padding:10px;
+    font-size: 20px;
+	overflow-y: auto;
+    margin:-130px 0 0 -69px;
+    background-color: black;
+    text-transform: uppercase;
+    border-radius: 0 0 15px 15px;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+	display: inline-block;
+}
+
+.button:hover, .button:focus{
+	color:white;
+	text-decoration: none;
+}
+
+.big-boxy{
+	background-color: #E8235E;
+	padding: 5px 25px 10px 25px;
+}
+.bix-boxy-head{
+	background-color: #00C6F0;
+	width: 100%;
+	height: 100%;
+}
+
+table.kheehing {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.kheehing td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.kheehing tr:nth-child(odd) {
+    background-color: #00457A;
+    color:white;
+}
+
+button {
+    position:relative;
+}
+.closebox {
+    position:absolute;
+    top:-30px;
+    right:0;
+    left:0;
+    font-size:5em;
+}
+
+.rotate-90{
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+    /* IE */
+    -ms-transform: rotate(-90deg);
+    /* Opera */
+    -o-transform: rotate(-90deg);
+}
+
+
+.tablenav{
+    background-color: #00457A;
+    color: white;
+    padding: 10px 30px 10px 30px;
+}
+.tablenav li a {
+    color:white;
+    padding: 0 10px 0 10px;
+}
+.tablenav li a:hover{
+    color:snow;
+    text-decoration:none;
+    background-color:#077991;
+    padding: 12px 20px 13px 20px;
+}
+.khbutton{
+    background-color: transparent;
+    color: white;
+    border-width: 0;
+    padding: 0;
+    cursor: pointer;
+    outline: none !important;
+    font-family: 'Open Sans', sans-serif;
+}
+.khbuttona{
+    color: white;
+    position: absolute;
+    border-width: 0;
+    background-color:#077991;
+    padding: 15px 25px;
+    margin-top: -50%;
+    cursor: pointer;
+    outline: none !important;
+    font-family: 'Open Sans', sans-serif;
+}
+.btnb{
+    background-color: #00457A;
+    color:white;
+    padding: 15px 25px;
+    cursor: pointer;
+    display: inline-block;
+    outline: none !important;
+    border-width: 0;
+    margin:0 5px 0 5px;
+    font-family: 'Open Sans', sans-serif;
+}
+.btnb:hover{
+    background-color: #077991;
+    color:white;
+    padding: 15px 25px;
+    cursor: pointer;
+    display: inline-block;
+    outline: none !important;
+    border-width: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+#diabetes_understanding_content{display:none;}#diabetes_treatment_content{display:none;}#diabetes_medication_content{display:none;}#diabetes_exercise_content{display:none;}#diabetes_dental_content{display:none;}#diabetes_sexual_content{display:none;}#diabetes_pregnancy_content {display:none;}#hypertension_understanding_content{display:none;}#hypertension_medication_content{display:none;}#hypertension_treatment_content{display:none;}#diabetes_navbar{display:none;}#hypertension_navbar{display:none;}#CIP_blood{display:none;}  #CIP_glucose{display:none;}
+#CIP_weight{display:none;}
+.font_OS{
+    font-family: 'Open Sans', sans-serif;
+}
+#tis_status_li{
+    margin-left: -40px;
+}
+#tis_status_li li{
+    list-style-type: none;
+    display: inline-block;
+    padding: 0 10px 10px 10px;
+}
+#tis_nric{
+    margin-top: -40px;
+    margin-bottom: -10px;
+}

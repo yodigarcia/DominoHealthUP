@@ -1,0 +1,181 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('DominoHealth-master/static/images/home-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Diabetes</h1>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="row">
+<div id="diabetes"> </div>
+       <br><br><br><br><br><br><br>
+<div class=" container" >
+            <div class="col-md-12">
+                <h3>Diabetes</h3>
+                <p>Diabetes mellitus (DM), commonly referred to as diabetes, is a group of metabolic disorders in which there are high blood sugar levels over a prolonged period. Symptoms of high blood sugar include frequent urination, increased thirst, and increased hunger. If left untreated, diabetes can cause many complications.</p>
+             </div>
+
+            <div class="col-md-8" style="margin-bottom: 5%;">
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingOne">
+                      <h5 class="mb-0">
+                        <a id="sec1" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+
+                        </a>
+                      </h5>
+                    </div>
+
+
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                      <h5 class="mb-0">
+                        <a id="sec2" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          General Information <!-- Requirements based on majors and experience -->
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                      <div class="card-block">
+
+                        <p>Diabetes is a disease in which the body is unable to properly use and store glucose (a form of sugar). Glucose backs up in the bloodstream — causing one’s blood glucose (sometimes referred to as blood sugar) to rise too high.</p>
+
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-header" role="tab" id="headingThree">
+                      <h5 class="mb-0">
+                        <a id="sec3" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                          Symptoms
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                      <div class="card-block">
+                          Being very thirsty
+                            frequent urination,
+                            weight loss,
+                            increased hunger,
+                            blurry vision,
+                            irritability,
+                            tingling or numbness in the hands or feet,
+                            frequent skin, bladder or gum infections,
+                            wounds that don't heal,
+                            extreme unexplained fatigue.
+                          <div id="chart_div"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+
+			  <div class="card">
+                    <div class="card-header" role="tab" id="headingFour">
+                      <h5 class="mb-0">
+                        <a id="sec3" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                          Is surgery required for my instance?
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                      <div class="card-block">
+                          No surgery is required for diabetes
+                          <div id="chart_div"></div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+			<div class="card">
+                    <div class="card-header" role="tab" id="headingSeven">
+                      <h5 class="mb-0">
+                        <a id="sec3" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                          Can I watch some videos regarding my diseases ?
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseSeven" class="collapse" role="tabpanel" aria-labelledby="headingSeven">
+                      <div class="card-block">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/X9ivR4y03DE" frameborder="0" gesture="media" allowfullscreen></iframe>
+                          <div id="chart_div"></div>
+                      </div>
+                    </div>
+                  </div>
+
+
+			 <div class="card">
+                    <div class="card-header" role="tab" id="headingEight">
+                      <h5 class="mb-0">
+                        <a id="sec3" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                          What are the different type of diabetes?
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseEight" class="collapse" role="tabpanel" aria-labelledby="headingEight">
+                      <div class="card-block">
+                          There are type 1 diabetes and type 2 diabetes .Type 1 diabetes is an autoimmune disease, meaning that the body’s immune system mistakes its own cells for invading pathogens that need to be destroyed.
+                         <br><br> Type 2 diabetes (formerly called adult-onset or non-insulin-dependent diabetes) can develop at any age. It most commonly becomes apparent during adulthood
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+			<div class="card">
+                    <div class="card-header" role="tab" id="headingFive">
+                      <h5 class="mb-0">
+                        <a id="sec3" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" >
+                          How long do I need to stay in the hospital ?
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive">
+                      <div class="card-block">
+                           Generally , you do not need to stay in the hospital                   </div>
+                    </div>
+                  </div>
+
+			<div class="card">
+                    <div class="card-header" role="tab" id="headingSix">
+                      <h5 class="mb-0">
+                        <a id="sec3" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                          Will there be any long term consequences ?
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseSix" class="collapse" role="tabpanel" aria-labelledby="headingSix">
+                      <div class="card-block">
+                        You would have to be on long term medication for type 2 diabetes.
+                      </div>
+                    </div>
+                  </div>
+
+
+
+  </div>
+
+{% endblock body %}

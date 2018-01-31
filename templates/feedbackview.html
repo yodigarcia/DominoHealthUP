@@ -1,0 +1,255 @@
+{% include 'includes/_navbar.html' %}
+{% extends "layout.html" %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Domino Healthcare</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static' ,filename ='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static' ,filename ='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static' ,filename ='css/clean-blog.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{url_for('static', filename= 'css/style.css')}}" rel="stylesheet" type = "text/css">
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCqk7saUxrniqmu914PiyznojPxVLnikc4",
+            authDomain: "dominohealth.firebaseapp.com",
+            databaseURL: "https://dominohealth.firebaseio.com",
+            storageBucket: "dominohealth.appspot.com"
+        };
+        firebase.initializeApp(config);
+    </script>
+</head>
+
+
+
+
+
+
+
+
+{% block body %}
+<!-- Page Header -->
+    <header class="masthead" style="background-image: url('../static/images/home-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>View Patient Feedback</h1>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+
+{#<style>#}
+{#/*#}
+{#Generic Styling, for Desktops/Laptops#}
+{#*/#}
+{#.table-vertical {#}
+{#  width: 100%;#}
+{#  height:auto;#}
+{#  border-collapse: collapse;#}
+{#}#}
+{#/* Zebra striping */#}
+{#.table-vertical>tbody>tr:nth-of-type(odd) {#}
+{#  background: #f9f9f9;#}
+{#}#}
+{#.table-vertical>thead>tr>th {#}
+{#  background: #fff;#}
+{#  color: #000;#}
+{#  font-weight: bold;#}
+{#}#}
+{#.table-vertical>tbody>tr>td, .table-vertical>thead>tr>th {#}
+{#  padding: 6px;#}
+{#  border-top: 1px solid #ddd;#}
+{#  text-align: left;#}
+{#  vertical-align: middle;#}
+{#}#}
+{##}
+{##}
+{#/*#}
+{#Max width before this PARTICULAR table gets nasty#}
+{#This query will take effect for any screen smaller than 760px#}
+{#and also iPads specifically.#}
+{#*/#}
+{#@media#}
+{#only screen and (max-width: 760px),#}
+{#(min-device-width: 768px) and (max-device-width: 1024px)  {#}
+{##}
+{#	/* Force table to not be like tables anymore */#}
+{#	table, thead, tbody, th, td, tr {#}
+{#		display: block;#}
+{#	}#}
+{##}
+{#	/* Hide table headers (but not display: none;, for accessibility) */#}
+{#	.table-vertical thead tr {#}
+{#		position: absolute;#}
+{#		top: -9999px;#}
+{#		left: -9999px;#}
+{#	}#}
+{##}
+{#	.table-vertical>thead>tr,  .table-vertical>tbody>tr{ border: 1px solid #ccc; }#}
+{##}
+{##}
+{#	.table-vertical>thead>tr>td,  .table-vertical>tbody>tr>td{#}
+{#		/* Behave  like a "row" */#}
+{#		border: none;#}
+{#		border-bottom: 1px solid #eee;#}
+{#		position: relative;#}
+{#		padding-left: 50%;#}
+{#	}#}
+{##}
+{#	.table-vertical>tbody>tr>td:before {#}
+{#		/* Now like a table header */#}
+{#		position: absolute;#}
+{#		/* Top/left values mimic padding */#}
+{#		top: 6px;#}
+{#		left: 6px;#}
+{#		width: 45%;#}
+{#		padding-right: 10px;#}
+{#		white-space: nowrap;#}
+{#	}#}
+{##}
+{#	/*#}
+{#	Label the data#}
+{#	*/#}
+{#	.table-vertical>tbody>tr>td:before { content: attr(data-th); }#}
+{#}#}
+{#</style>#}
+
+
+
+
+
+<div id="wrapper">
+   {% include 'includes/sidebar.html' %}
+  </div>
+
+
+
+
+<div class="container">
+
+<table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Improvements</th>
+            <th>Quality Of Service</th>
+            <th>Experience</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+            {% for Feedback1 in feedback %}
+    <tr>
+    <td>{{ Feedback1.get_feed2() }}</td>
+    <td>{{ Feedback1.get_name1() }}
+    <td>{{ Feedback1.get_feed1() }}
+    <td>{{ Feedback1.get_feed3() }}
+    </tr>
+        </tbody>
+{% endfor %}
+</table>
+
+
+
+
+
+{#</div>#}
+{##}
+{#<div id="View" class="tabcontent">#}
+{#  <div class="container">#}
+{#	<div class="row">#}
+{##}
+{##}
+{##}
+{#		<h2>Feedback Given</h2>#}
+{##}
+{##}
+{#        <table class="table-vertical">#}
+{#        	<thead>#}
+{#        	<tr>#}
+{#        		<th>Patient Name</th>#}
+{#        		<th>Improvement To Be Made</th>#}
+{#        		<th>Service Rating</th>#}
+{#        		<th>Experience</th>#}
+{##}
+{##}
+{##}
+{##}
+{#        	</tr>#}
+{#        	</thead>#}
+{#        	<tbody>#}
+{#        	<tr>#}
+{#        		<td data-th="Title1">Thomas</td>#}
+{#        		<td data-th="Title2">Better food</td>#}
+{#                    <td data-th="Title3">0</td>#}
+{#        		<td data-th="Title4">Do not wanna come back again</td>#}
+{##}
+{##}
+{##}
+{##}
+{#        	</tr>#}
+{#        	<tr>#}
+{#                <td data-th="Title1">Eric</td>#}
+{#        		<td data-th="Title2">The bed not comfy</td>#}
+{#        		<td data-th="Title3">5</td>#}
+{#        		<td data-th="Title4">Alright stay i guess</td>#}
+{##}
+{##}
+{##}
+{#        	</tr>#}
+{#        	<tr>#}
+{#                <td data-th="Title1">James</td>#}
+{#        		<td data-th="Title2">Get me out of here</td>#}
+{#        		<td data-th="Title3">3</td>#}
+{#        		<td data-th="Title4">This place is horrendous</td>#}
+{##}
+{##}
+{##}
+{##}
+{#        	</tr>#}
+{#        	<tr>#}
+{#                <td data-th="Title1">Xiao Ming</td>#}
+{#        		<td data-th="Title2">I Dk wad to write </td>#}
+{#        		<td data-th="Title3">10</td>#}
+{#        		<td data-th="Title4">Amazing place</td>#}
+{##}
+{##}
+{##}
+{#        	</tr>#}
+{#        	</tbody>#}
+{#        </table>#}
+{##}
+{#    <input class="btn" type="submit" value="Update">#}
+{#	</div>#}
+{#</div>#}
+{#</div>#}
+
+
+
+
+{% endblock body %}
+

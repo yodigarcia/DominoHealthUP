@@ -1,0 +1,97 @@
+{% include 'includes/_navbar.html' %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Domino Healthcare</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static' ,filename ='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static' ,filename ='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static' ,filename ='css/clean-blog.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{url_for('static', filename= 'css/style.css')}}" rel="stylesheet" type = "text/css">
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCqk7saUxrniqmu914PiyznojPxVLnikc4",
+            authDomain: "dominohealth.firebaseapp.com",
+            databaseURL: "https://dominohealth.firebaseio.com",
+            storageBucket: "dominohealth.appspot.com"
+        };
+        firebase.initializeApp(config);
+    </script>
+</head>
+
+
+
+
+
+
+
+
+{% block body %}
+<!-- Page Header -->
+    <header class="masthead" style="background-image: url('../static/images/home-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Feedback</h1>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+
+{% from "includes/_formhelper.html" import render_field %}
+
+        <form method="POST" >
+
+            <h2>Feedback form</h2>
+            <div class="form-row">
+
+        <div class="form-group col-md-10">
+            <p>Patient Name:</p>
+            {{ render_field(form.name1, id="name1", placeholder="Enter Patient Name" ,class="form-control")}}
+        </div>
+            <br>
+
+        <div class="form-group col-md-10">
+            <p>Improvements to be made:</p>
+            {{ render_field(form.feed1, id="feed1", placeholder="State your suggestions" ,class="form-control")}}
+        </div>
+            <br>
+            <div class="form-group col-md-10">
+                <p>Service quality :</p>
+            {{ render_field(form.feed2, id="feed2", placeholder="How do you find the staff here",class="form-control")}}
+            </div>
+            <br><br><br><br><br><br><br><br><br>
+
+
+        <div class="form-group col-md-10">
+
+            {{ render_field(form.feed3, id="feed3", placeholder="Was your stay here pleasant?" ,class="form-control")}}
+        </div>
+            <br>
+        </div>
+            <input class="btn" type="submit" value="Submit" formaction="/feedbackpage">
+
+        </form>
+
+{% endblock body %}

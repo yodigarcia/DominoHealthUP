@@ -1,0 +1,79 @@
+
+
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+<!-- Page Header -->
+    <header class="masthead" style="background-image: url('../static/images/home-bg.jpg')">
+
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Self Tracking System</h1>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <style>
+    .img1 img{
+    width: 472px;
+    height: 300px;
+
+
+}    </style>
+
+  <div id="wrapper">
+   {% include 'includes/sidebar.html' %}
+<div class="img1">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="/trackerlong"><img src="/static/images/tracker.png" style="width: 100%"></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="/trackerlong">Input Your Intakes (Short Term)</a>
+              </h4>
+              <p class="card-text">Input your water intake over the week as well as feedback the amount of pain you are in here!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="/selfprofile"><img src="/static/images/view.jpeg" alt="" style="width: 100%"></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="/selfprofile">View your own status</a>
+              </h4>
+              <p class="card-text">View your intake for water and pain levels statistics here !.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+        <br>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="/feedbackpage"><img src="/static/images/feedback.png" alt="" style="width: 100%"></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="/feedbackpage  ">Feedback</a>
+              </h4>
+              <p class="card-text">Have some feedback for our services ? Feedback it here right now !</p>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+{% endblock body %}

@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% include 'includes/_navbar.html' %}
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Domino Healthcare</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static' ,filename ='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static' ,filename ='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static' ,filename ='css/clean-blog.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{url_for('static', filename= 'css/style.css')}}" rel="stylesheet" type = "text/css">
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCqk7saUxrniqmu914PiyznojPxVLnikc4",
+            authDomain: "dominohealth.firebaseapp.com",
+            databaseURL: "https://dominohealth.firebaseio.com",
+            storageBucket: "dominohealth.appspot.com"
+        };
+        firebase.initializeApp(config);
+    </script>
+</head>
+
+{% block body %}
+<!-- Page Header -->
+    <header class="masthead" style="background-image: url('../static/images/home-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Your own status</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+  <div id="wrapper">
+   {% include 'includes/sidebar.html' %}
+  </div>
+
+<div class="container">
+
+<table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Morning</th>
+            <th>Noon</th>
+            <th>Night</th>
+            <th>Remove</th>
+            <th>Update</th>
+<<<<<<< HEAD
+
+
+=======
+            <th>Comment</th>
+>>>>>>> bbaab0508b575807828a8869545a1f209c9e9514
+        </tr>
+        </thead>
+        <tbody>
+            {% for Water4 in water4 %}
+    <tr>
+        <td>{{ Water4.get_name4() }}</td>
+        <td>{{ Water4.get_water41() }}</td>
+        <td>{{ Water4.get_water44() }} ML</td>
+        <td>{{ Water4.get_water42() }} ML</td>
+        <td>{{ Water4.get_water43() }} ML</td>
+        <td><form action="{{url_for('delete_publication', id=Water4.get_pubid())}}" method="post">
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"></form></td>
+        <td><a href="/updatelong/{{Water4.get_pubid()}}" class="btn btn-warning">Update</a></td>
+    </tr>
+          {% endfor %}
+        </tbody>
+</table>
+<table class="table table-bordered" style=" float:right; ">
+    <thead>
+        <tr>
+            <th>Doctors Comment</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+    <tr>
+        {% for DocNote in comment %}
+        <td>{{ DocNote.get_comment1()}}</td>
+            <td>{{ DocNote.get_commentdate() }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock body %}

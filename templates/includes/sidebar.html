@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="/home"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Domino_pizza_logo.svg/1200px-Domino_pizza_logo.svg.png" height=20px><b> Domino Healthcare</b></a>
+                    </li>
+                    <br>
+                    <li>
+                       <a href="/"><small>{{ Staff_or_Patient }}</small></a>
+                    </li><!-- show that which type of account is activated -->
+                    <li>
+                        <a href="/profile"><strong>Profile</strong></a>
+                    </li><!-- name of login user -->
+                    <li>
+                        <a href="/select">Self-Tracker Patient</a>
+                    </li><!-- staff:edit | patient:see -->
+                    {% if session.usertype == 'Doctor' %}
+                    <li>
+                    <a href="/doctorselect">Doctor Select</a>
+                    </li><!-- staff:edit | patient:see -->
+                    {% endif %}
+                    <li>
+                        <a href="/events">Events</a>
+                    </li><!-- staff:edit | patient:see -->
+                    <li>
+                        <a href="/Food_Health">About Food Intake</a>
+                    </li><!-- staff:see | patient:edit -->
+                    <li>
+                        <a href="/menu"> Menu </a>
+                    </li><!-- staff:see | patient:edit -->
+                    <li>
+                        <a href="/fud"> Order Food </a>
+                    </li><!-- staff:see | patient:edit -->
+                    <li>
+                        <a href="/food_info"> Info on Intake </a>
+                    </li><!-- staff:see | patient:edit -->
+                    <li>
+                        <a href="/chronic_illness">Chronic illiness</a>
+                    </li><!-- staff:see | patient:edit -->
+                    
+                    <li>
+                        <a href="/after_discharge">Outpatient</a>
+                    </li><!-- staff:see | patient:edit -->
+                </ul>
+            </div>
+            <!-- sidebar -->
+            <div class="stickleft">
+					<a href="#menu-toggle" class="button rotate-90" id="menu-toggle">More Services</a>
+            </div>
+</html>
+

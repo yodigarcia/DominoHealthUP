@@ -17,7 +17,6 @@ from Calories_Graph import Calories
 from feedback import Feedback1
 import firebase_admin
 from firebase_admin import credentials, db
-import json
 
 
 #<!--- yodi --->
@@ -28,26 +27,29 @@ import json
 # default_app = firebase_admin.initialize_app(cred, {
 #    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
-
 #<!--- kiahzuo desktop --->
 #cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 #default_app = firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
-
 #<!--- kheehing desktop --->
 # cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # <!--- kheehing laptop --->
-# cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-#<!--- kheehing school desktop --->
+cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# <!--- kheehing school desktop --->
 # cred = credentials.Certificate(r"C:\Users\171723R\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://dominohealth.firebaseio.com'})
+default_app = firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
-# cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealth\cred\dominohea lth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # default_app = firebase_admin.initialize_app(cred, {
-#       'databaseURL': 'https://dominohealth.firebaseio.com'})
+#      'databaseURL': 'https://dominohealth.firebaseio.com'})
+
+# Gareth laptop
+# cred = credentials.Certificate(r"C:\Users\garet\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# default_app = firebase_admin.initialize_app(cred, {
+#      'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 app = Flask(__name__)
@@ -57,9 +59,11 @@ root = db.reference()
 class Fooder(Form):
     quantity = StringField("")
 
+
 class Caloriess(Form):
     time = StringField("")
     calories = StringField("")
+
 
 class Waterer4(Form):
     water41 = SelectField(u'Morning',
@@ -73,7 +77,6 @@ class Waterer4(Form):
                                    ('900', '3/4 Jug ( 900ML) '), ('1200', '1 Jug(1200ML)')])
     water44 = StringField("Date of Intake")
     name4=StringField("Name")
-
 
 
 class DocComment(Form):
@@ -250,6 +253,13 @@ class Fud_Select(Form):
     my_food_order12 = SelectField(u'Breakfast Omelette',
                                   choices=[('-', '-'), ('1 Omelette', '1 Serving (~140 cal)'), ('2 Omelette', '2 Servings (~280 cal)'),
                                            ('3 Omelette', '3 Servings (~400 cal)')])
+
+
+class eventForms(Form):
+    event_title = StringField('', validators=[validators.DataRequired])
+    event_location = StringField('', validators=[validators.DataRequired])
+    event_date = DateField('',)
+
 
 @app.context_processor
 def utility_processor():
@@ -759,13 +769,15 @@ def layout():
 
 
 class Aft_dis(Form):
-    nric = StringField("")
-    status = RadioField("",choices=[(0,'0%'),(10,'10%'),(20,'20%'),(30,'30%'),(40,'40%'),(50,'50%'),(60,'60%'),(70,'70%'),(80,'80%'),(90,'90%'),(100,'100%')])
-    eye_problem = TextAreaField("Are you experiencing any problems?<small>&nbsp;if yes please state</small>")
+    nric = StringField("", validators=[validators.DataRequired])
+    status = RadioField("",choices=[(33,'0% - 33%'),(66,'34% - 66'),(99,'67% - 99%')],validators=[validators.DataRequired])
+    eye_problem = BooleanField('eye')
+    # copy paste more stuff
     medication = TextAreaField("Do you have any problems with your medication?<small>&nbsp;if yes please state</small>")
     others = TextAreaField("Do you have any other enquires ?")
 
-@app.route('/after_discharge', methods=["GET", "POST"])
+
+@app.route('/after_discharge', methods=["GET","POST"])
 def after_discharge_():
     form = Aft_dis(request.form)
     if request.method == "POST":
@@ -773,21 +785,23 @@ def after_discharge_():
         status = form.status.data
         eye_problem = form.eye_problem.data
         medication = form.medication.data
-        others = form.others.data  
+        others = form.others.data 
+ 
+
         currentuser = root.child('loggedin').get()
-        info = Information(nric,status,problem,medication,others)
+        info = Information(nric,status,eye_problem,medication,others)
         info_db = root.child(currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser'][1:]).child("outpatient")
         if nric != None:
             info_db.push({
                 'nric': info.get_informationzero(),
                 'status': info.get_informationone(),
-                'problem': info.get_informationtwo(),
+                'eye_problem': info.get_informationtwo(),
                 'medication': info.get_informationthree(),
                 'others': info.get_informationfour(),
             })
         return redirect(url_for('after_discharge_'))
 
-    return render_template('after_discharge.html', form = form)
+    return render_template('after_discharge.html', form = form)   
 
 
 class BloodA(Form):
@@ -815,13 +829,13 @@ def chronic_illness_():
         bp_db = root.child('Diabetes_bp')
         bg_db = root.child('Diabetes_bg')
         weight_db = root.child('Diabetes_weight')
-        if blood_pressure != None:
+        if blood_pressure:
             bp_db.push({
                 'month': bp.get_month(),
                 'day': bp.get_day(),
                 'blood pressure': bp.get_blood_pressure(),
             })
-        elif blood_glucose != None:
+        elif blood_glucose:
             bg_db.push({
                 'month': bg.get_month(),
                 'day': bg.get_day(),
@@ -846,7 +860,7 @@ def chronic_illness_():
         for data in bp:
             i = bp[data]
             if 'blood pressure' in i:
-                if i['blood pressure'] != None:
+                if i['blood pressure']:
                     db_data = BloodPressure(i['month'], i['day'], i['blood pressure'])
                     db_data.set_data(data)
                     # print(db_data.get_data())
@@ -923,37 +937,13 @@ def fud():
     form = Fud_Select(request.form)
     if request.method == "POST":
         food_quantity = form.my_food_order.data
-        food_quantity2 = form.my_food_order2.data
-        food_quantity3 = form.my_food_order3.data
-        food_quantity4 = form.my_food_order4.data
-        food_quantity5 = form.my_food_order5.data
-        food_quantity6 = form.my_food_order6.data
-        food_quantity7 = form.my_food_order7.data
-        food_quantity8 = form.my_food_order8.data
-        food_quantity9 = form.my_food_order9.data
-        food_quantity10 = form.my_food_order10.data
-        food_quantity11 = form.my_food_order11.data
-        food_quantity12 = form.my_food_order12.data
 
-        food_q = Food_Select(food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
-                             food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12)
+        food_q = Food_Select(food_quantity)
 
-        food_q_db = root.child('food_quantity')
-        food_q_db.push({
-            "food_queue": food_q.get_food_quantity(),
-            "food_queue2": food_q.get_food_quantity2(),
-            "food_queue3": food_q.get_food_quantity3(),
-            "food_queue4": food_q.get_food_quantity4(),
-            "food_queue5": food_q.get_food_quantity5(),
-            "food_queue6": food_q.get_food_quantity6(),
-            "food_queue7": food_q.get_food_quantity7(),
-            "food_queue8": food_q.get_food_quantity8(),
-            "food_queue9": food_q.get_food_quantity9(),
-            "food_queue10": food_q.get_food_quantity10(),
-            "food_queue11": food_q.get_food_quantity11(),
-            "food_queue12": food_q.get_food_quantity12(),
+        food_select_db = root.child('food_quantity')
+        food_select_db.push({
+            "food_q": food_quantity.get_food_quantity()
         })
-
     return render_template('Fud.html', form=form)
 
 @app.route('/food_info')
@@ -969,3 +959,5 @@ def events_page():
 if __name__ == '__main__':
     app.secret_key = 'secret123'
     app.run(debug=True)
+
+

@@ -17,14 +17,14 @@
 
 
     <div id="wrapper">
-      {% if session.logged_in == True %}
+
         {% include 'includes/sidebar.html' %}
-      {% endif %}
+
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
 				<div class=container>
-                    <form method="POST" action="/register">
+                    <form method="POST" action="/profile">
                       <div class="form-row">
                         <div class="form-group col-md-6">
                           {{ render_field(form.firstname, class='form-control', id='inputFirstname', placeholder='Firstname')}}

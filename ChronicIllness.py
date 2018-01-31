@@ -59,3 +59,35 @@ class Weight(Date):
     def set_weight(self, weight):
         self.__weight = weight
 
+class Information():
+    def __init__(self, zero, one, two, three, four):
+        self.__informationzero = zero
+        self.__informationone = one
+        self.__informationtwo = two
+        self.__informationthree = three
+        self.__informationfour = four
+        
+    def get_informationzero(self):
+        return self.__informationzero
+    def set_informationzero(self,informationzero):
+        self.__informationzero = informationzero
+        
+    def get_informationone(self):
+        return self.__informationone
+    def set_information1(self,informationone):
+        self.__informationone = informationone
+        
+    def get_informationtwo(self):
+        return self.__informationtwo
+    def set_informationtwo(self,informationtwo):
+        self.__informationtwo = informationtwo
+        
+    def get_informationthree(self):
+        return self.__informationthree
+    def set_informationthree(self,informationthree):
+        self.__informationthree = informationthree
+        
+    def get_informationfour(self):
+        return self.__informationfour
+    def set_informationfour(self,informationfour):
+        self.__informationfour = informationfour

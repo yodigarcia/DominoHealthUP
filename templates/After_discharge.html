@@ -23,27 +23,80 @@
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
-			      <div class="container">
+			      <div class="container opensans">
                 <p>Effective discharge planning can decrease the chances of you readmitting to the hospital, and can also help in recovery, ensure medications are prescribed and given correctly, and adequately prepare you to take care of yourself.</p>
                     <form method="POST" action="/after_discharge">
                                   {{ render_field(form.nric, class="form-control col-sm-4", placeholder="NRIC", id="tis_nric")}}<br>
                                   <label>Rate your overall recovery status</label>
                                   {{ form.status(class="form-check", id="tis_status_li") }}
-                                  <h3>Current problems<small>&nbsp;(if any)</small></h3>
-                                  {{ render_field(form.eye_problem, class="form-control",id="tis_eye_problem", rows="3")}}<br>
-                                  {{ render_field(form.medication, class="form-control",id="tis_medication", rows="3")}}<br>
-                                  {{ render_field(form.others, class="form-control",id="tis_others", rows="3")}}<br><br>
-                                <input id="tis_submit" type="submit" class="form-control col-sm-1" value="submit">
-                    </form>
-                    <br>
-                    <h1>FAQ</h1>
-                    <br>
-                    <h3>Need a follow-up appointment or tests ?</h3>
-                    <p>You can book an appointment <a href="/schedule">Here</a>, or if you have any more enquiries you may contact us at <b>61234567</b>.</p>
-                    <h3>How do I get more supplies of my medicines ?</h3>
-                    <p>Take your discharge letter to your GP as soon as possible. They will update your records and give you a prescription before you run out of the medicines you were given when you left hospital.</p>
-                    <h3>Where should I store my medicines ?</h3>
-                    <p>Always store them out of reach and sight of children, in a cool dark place.<br>Some medicines need to be stored in the fridge – it will tell you on the label.<br>Try to keep medicines in their original box or packet as the information on it may be important. </p>
+                                  <h3>Problems<small>&nbsp;(if any)</small></h3>
+                                  <div class="container check_boxy">
+                                            <p><b>Eyes</b></p>
+                                            <p>It is recommended that people with diabetes see an eye doctor every year for a dilated eye exam. Eye problems that can occur with diabetes include:</p>
+                                            <ul>
+                                              <li>Cataracts: a clouding of the lens of the eyes.</li>
+                                              <li>Glaucoma: increased pressure in the eye.</li>
+                                              <li>Retinopathy: eye changes with the retina in the back of the eye.</li>
+                                            </ul>
+                                            <p><b><small>Symptoms of eye problems include:</small></b></p>
+                                            {{ render_field(form.eye_bv, class="form-check checkboxy",id="c_eye_bv")}}
+                                            {{ render_field(form.eye_sp, class="form-check checkboxy",id="c_eye_sp")}}
+                                            {{ render_field(form.eye_we, class="form-check checkboxy",id="c_eye_we")}}
+                                            {{ render_field(form.eye_ed, class="form-check checkboxy",id="c_eye_ed")}}
+                                            {{ render_field(form.eye_lo, class="form-check checkboxy",id="c_eye_lo")}}
+                                            <p><b>Kineys</b></p>
+                                            <p>Have your urine checked for protein at least once a year. Protein in the urine is a sign of kidney disease. High blood pressure might also lead to kidney disease. Your blood pressure should be checked when you see your healthcare provider.</p>
+                                            <p><b><small>Symptoms of a kidney problem include:</small></b></p>                                            
+                                            {{ render_field(form.kiney_sw, class="form-check checkboxy",id="c_kiney_sw)")}}
+                                            {{ render_field(form.kiney_wg, class="form-check checkboxy",id="c_kiney_wg)")}}
+                                            {{ render_field(form.kiney_id, class="form-check checkboxy",id="c_kiney_id)")}}                                          
+                                            <p>Prompt treatment may slow the changes with kidney disease.</p> 
+                                            <p><b>Heart & Brain</b></p>
+                                            <p>All people with diabetes have an increased chance for heart disease and strokes. Heart disease is the major cause of death in people with diabetes. It is important to control other risks such as high blood pressure and high fats (cholesterol), as well as blood sugar.</p>
+                                            <p><b><small>Symptoms of a heart attack include:</small></b></p>                                                                                      
+                                            {{ render_field(form.heart_brain_so, class="form-check checkboxy",id="c_heart_brain_so)")}}
+                                            {{ render_field(form.heart_brain_ff, class="form-check checkboxy",id="c_heart_brain_ff)")}}
+                                            {{ render_field(form.heart_brain_fd, class="form-check checkboxy",id="c_heart_brain_fd)")}}
+                                            {{ render_field(form.heart_brain_sw, class="form-check checkboxy",id="c_heart_brain_sw)")}}
+                                            {{ render_field(form.heart_brain_n, class="form-check checkboxy",id="c_heart_brain_n)")}}
+                                            {{ render_field(form.heart_brain_cp, class="form-check checkboxy",id="c_heart_brain_cp)")}}
+                                            {{ render_field(form.heart_brain_sj, class="form-check checkboxy",id="c_heart_brain_sj)")}}
+                                            <p><b>Feet</b></p>
+                                            <p>High blood sugars can lead to poor blood flow and nerve damage. This can lead to slow healing of sores. You can experience severe pain, but you can also lose feeling in your feet. In serious cases, this may lead to amputation of your toes, foot, or leg.</p>
+                                            {{ render_field(form.feet_, class="form-check checkboxy",id="c_feet_)")}}
+                                            <p><b>Nerves</b></p>
+                                            <p>High blood sugars can affect all of the nerve endings in your body. Nerve damage can cause many problems. </p>
+                                            <p><b><small>Symptoms of nerve damage include:</small></b></p>                                                                                                                                  
+                                           {{ render_field(form.nerves_bp, class="form-check checkboxy",id="c_nerves_bp)")}}
+                                           {{ render_field(form.nerves_n, class="form-check checkboxy",id="c_nerves_n)")}}
+                                           {{ render_field(form.nerves_to, class="form-check checkboxy",id="c_nerves_to)")}}
+                                           {{ render_field(form.nerves_cd, class="form-check checkboxy",id="c_nerves_cd)")}}
+                                           {{ render_field(form.nerves_pw, class="form-check checkboxy",id="c_nerves_pw")}}
+                                           <p><b>Neuropathy</b></p>
+                                           <p>Neuropathy is a disorder of the nervous system that can affect people with diabetes.</p>
+                                           <p><b><small>There are different forms of neuropathy, including:</small></b></p>                                                                                                                                  
+                                           {{ render_field(form.neuropathy_pn, class="form-check checkboxy",id="neuropathy_pn")}}
+                                           {{ render_field(form.neuropathy_at, class="form-check checkboxy",id="neuropathy_at")}}
+                                           {{ render_field(form.neuropathy_gm, class="form-check checkboxy",id="neuropathy_gm")}}
+                                           {{ render_field(form.neuropathy_ph, class="form-check checkboxy",id="neuropathy_ph")}}
+                                           {{ render_field(form.neuropathy_ud, class="form-check checkboxy",id="neuropathy_ud")}}
+                                    </div>
+                                  </div><br>
+                                  <div class="container">
+                                    {{ render_field(form.medication, class="form-control",id="tis_medication", rows="3")}}<br>
+                                    {{ render_field(form.others, class="form-control",id="tis_others", rows="3")}}<br><br>
+                                    <input id="tis_submit" type="submit" class="form-control col-sm-1" value="submit">
+                                  </form>
+                                  <br>
+                                  <h1>FAQ</h1>
+                                  <br>
+                                  <h3>Need a follow-up appointment or tests ?</h3>
+                                  <p>You can book an appointment <a href="/schedule">Here</a>, or if you have any more enquiries you may contact us at <b>61234567</b>.</p>
+                                  <h3>How do I get more supplies of my medicines ?</h3>
+                                  <p>Take your discharge letter to your GP as soon as possible. They will update your records and give you a prescription before you run out of the medicines you were given when you left hospital.</p>
+                                  <h3>Where should I store my medicines ?</h3>
+                                  <p>Always store them out of reach and sight of children, in a cool dark place.<br>Some medicines need to be stored in the fridge – it will tell you on the label.<br>Try to keep medicines in their original box or packet as the information on it may be important. </p>
+                                </div>
             </div>
         </div>
     </div>

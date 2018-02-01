@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+{% from "includes/_formhelper.html" import render_field %}
+<!-- Page Content -->
+    <header class="masthead" style="background-image: url('../static/images/header_head.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Outpatient</h1>
+              <span class="subheading">{{ name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+<br>
+
+    <div id="wrapper">
+
+        {% include 'includes/sidebar.html' %}
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+			      <div class="container opensans">
+                
+
+              
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+{% endblock %}

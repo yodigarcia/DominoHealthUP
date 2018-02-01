@@ -155,3 +155,25 @@ button {
     margin-top: -40px;
     margin-bottom: -10px;
 }
+.checkboxy{
+    width: 25px;
+    height: 25px;
+    margin: -33px 0 0 -45px;
+    font-family: 'Open Sans',sans-serif;
+}
+.check_boxy{
+    margin: 0 0 0 50px;
+    font-family: 'Open Sans',sans-serif;
+}
+.check_boxy p{
+    margin: 5px 0 0 0;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 500;   
+}
+.check_boxy b{
+    font-size: 30px;
+    margin: 5px 0 0 0;
+}
+.opensans{
+    font-family: 'Open Sans',sans-serif;
+}

@@ -845,9 +845,40 @@ def home():
 # --- KHEE HING  CLASS---
 class Aft_dis(Form):
     nric = StringField("", validators=[validators.DataRequired])
-    status = RadioField("",choices=[(33,'0% - 33%'),(66,'34% - 66'),(99,'67% - 99%')],validators=[validators.DataRequired])
-    eye_problem = BooleanField('eye')
-    # copy paste more stuff
+    status = RadioField("",choices=[(33,'0% - 33%'),(66,'34% - 66'),(99,'67% - 99%')])
+    
+    eye_bv = BooleanField('Blurred vision')
+    eye_sp = BooleanField('Spots or lines in your vision')
+    eye_we = BooleanField('Watery eyes')
+    eye_ed = BooleanField('Eye discomfort')
+    eye_lo = BooleanField('Loss of vision')
+    
+    kiney_sw = BooleanField('Swelling of the hands, feet, and face')
+    kiney_wg = BooleanField('Weight gain from edema')
+    kiney_id = BooleanField('Itching and/or drowsiness. (This can occur with end stage kidney disease)')
+    
+    heart_brain_so = BooleanField('Shortness of breath')
+    heart_brain_ff = BooleanField('Feeling faint')
+    heart_brain_fd = BooleanField('Feeling dizzy')
+    heart_brain_sw = BooleanField('Sweating')
+    heart_brain_n = BooleanField('Nausea')
+    heart_brain_cp = BooleanField('Chest pain or pressure')
+    heart_brain_sj = BooleanField('Pain in the shoulders, jaw, and left arm')
+    
+    feet_ = BooleanField('any of the symptoms above')
+    
+    nerves_bp = BooleanField('Burning pain')
+    nerves_n = BooleanField('Numbness')
+    nerves_to = BooleanField('Tingling or loss of feeling in the feet or lower legs')
+    nerves_cd = BooleanField('Constipation and diarrhea')
+    nerves_pw = BooleanField('Problems with sexual function in both men and women')
+
+    neuropathy_pn = BooleanField('Peripheral neuropathy: damage to the peripheral nervous system.')
+    neuropathy_at = BooleanField('Autonomic Type I: damage to the nerves of internal organs.')
+    neuropathy_gm = BooleanField('Gastroparesis: movement of food through the stomach slows or stops.')
+    neuropathy_ph = BooleanField('Postural hypotension: drop in blood pressure due to change in body position')
+    neuropathy_ud = BooleanField('Uncontrolled diarrhea')
+
     medication = TextAreaField("Do you have any problems with your medication?<small>&nbsp;if yes please state</small>")
     others = TextAreaField("Do you have any other enquires ?")
 
@@ -867,19 +898,90 @@ def after_discharge_():
     if request.method == "POST":
         nric = form.nric.data
         status = form.status.data
-        eye_problem = form.eye_problem.data
+
+        eye_bv = form.eye_bv.data
+        eye_sp = form.eye_sp.data
+        eye_we = form.eye_we.data
+        eye_ed = form.eye_ed.data
+        eye_lo = form.eye_lo.data
+
+        kiney_sw = form.kiney_sw.data
+        kiney_wg = form.kiney_wg.data
+        kiney_id = form.kiney_id.data
+
+        heart_brain_so = form.heart_brain_so.data
+        heart_brain_ff = form.heart_brain_ff.data
+        heart_brain_fd = form.heart_brain_fd.data
+        heart_brain_sw = form.heart_brain_sw.data
+        heart_brain_n = form.heart_brain_n.data
+        heart_brain_cp = form.heart_brain_cp.data
+        heart_brain_sj = form.heart_brain_sj.data
+
+        feet_ = form.feet_.data
+
+        nerves_bp = form.nerves_bp.data
+        nerves_n = form.nerves_n.data
+        nerves_to = form.nerves_to.data
+        nerves_cd = form.nerves_cd.data
+        nerves_pw = form.nerves_pw.data
+
+        neuropathy_pn = form.neuropathy_pn.data
+        neuropathy_at = form.neuropathy_at.data
+        neuropathy_gm = form.neuropathy_gm.data
+        neuropathy_ph = form.neuropathy_ph.data
+        neuropathy_ud = form.neuropathy_ud.data
+
         medication = form.medication.data
         others = form.others.data  
         currentuser = root.child('loggedin').get()
-        info = Information(nric,status,problem,medication,others)
-        info_db = root.child(currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser'][1:]).child("outpatient")
-        if nric != None:
+        info = Information( nric, status, 
+                            eye_bv, eye_sp, eye_we, eye_ed, eye_lo,
+                            kiney_sw, kiney_wg, kiney_id,
+                            heart_brain_so, heart_brain_ff, heart_brain_fd, heart_brain_sw, heart_brain_n, heart_brain_cp, heart_brain_sj,
+                            feet_,
+                            nerves_bp, nerves_n, nerves_to, nerves_cd, nerves_pw,
+                            neuropathy_pn, neuropathy_at, neuropathy_gm, neuropathy_ph, neuropathy_ud,
+                            medication, others)
+        info_db = root.child("outpatient")
+        if nric :
             info_db.push({
-                'nric': info.get_informationzero(),
-                'status': info.get_informationone(),
-                'problem': info.get_informationtwo(),
-                'medication': info.get_informationthree(),
-                'others': info.get_informationfour(),
+                'nric': info.get_nric(),
+                'status': info.get_status(),
+                'eye_bv': info.get_eye_bv(),
+                'eye_sp': info.get_eye_sp(),
+                'eye_we': info.get_eye_we(),
+                'eye_ed': info.get_eye_ed(),
+                'eye_lo': info.get_eye_lo(),
+
+                'kiney_sw': info.get_kiney_sw(),
+                'kiney_wg': info.get_kiney_wg(),
+                'kiney_id': info.get_kiney_id(),
+
+                'heart_brain_so': info.get_heart_brain_so(),
+                'heart_brain_ff': info.get_heart_brain_ff(),
+                'heart_brain_fd': info.get_heart_brain_fd(),
+                'heart_brain_sw': info.get_heart_brain_sw(),
+                'heart_brain_n': info.get_heart_brain_n(),
+                'heart_brain_cp': info.get_heart_brain_cp(),
+                'heart_brain_sj': info.get_heart_brain_sj(),
+
+                'feet_': info.get_feet_(),
+
+                'nerves_bp': info.get_nerves_bp(),
+                'nerves_n': info.get_nerves_n(),
+                'nerves_to': info.get_nerves_to(),
+                'nerves_cd': info.get_nerves_cd(),
+                'nerves_pw': info.get_nerves_pw(),
+
+
+                'neuropathy_pn': info.get_neuropathy_pn(),
+                'neuropathy_at': info.get_neuropathy_at(),
+                'neuropathy_gm': info.get_neuropathy_gm(),
+                'neuropathy_ph': info.get_neuropathy_ph(),
+                'neuropathy_ud': info.get_neuropathy_ud(),
+
+                'medication': info.get_medication(),
+                'others': info.get_others(),
             })
         return redirect(url_for('after_discharge_'))
 
@@ -959,6 +1061,9 @@ def chronic_illness_():
 
     return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg,wi=list_wi)
 
+@app.route('/outpatient_display')
+def outpd():
+    return render_template('After_discharge_display.html')
 ###**  #######  #   #  ###    **###
 ###**  #        ##  #  #  #   **###
 ###**  ####     # # #  #   #  **###

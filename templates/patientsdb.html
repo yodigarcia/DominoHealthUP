@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<!-- Page Header -->
+    <header class="masthead" style="background-image: url('../static/images/maxresdefault.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Patient Data</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+        <table class="table" id="patientsdb">
+            <tr>
+                <th>Full Name</th>
+                <th>Gender</th>
+                <th>Contact</th>
+                <th>NRIC</th>
+                <th>Admission Date</th>
+                <th>Update</th>
+            </tr>
+            {% for patients in patient %}
+            <tr>
+                <td>{{ patients.get_fname() }} {{ patients.get_lname() }}</td>
+                <td>{{ patients.get_gender() }}</td>
+                <td>{{ patients.get_mobile() }}</td>
+                <td>{{ patients.get_nric() }}</td>
+                <td>{{ patients.get_admissiondate() }}</td>
+                <td><a href="/update/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

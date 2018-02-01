@@ -1,6 +1,7 @@
-from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, TextAreaField, validators, FloatField ,SelectField,TextAreaField,BooleanField
 from flask import Flask, render_template, request, url_for, redirect, session, flash
+from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, TextAreaField, validators, FloatField ,SelectField,TextAreaField,BooleanField
 from wtforms.fields.html5 import DateField
+from wtforms_components import TimeField
 from firebase_admin import credentials, db
 from datetime import datetime 
 import firebase_admin
@@ -21,9 +22,9 @@ from water import Water
 
 
 #<!--- yodi --->
-# cred = credentials.Certificate(r"C:\Users\yodigarcia\PycharmProjects\DominoHealth (testing)\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#    'databaseURL': 'https://dominohealth.firebaseio.com'})
+cred = credentials.Certificate(r"C:\Users\yodigarcia\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+default_app = firebase_admin.initialize_app(cred, {
+   'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kiahzuo desktop --->
 #cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
@@ -38,13 +39,21 @@ from water import Water
     # 'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
-# cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealth\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#       'databaseURL': 'https://dominohealth.firebaseio.com'})
+#cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+#default_app = firebase_admin.initialize_app(cred, {
+#    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 app = Flask(__name__)
 root = db.reference()
+
+@app.context_processor
+def utility_processor():
+    def test():
+        currentuser = root.child('loggedin').get() 
+        return currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser']
+
+    return dict(test=test)
 
 ####################################################################################################
 ####################################################################################################
@@ -579,11 +588,9 @@ class Staff(Form):
 class Patients(Form):
     firstname = StringField('First Name ')
     lastname = StringField('Last Name ')
-    gender = RadioField('Gender ', choices=[('male', 'Male'), ('female', 'Female')])
+    gender = RadioField('Gender ', choices=[('Male', 'Male'), ('Female', 'Female')])
     contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
     nric = StringField('NRIC ')
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
-    nric = IntegerField('NRIC ')
     address = StringField('Address ')
     zip = IntegerField('Zip')
     date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
@@ -594,7 +601,7 @@ class Schedules(Form):
     gender = RadioField('Gender ', choices=[('Male', 'Male'), ('Female', 'Female')])
     contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
     nric = StringField('NRIC ')
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
+    contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
     nric = IntegerField('NRIC ')
     address = StringField('Address ')
     date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
@@ -602,30 +609,11 @@ class Schedules(Form):
     scheduledate = DateField('Schedule Checkup ', format='%Y-%m-%d')
     contactname = StringField('')
     email = StringField('')
-    # emergency = IntegerField('', [validators.NumberRange(min=8, max=8, message='Invalid number provided')])
+    emergency = IntegerField('', [validators.NumberRange(min=8, message='Invalid number provided')])
+    time = TimeField('', format='%H:%M:%S')
 
 ####################################################################################################
 ########################################## YODI APP ROUTE ##########################################
-@app.context_processor
-def utility_processor():
-    def test():
-        currentuser = root.child('loggedin').get()
-        list = []
-
-        for pubid in currentuser:    #-L2cm2FcD-Pb_LUpP6Zf
-
-            logged = currentuser[pubid]
-
-            if logged['currentuser'] != '':
-                current = Account(logged['currentuser'], logged['currentuser'])
-                current.set_pubid(pubid)
-                print(current.get_pubid())
-                list.append(current)
-        
-        return currentuser['-L2d1-A6J4Sp57T354Dm']['currentuser'][1:]
-
-    return dict(test=test)
-
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = Staff(request.form)
@@ -668,8 +656,8 @@ def logout():
 
     return redirect(url_for('login'))
 
-@app.route('/profile', methods=["GET", "POST"])
-def profile():
+@app.route('/register', methods=["GET", "POST"])
+def register():
     form = Patients(request.form)
     if request.method == "POST" and form.validate():
         fname = form.firstname.data
@@ -696,9 +684,10 @@ def profile():
             'admission date': pdb.get_admissiondate(),
             'nric': pdb.get_nric()
          })
-        return redirect(url_for('profile'))
+        return redirect(url_for('register'))
 
-    return render_template('profile.html', form=form)
+    return render_template('register.html', form=form)
+
 
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
@@ -714,25 +703,30 @@ def schedule():
         email = form.email.data
         emgname = form.contactname.data
         scheduledate = str(form.scheduledate.data)
+        emergency = form.emergency.data
+        time = str(form.time.data)
 
-        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname)
+        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname, emergency, time)
 
         schd_db = root.child('Checkup')
         schd_db.push({
             'fullname': schd.get_fullname(),
             'gender': schd.get_gender(),
-            'emergencycontact': schd.get_mobile(),
+            'contact': schd.get_mobile(),
             'address': schd.get_address(),
             'dateofbirth': schd.get_dateobirth(),
             'nric': schd.get_nric(),
             'condition': schd.get_condition(),
             'email': schd.get_email(),
             'scheduledate': schd.get_schedule(),
-            'emergencycontactname': schd.get_emgname()
+            'emergencycontactname': schd.get_emgname(),
+            'emergencycontact': schd.get_emergency(),
+            'time': schd.get_time()
          })
         return redirect(url_for('schedule'))
 
     return render_template('schedule.html', form=form)
+
 
 @app.route('/patientdb')
 def patientdb():
@@ -743,15 +737,37 @@ def patientdb():
 
         bookedpatients = booked[pubid]
 
-        if bookedpatients['fullname'] != '':
-            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['emergencycontact'], bookedpatients['address'],
+        if bookedpatients['fullname']:
+            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['contact'], bookedpatients['address'],
                                      bookedpatients['dateofbirth'], bookedpatients['nric'], bookedpatients['condition'],
-                                     bookedpatients['email'], bookedpatients['scheduledate'],bookedpatients['emergencycontactname'])
+                                     bookedpatients['email'], bookedpatients['scheduledate'],bookedpatients['emergencycontactname'], 
+                                     bookedpatients['emergencycontact'], bookedpatients['time'])
+
             bookedpatient.set_pubid(pubid)
             print(bookedpatient.get_pubid())
             list.append(bookedpatient)
 
     return render_template('patientdb.html', booked=list)
+
+@app.route('/patientdatabase')
+def patientsdb():
+    patientdata = root.child('Patient_Information').get()
+    list = []
+
+    for pubid in patientdata:
+
+        patient = patientdata[pubid]
+
+        if patient['firstname']:
+            patientsdata = Patient(patient['firstname'], patient['lastname'], patient['gender'], 
+                                   patient['contact'], patient['address'], patient['zip'], 
+                                   patient['dateofbirth'], patient['admission date'], patient['nric'])
+
+            patientsdata.set_pubid(pubid)
+            print(patientsdata.get_pubid())
+            list.append(patientsdata)
+
+    return render_template('patientsdb.html', patient=list)
 
 @app.route('/update/<string:id>/', methods=["GET","POST"])
 def update_patient(id):
@@ -767,21 +783,25 @@ def update_patient(id):
         email = form.email.data
         emgname = form.contactname.data
         scheduledate = str(form.scheduledate.data)
+        emergency = form.emergency.data
+        time = str(form.time.data)
 
-        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname)
+        schd = Schedule(fullname, gender, contact, address, date_o_birth, nric, condition, email, scheduledate, emgname, emergency, time)
 
         schd_db = root.child('Checkup/' + id)
         schd_db.set({
             'fullname': schd.get_fullname(),
             'gender': schd.get_gender(),
-            'emergencycontact': schd.get_mobile(),
+            'contact': schd.get_mobile(),
             'address': schd.get_address(),
             'dateofbirth': schd.get_dateobirth(),
             'nric': schd.get_nric(),
             'condition': schd.get_condition(),
             'email': schd.get_email(),
             'scheduledate': schd.get_schedule(),
-            'emergencycontactname': schd.get_emgname()
+            'emergencycontactname': schd.get_emgname(),
+            'emergencycontact': schd.get_emergency(),
+            'time': schd.get_time()
         })
         flash('Updated successfully', 'success')
         return redirect(url_for('home'))
@@ -791,9 +811,10 @@ def update_patient(id):
         bookedpatients = root.child(url).get()
 
         if bookedpatients['fullname'] != '':
-            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['emergencycontact'], bookedpatients['address'],
-                                     bookedpatients['dateofbirth'], bookedpatients['nric'], bookedpatients['condition'],
-                                     bookedpatients['email'], bookedpatients['scheduledate'],bookedpatients['emergencycontactname'])
+            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['emergencycontact'], 
+                                     bookedpatients['address'], bookedpatients['dateofbirth'], bookedpatients['nric'], 
+                                     bookedpatients['condition'], bookedpatients['email'], bookedpatients['scheduledate'],
+                                     bookedpatients['emergencycontactname'],bookedpatients['emergencycontact'], bookedpatients['time'])
 
             bookedpatient.set_pubid(id)
             form.fullname.data = bookedpatient.get_fullname()
@@ -806,16 +827,10 @@ def update_patient(id):
             form.email.data = bookedpatient.get_email()
             form.scheduledate.data = datetime.strptime(bookedpatient.get_schedule(), '%Y-%m-%d')
             form.contactname.data = bookedpatient.get_emgname()
+            form.emergency.data = bookedpatient.get_emergency()
+            form.time.data = datetime.strptime(bookedpatient.get_time(), '%H:%M:%S')
 
         return render_template('updatepatient.html', form=form)
-
-@app.route('/profile_page')
-def ProfilePage():
-    return render_template('profile_page.html')
-
-@app.route('/patientdb')
-def Patientdb():
-    return render_template('patientdb.html')
 
 ####################################################################################################
 ####################################################################################################
@@ -835,7 +850,7 @@ class EventForms(Form):
     frequency = RadioField('Frequency', choices=[('D', 'Daily'), ('W', 'Weekly'), ('M', 'Monthly')])
 ####################################################################################################
 ######################################### Gareth APP ROUTE #########################################
-@app.route('/home')
+@app.route('/')
 def home():
     return render_template('home.html')
 

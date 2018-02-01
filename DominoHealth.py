@@ -4,9 +4,10 @@ from wtforms.fields.html5 import DateField
 from wtforms_components import TimeField
 from firebase_admin import credentials, db
 from datetime import datetime 
+from firebase import firebase
 import firebase_admin
 import json
-from ChronicIllness import BloodPressure, BloodGlucose, Weight, Information
+from ChronicIllness import BloodPressure, BloodGlucose, Bmi, Information, Date
 from Calories_Graph import Calories
 from Food_Select import Food_Select
 from feedback import Feedback1
@@ -22,9 +23,9 @@ from water import Water
 
 
 #<!--- yodi --->
-cred = credentials.Certificate(r"C:\Users\yodigarcia\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-default_app = firebase_admin.initialize_app(cred, {
-   'databaseURL': 'https://dominohealth.firebaseio.com'})
+# cred = credentials.Certificate(r"C:\Users\yodigarcia\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# default_app = firebase_admin.initialize_app(cred, {
+#    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kiahzuo desktop --->
 #cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
@@ -36,7 +37,7 @@ default_app = firebase_admin.initialize_app(cred, {
 # <!--- kheehing laptop --->
 # cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # default_app = firebase_admin.initialize_app(cred, {
-    # 'databaseURL': 'https://dominohealth.firebaseio.com'})
+#     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
 #cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -900,9 +901,11 @@ class Aft_dis(Form):
 class BloodA(Form):
     month = IntegerField("Month", [validators.NumberRange(min=1, max=12, message='Invalid month')])
     day = IntegerField("Day", [validators.NumberRange(min=1, max=31, message='Invalid day')])
-    blood_glucose = FloatField("Blood Glucose")
-    blood_pressure = FloatField("Blood Pressure")
-    weight = FloatField("Weight")
+    blood_glucose = FloatField("Blood Glucose (mmol/L)")
+    systolic = IntegerField("systolic")
+    diastolic = IntegerField("diastolic")
+    weight = FloatField("Weight (KG)")
+    height = FloatField("Height (M)", [validators.NumberRange(min=1, max=31, message='Invalid height')])
     text_doc = StringField("Text")
 
 ####################################################################################################
@@ -1005,78 +1008,83 @@ def after_discharge_():
 @app.route('/chronic_illness', methods=["GET", "POST"])
 def chronic_illness_():
     form = BloodA(request.form)
+    
     if request.method == "POST" and form.validate():
         month = form.month.data
-        month = month-1 
+        month -= 1 
         day = form.day.data
-        blood_pressure = form.blood_pressure.data
+        systolic = form.systolic.data
+        diastolic = form.diastolic.data
         blood_glucose = form.blood_glucose.data
         weight = form.weight.data
+        height = form.height.data
         bg = BloodGlucose(month, day, blood_glucose)
-        bp = BloodPressure(month, day, blood_pressure)
-        weight = Weight(month, day, weight)
+        bp = BloodPressure(month, day, systolic, diastolic)
+        bmi = Bmi(month, day, weight,height)
 
         bp_db = root.child('Diabetes_bp')
         bg_db = root.child('Diabetes_bg')
-        weight_db = root.child('Diabetes_weight')
-        if blood_pressure != None:
+        bmi_db = root.child('Diabetes_bmi')
+
+        if diastolic and systolic:
             bp_db.push({
-                'month': bp.get_month(),
-                'day': bp.get_day(),
-                'blood pressure': bp.get_blood_pressure(),
+                'month': bg.get_month(),
+                'day': bg.get_day(),
+                'systolic': bp.get_systolic(),
+                'diastolic': bp.get_diastolic(),
             })
-        elif blood_glucose != None:
+        elif blood_glucose:
             bg_db.push({
                 'month': bg.get_month(),
                 'day': bg.get_day(),
                 'blood glucose': bg.get_blood_glucose(),
             })
-        elif weight != None:
-            weight_db.push({
-                'month': weight.get_month(),
-                'day': weight.get_day(),
-                'weight': weight.get_weight(),
+        elif weight and height:
+            bmi_db.push({
+                'day': bmi.get_day(),
+                'month': bmi.get_month(),
+                'weight': bmi.get_weight(),
+                'height': bmi.get_height(),
+                'bmi': bmi.get_bmi(),
             })
         return redirect(url_for('chronic_illness_'))
 
     bp = root.child('Diabetes_bp').get()
     bg = root.child('Diabetes_bg').get()
-    wi = root.child('Diabetes_weight').get()
+    bmi = root.child('Diabetes_bmi').get()
+
     list_bg = []
     list_bp = []
-    list_wi = []
-
+    list_bmi = []
+    
     try:
         for data in bp:
             i = bp[data]
-            if 'blood pressure' in i:
-                if i['blood pressure'] != None:
-                    db_data = BloodPressure(i['month'], i['day'], i['blood pressure'])
+            if 'systolic' and 'diastolic' in i:
+                if i['systolic'] and i['diastolic']:
+                    db_data = BloodPressure(i['month'], i['day'], i['systolic'],i['diastolic'])
                     db_data.set_data(data)
-                    # print(db_data.get_data())
                     list_bp.append(db_data)
         for data in bg:
             j = bg[data]
             if 'blood glucose' in j:
-                if j['blood glucose'] != None:
+                if j['blood glucose']:
                     db_data = BloodGlucose(j['month'], j['day'], j['blood glucose'])
                     db_data.set_data(data)
-                    # print(db_data.get_data())
                     list_bg.append(db_data)
-        for data in wi:
-            k = wi[data]
-            if 'weight' in k:
-                if k['weight'] != None:
-                    db_data = Weight(k['month'], k['day'], k['weight'])
+        for data in bmi:
+            k = bmi[data]
+            if 'weight' and 'height' in k:
+                if k['bmi']:
+                    db_data = Bmi(k['month'], k['day'], k['weight'], k['height'])
                     db_data.set_data(data)
-                    # print(db_data.get_data())
-                    list_wi.append(db_data)
+                    list_bmi.append(db_data)
     except:
         TypeError
 
-    return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg,wi=list_wi)
+    return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg, bmi=list_bmi)
 
-@app.route('/outpatient_display')
+@app.route('/after_dd')
 def outpd():
     return render_template('After_discharge_display.html')
 ###**  #######  #   #  ###    **###

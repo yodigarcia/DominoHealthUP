@@ -27,12 +27,9 @@
                         <ul class="container row tablenav list-unstyled">
                             <li><a class="col"><button class="khbutton" onclick="td_nvbr();show_chart();">Diabetes</button></a></li>
                             <li><a class="col"><button class="khbutton" onclick="toggle_hypertension_navbar()">Hypertension</button></a></li>
-                            <li><a class="col"><button class="khbutton" onclick="">Lipids disorders</button></a></li>
                             <li><a class="col"><button class="khbutton" onclick="">Stroke</button></a></li>
-                            <li><a class="col"><button class="khbutton" onclick="">Schizophrenia</button></a></li>
                             <li><a class="col"><button class="khbutton" onclick="">Depression</button></a></li>
                             <li><a class="col"><button class="khbutton" onclick="">Asthma</button></a></li>
-                            <li><a class="col"><button class="khbutton" onclick="">COPD</button></a></li>
                             <li><a class="col"><button class="khbutton" onclick="">Asthma</button></a></li>
                         </ul>
                     </div>
@@ -53,7 +50,9 @@
                 <div class="container" id="CIP_blood">
                     <p>You can update your information daily here :</p>
                     <div class="card">
-                        <div class="card-header">Blood Pressure</div> <!-- Title -->
+                        <div class="card-header">Blood Pressure
+                            <div id="blood_pressure_fr"class="card-subheader"></div>
+                        </div> <!-- Title -->
                         <div class="card-body">
                             <div id="cip_blood_chart" style="height: 400px ;width: 100%;"></div> <!--Graph -->
                         </div>
@@ -89,7 +88,8 @@
                                             </td>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col">{{ render_field(form.blood_pressure, class="form-control")}}</div>
+                                                    <div class="col">{{ render_field(form.systolic, class="form-control")}}</div>
+                                                    <div class="col">{{ render_field(form.diastolic, class="form-control")}}</div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -134,7 +134,8 @@
                                                 </td>
                                                 <td>
                                                     <div class="row">
-                                                        <div class="col">{{ i.get_blood_pressure() }}</div>
+                                                        <div class="col">{{ i.get_systolic() }}</div>
+                                                        <div class="col">{{ i.get_diastolic() }}</div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -251,9 +252,9 @@
                 <div class="container" id="CIP_weight">
                     <br>
                     <div class="card">
-                        <div class="card-header">Weight</div> <!-- Title -->
+                        <div class="card-header">BMI</div> <!-- Title -->
                         <div class="card-body">
-                            <div id="cip_weight_chart" style="height: 400px ;width: 100%;"></div> <!-- Graph -->
+                            <div id="cip_bmi_chart" style="height: 400px ;width: 100%;"></div> <!-- Graph -->
                         </div>
                         <div class="card-footer">
                             <div class="row pull-right"> <!-- buttons -->
@@ -272,7 +273,7 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">weight <!-- drop down or click --> </h4>
+                                <h4 class="modal-title">BMI <!-- drop down or click --> </h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <form method="POST" action="/chronic_illness">
@@ -288,6 +289,7 @@
                                             <td>
                                                 <div class="row">
                                                     <div class="col">{{ render_field(form.weight, class="form-control")}}</div>
+                                                    <div class="col">{{ render_field(form.height, class="form-control")}}</div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -306,7 +308,7 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">History Weight</h4>
+                                <h4 class="modal-title">History BMI</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <form method="POST" action="/chronic_illness">
@@ -319,9 +321,9 @@
                                                     <div class="col">Day</div>
                                                 </div>
                                             </th>
-                                            <th>Weight <small>(kg)</small></th>
+                                            <th>BMI</th>
                                         </tr>
-                                        {% for k in wi %}
+                                        {% for k in bmi %}
                                         <tr>
                                             <td>
                                                 <div class="row">
@@ -331,7 +333,7 @@
                                             </td>
                                             <td>
                                                 <div class="row">
-                                                    <div class="col">{{ k.get_weight() }}</div>
+                                                    <div class="col">{{ k.get_bmi() }}</div>
                                                 </div>
                                             </td>
                                         </tr>

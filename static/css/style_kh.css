@@ -155,3 +155,56 @@ button {
     margin-top: -40px;
     margin-bottom: -10px;
 }
+.checkboxy{
+    width: 25px;
+    height: 25px;
+    margin: -33px 0 0 -45px;
+    font-family: 'Open Sans',sans-serif;
+}
+.check_boxy{
+    margin: 0 0 0 50px;
+    font-family: 'Open Sans',sans-serif;
+}
+.check_boxy p{
+    margin: 5px 0 0 0;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 500;   
+}
+.check_boxy b{
+    font-size: 30px;
+    margin: 5px 0 0 0;
+}
+.opensans{
+    font-family: 'Open Sans',sans-serif;
+}
+.card-subheader{
+    float: right;
+}
+.bp_graph_green{
+    padding: 4px 10px 4px 10px;
+    color:white;
+    background-color: rgb(84, 180, 0);
+    margin: -4px 0 0 -4px;
+    margin-left: auto;
+}
+.bp_graph_blue{
+    padding: 4px 10px 4px 10px;
+    color:white;
+    background-color: blue;
+    margin: -4px 0 0 -4px;
+    margin-left: auto;
+}
+.bp_graph_yellow{
+    padding: 4px 10px 4px 10px;
+    color:white;
+    background-color: rgb(204, 199, 42);
+    margin: -4px 0 0 -4px;
+    margin-left: auto;
+}
+.bp_graph_red{
+    padding: 4px 10px 4px 10px;
+    color:white;
+    background-color: red;
+    margin: -4px 0 0 -4px;
+    margin-left: auto;
+}

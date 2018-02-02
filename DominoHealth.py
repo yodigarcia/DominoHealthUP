@@ -4,7 +4,6 @@ from wtforms.fields.html5 import DateField
 from wtforms_components import TimeField
 from firebase_admin import credentials, db
 from datetime import datetime 
-from firebase import firebase
 import firebase_admin
 import json
 from ChronicIllness import BloodPressure, BloodGlucose, Bmi, Information, Date
@@ -23,11 +22,6 @@ from water import Water
 
 
 #<!--- yodi --->
-
-#cred = credentials.Certificate(r"C:\Users\yodigarcia\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-#default_app = firebase_admin.initialize_app(cred, {
-#   'databaseURL': 'https://dominohealth.firebaseio.com'})
-
 # cred = credentials.Certificate(r"C:\Users\yodigarcia\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # default_app = firebase_admin.initialize_app(cred, {
 #    'databaseURL': 'https://dominohealth.firebaseio.com'})

@@ -45,9 +45,9 @@ from water import Water
     # 'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
-#cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-#default_app = firebase_admin.initialize_app(cred, {
-#    'databaseURL': 'https://dominohealth.firebaseio.com'})
+cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+default_app = firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 app = Flask(__name__)
@@ -74,51 +74,51 @@ class Caloriess(Form):
 
 class Fud_Select(Form):
     my_food_order = SelectField(u'Steamed Rice',
-                           choices=[('-', '-'), ('1 Steamed Rice', '1 Serving (~295 cal)'), ('2 Steamed Rice', '2 Servings (~590 cal)'),
-                                    ('3 Steamed Rice', '3 Servings (~885 cal)')])
+                           choices=[('-', '-'), (295, '1 Serving (~295 cal)'), (590, '2 Servings (~590 cal)'),
+                                    (885, '3 Servings (~885 cal)')])
 
     my_food_order2 = SelectField(u'Vegetable Porridge',
-                           choices=[('-', '-'), ('1 Porridge', '1 Serving (~240 Cal)'), ('2 Porridge', '2 Servings (~480 cal)'),
-                                    ('3 Porridge', '3 Servings (~720 cal)')])
+                           choices=[('-', '-'), (240, '1 Serving (~240 Cal)'), (480, '2 Servings (~480 cal)'),
+                                    (720, '3 Servings (~720 cal)')])
 
     my_food_order3 = SelectField(u'Mixed Rice(Beef)',
-                           choices=[('-', '-'), ('1 Mixed Rice', '1 Serving (~390 cal)'), ('2 Mixed Rice', '2 Servings (~780 cal)'),
-                                    ('3 Mixed Rice', '3 Servings (~1,170 cal)')])
+                           choices=[('-', '-'), (390, '1 Serving (~390 cal)'), (780, '2 Servings (~780 cal)'),
+                                    (1170, '3 Servings (~1,170 cal)')])
 
     my_food_order4 = SelectField(u'Vegetable Fusilli',
-                                 choices=[('-', '-'), ('1 Vegetable Fusilli', '1 Serving (~345 cal)'), ('2 Vegetable Fusilli', '2 Servings (~690 cal)'),
-                                          ('3 Vegetable Fusilli', '3 Servings (~1,035 cal)')])
+                                 choices=[('-', '-'), (345, '1 Serving (~345 cal)'), (690, '2 Servings (~690 cal)'),
+                                          (1035, '3 Servings (~1,035 cal)')])
 
     my_food_order5 = SelectField(u'Mixed Fruit Yogurt',
-                                 choices=[('-', '-'), ('1 Mixed Fruit Yogurt', '1 Serving (~218 cal)'), ('2 Mixed Fruit Yogurt', '2 Servings (~436 cal)'),
-                                          ('3 Mixed Fruit Yogurt', '3 Servings (~654 cal)')])
+                                 choices=[('-', '-'), (218, '1 Serving (~218 cal)'), (436, '2 Servings (~436 cal)'),
+                                          (654, '3 Servings (~654 cal)')])
 
     my_food_order6 = SelectField(u'Mushroom Soup',
-                                 choices=[('-', '-'), ('1 Mushroom Soup', '1 Serving (~110 cal)'), ('2 Mushroom Soup', '2 Servings (~220 cal)'),
-                                          ('3 Mushroom Soup', '3 Servings (~330 cal)')])
+                                 choices=[('-', '-'), (110, '1 Serving (~110 cal)'), (220, '2 Servings (~220 cal)'),
+                                          (330, '3 Servings (~330 cal)')])
 
     my_food_order7 = SelectField(u'Yogurt Special',
-                                 choices=[('-', '-'), ('1 Yogurt Special', '1 Serving (~145 cal)'), ('2 Yogurt Specials', '2 Servings (~290 cal)'),
-                                          ('3 Yogurt Specials', '3 Servings (~345 cal)')])
+                                 choices=[('-', '-'), (145, '1 Serving (~145 cal)'), (290, '2 Servings (~290 cal)'),
+                                          (345, '3 Servings (~345 cal)')])
 
     my_food_order8 = SelectField(u'Steamed Salmon',
-                                 choices=[('-', '-'), ('1 Steamed Salmon', '1 Serving (~436 cal)'), ('2 Steamed Salmon', '2 Servings (~872 cal)')])
+                                 choices=[('-', '-'), (436, '1 Serving (~436 cal)'), (872, '2 Servings (~872 cal)')])
 
     my_food_order9 = SelectField(u'Salad & Eggs',
-                                 choices=[('-', '-'), ('1 Salad & Eggs', '1 Serving (~238 cal)'), ('2 Salad & Eggs', '2 Servings (~476 cal)'),
-                                          ('3 Salad & Eggs', '3 Servings (~714 cal)')])
+                                 choices=[('-', '-'), (238, '1 Serving (~238 cal)'), (476, '2 Servings (~476 cal)'),
+                                          (714, '3 Servings (~714 cal)')])
 
     my_food_order10 = SelectField(u'Breakfast Set',
-                                 choices=[('-', '-'), ('1 Breakfast Set', '1 Serving (~550 cal)'), ('2 Breakfast Set', '2 Servings (~1,100 cal)'),
-                                          ('3 Breakfast Set', '3 Servings (~1,650 cal)')])
+                                 choices=[('-', '-'), (550, '1 Serving (~550 cal)'), (1100, '2 Servings (~1,100 cal)'),
+                                          (1650, '3 Servings (~1,650 cal)')])
 
     my_food_order11 = SelectField(u'Vegetables & Rice',
-                                 choices=[('-', '-'), ('1 Vegetables & Rice', '1 Serving (~320 cal)'), ('2 Vegetables & Rice', '2 Servings (~640 cal)'),
-                                          ('3 Vegetables & Rice', '3 Servings (~960 cal)')])
+                                 choices=[('-', '-'), (320, '1 Serving (~320 cal)'), (640, '2 Servings (~640 cal)'),
+                                          (960, '3 Servings (~960 cal)')])
 
     my_food_order12 = SelectField(u'Breakfast Omelette',
-                                  choices=[('-', '-'), ('1 Omelette', '1 Serving (~140 cal)'), ('2 Omelette', '2 Servings (~280 cal)'),
-                                           ('3 Omelette', '3 Servings (~400 cal)')])
+                                  choices=[('-', '-'), (140, '1 Serving (~140 cal)'), (280, '2 Servings (~280 cal)'),
+                                           (400, '3 Servings (~400 cal)')])
 
 ####################################################################################################
 ######################################## MATTHEW APP ROUTE #########################################
@@ -148,18 +148,18 @@ def fud():
 
         food_q_db = root.child('food_quantity')
         food_q_db.push({
-            "food_queue": food_q.get_food_quantity(),
-            "food_queue2": food_q.get_food_quantity2(),
-            "food_queue3": food_q.get_food_quantity3(),
-            "food_queue4": food_q.get_food_quantity4(),
-            "food_queue5": food_q.get_food_quantity5(),
-            "food_queue6": food_q.get_food_quantity6(),
-            "food_queue7": food_q.get_food_quantity7(),
-            "food_queue8": food_q.get_food_quantity8(),
-            "food_queue9": food_q.get_food_quantity9(),
-            "food_queue10": food_q.get_food_quantity10(),
-            "food_queue11": food_q.get_food_quantity11(),
-            "food_queue12": food_q.get_food_quantity12(),
+            "Steamed Rice": food_q.get_food_quantity(),
+            "Vegetable Porridge": food_q.get_food_quantity2(),
+            "Mixed Rice": food_q.get_food_quantity3(),
+            "Vegetable Fusilli": food_q.get_food_quantity4(),
+            "Mixed Fruit Yogurt": food_q.get_food_quantity5(),
+            "Mushroom Soup": food_q.get_food_quantity6(),
+            "Yogurt Special": food_q.get_food_quantity7(),
+            "Steamed Salmon": food_q.get_food_quantity8(),
+            "Salad & Eggs": food_q.get_food_quantity9(),
+            "Breakfast Set": food_q.get_food_quantity10(),
+            "Vegetables & Rice": food_q.get_food_quantity11(),
+            "Breakfast Omelette": food_q.get_food_quantity12(),
         })
 
     return render_template('Fud.html', form=form)
@@ -1085,11 +1085,11 @@ def chronic_illness_():
 @app.route('/outpatient_display')
 def outpd():
     return render_template('After_discharge_display.html')
-###**  #######  #   #  ###    **###
-###**  #        ##  #  #  #   **###
-###**  ####     # # #  #   #  **###
-###**  #        #  ##  #  #   **###
-###**  #######  #   #  ###    **###
+###**  #######  ##    #  ####    **###
+###**  #        # #   #  #   #   **###
+###**  #####    #  #  #  #    #  **###
+###**  #        #   # #  #   #   **###
+###**  #######  #    ##  ####    **###
 if __name__ == '__main__':
     app.secret_key = 'secret123'
     app.run(debug=True)

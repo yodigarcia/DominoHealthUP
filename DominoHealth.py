@@ -35,9 +35,9 @@ from water import Water
 #<!--- kheehing desktop --->
 # cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # <!--- kheehing laptop --->
-# cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://dominohealth.firebaseio.com'})
+cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+default_app = firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
 #cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -902,10 +902,10 @@ class BloodA(Form):
     month = IntegerField("Month", [validators.NumberRange(min=1, max=12, message='Invalid month')])
     day = IntegerField("Day", [validators.NumberRange(min=1, max=31, message='Invalid day')])
     blood_glucose = FloatField("Blood Glucose (mmol/L)")
-    systolic = IntegerField("systolic")
-    diastolic = IntegerField("diastolic")
+    systolic = IntegerField("Systolic")
+    diastolic = IntegerField("Diastolic")
     weight = FloatField("Weight (KG)")
-    height = FloatField("Height (M)", [validators.NumberRange(min=1, max=31, message='Invalid height')])
+    height = FloatField("Height (M)")
     text_doc = StringField("Text")
 
 ####################################################################################################
@@ -991,7 +991,6 @@ def after_discharge_():
                 'nerves_cd': info.get_nerves_cd(),
                 'nerves_pw': info.get_nerves_pw(),
 
-
                 'neuropathy_pn': info.get_neuropathy_pn(),
                 'neuropathy_at': info.get_neuropathy_at(),
                 'neuropathy_gm': info.get_neuropathy_gm(),
@@ -1008,7 +1007,6 @@ def after_discharge_():
 @app.route('/chronic_illness', methods=["GET", "POST"])
 def chronic_illness_():
     form = BloodA(request.form)
-    
     if request.method == "POST" and form.validate():
         month = form.month.data
         month -= 1 
@@ -1020,26 +1018,26 @@ def chronic_illness_():
         height = form.height.data
         bg = BloodGlucose(month, day, blood_glucose)
         bp = BloodPressure(month, day, systolic, diastolic)
-        bmi = Bmi(month, day, weight,height)
+        bmi = Bmi(month, day, weight, height)
 
         bp_db = root.child('Diabetes_bp')
         bg_db = root.child('Diabetes_bg')
         bmi_db = root.child('Diabetes_bmi')
 
-        if diastolic and systolic:
+        if diastolic and systolic != None:
             bp_db.push({
-                'month': bg.get_month(),
-                'day': bg.get_day(),
+                'month': bp.get_month(),
+                'day': bp.get_day(),
                 'systolic': bp.get_systolic(),
                 'diastolic': bp.get_diastolic(),
             })
-        elif blood_glucose:
+        elif blood_glucose != None:
             bg_db.push({
                 'month': bg.get_month(),
                 'day': bg.get_day(),
                 'blood glucose': bg.get_blood_glucose(),
             })
-        elif weight and height:
+        elif weight and height != None:
             bmi_db.push({
                 'day': bmi.get_day(),
                 'month': bmi.get_month(),

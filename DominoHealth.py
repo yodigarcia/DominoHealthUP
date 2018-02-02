@@ -666,7 +666,7 @@ def register():
         address = form.address.data
         contact = form.contact.data
         zip = form.zip.data
-        nric = form.nric.data
+        nric = form.nric.data.upper()
         date_o_birth = str(form.date_o_birth.data)
         admission_date = str(form.admission_date.data)
 
@@ -749,7 +749,7 @@ def patientdb():
 
     return render_template('patientdb.html', booked=list)
 
-@app.route('/patientdatabase')
+@app.route('/patientsdatabase')
 def patientsdb():
     patientdata = root.child('Patient_Information').get()
     list = []

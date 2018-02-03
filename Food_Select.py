@@ -100,9 +100,15 @@ class Food_Select:
     def get_food_quantity11(self):
         return self.__food_quantity11
 
-
     def set_food_quantity12(self,food_quantity12):
         self.__food_quantity12 = food_quantity12
 
     def get_food_quantity12(self):
         return self.__food_quantity12
+
+    def set_total_calories(self, total_calories):
+        self.__total_calories = total_calories
+
+    def get_total_calories(self):
+        total_calories = self.__food_quantity() + self.__food_quantity2() + self.__food_quantity3() + self.__food_quantity4() + self.__food_quantity5() + self.__food_quantity6() + self.__food_quantity7() + self.__food_quantity8() + self.__food_quantity9() + self.__food_quantity10() + self.__food_quantity11() + self.__food_quantity12()
+        return int(total_calories)

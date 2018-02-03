@@ -44,6 +44,10 @@ from water import Water
 # default_app = firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
+#<!--- matthew laptop 2 --->
+cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+default_app = firebase_admin.initialize_app(cred, {
+     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 app = Flask(__name__)
 root = db.reference()
@@ -69,15 +73,15 @@ class Caloriess(Form):
 
 class Fud_Select(Form):
     my_food_order = SelectField(u'Steamed Rice',
-                           choices=[(0, '-'), (295, '1 Serving (~295 cal)'), (590, '2 Servings (~590 cal)'),
-                                    (885, '3 Servings (~885 cal)')])
+                                 choices=[(0, '-'), (295, '1 Serving (~295 cal)'), (590, '2 Servings (~590 cal)'),
+                                          (885, '3 Servings (~885 cal)')])
 
     my_food_order2 = SelectField(u'Vegetable Porridge',
-                           choices=[(0, '-'), (240, '1 Serving (~240 Cal)'), (480, '2 Servings (~480 cal)'),
-                                    (720, '3 Servings (~720 cal)')])
+                                 choices=[(0, '-'), (240, '1 Serving (~240 Cal)'), (480, '2 Servings (~480 cal)'),
+                                          (720, '3 Servings (~720 cal)')])
 
     my_food_order3 = SelectField(u'Mixed Rice(Beef)',
-                           choices=[(0, '-'), (390, '1 Serving (~390 cal)'), (780, '2 Servings (~780 cal)'),
+                                 choices=[(0, '-'), (390, '1 Serving (~390 cal)'), (780, '2 Servings (~780 cal)'),
                                     (1170, '3 Servings (~1,170 cal)')])
 
     my_food_order4 = SelectField(u'Vegetable Fusilli',
@@ -137,10 +141,9 @@ def fud():
         food_quantity10 = form.my_food_order10.data
         food_quantity11 = form.my_food_order11.data
         food_quantity12 = form.my_food_order12.data
-        total_calories = Food_Select.get_total_calories
 
         food_q = Food_Select(food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
-                             food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12, total_calories)
+                             food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12)
 
         food_q_db = root.child('food_quantity')
         food_q_db.push({
@@ -156,58 +159,30 @@ def fud():
             "Breakfast Set": food_q.get_food_quantity10(),
             "Vegetables & Rice": food_q.get_food_quantity11(),
             "Breakfast Omelette": food_q.get_food_quantity12(),
+            "total_calories" : food_q.get_total_calories()
         })
         return redirect(url_for("fud"))
 
     food_q = root.child('food_quantity').get()
     list = []
 
-    for pubid in food_q:
-        print(pubid)
-        fud_data = food_q[pubid]
-        try:
-            # if fud_data['Steamed Rice'] != " ":
-            total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-                                                fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-                                                fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-            total_calories.set_pubid(pubid)
-            print(total_calories.get_pubid())
-            list.append(total_calories)
-            print(len(list))
+    try:
+            for pubid in food_q:
+                print(pubid)
+                fud_data = food_q[pubid]
+                # if fud_data['Steamed Rice'] != " ":
+                total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
+                                                    fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
+                                                    fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
+                total_calories.set_pubid(pubid)
+                print(total_calories.get_pubid())
+                list.append(total_calories)
+                print(len(list))
 
-        except:
-            TypeError
+    except:
+        TypeError
 
     return render_template('Fud.html', form=form, list1=list, total_calories=list)
-
-@app.route('/Food_Health', methods= ["GET", "POST"])
-def Food_Health():
-    form = Caloriess(request.form)
-    if request.method == "POST":
-        time = form.time.data
-        calories = form.calories.data
-
-        calories = Calories(time, calories)
-
-        calories_db = root.child('Calories')
-        calories_db.push({
-            "time": calories.get_time(),
-            "calories": calories.get_calories(),
-        })
-
-    calories = root.child('Calories').get()
-    list = []
-
-    for pubid in calories:
-        timecalories = calories[pubid]
-
-        if timecalories['time'] != '':
-            timecaloriespatient = Calories(timecalories["calories"], timecalories["time"])
-            timecaloriespatient.set_pubid(pubid)
-            print(timecaloriespatient.get_pubid())
-            list.append(timecaloriespatient)
-
-    return render_template("Food_Health.html", form=form, calories=list)
 
 @app.route('/menu', methods=["GET", "POST"])
 def food():

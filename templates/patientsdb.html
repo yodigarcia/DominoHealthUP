@@ -1,6 +1,15 @@
 {% extends 'layout.html' %}
 {% block body %}
-
+        <script>
+          $(function(){
+            $('div').click(function(){
+               var pat = $(this).attr('id');
+               if (pat != undefined) {
+                 $('#'+ pat).attr('class', 'collapse');
+               }
+            });
+         });
+        </script>
 <!-- Page Header -->
     <header class="masthead" style="background-image: url('../static/images/maxresdefault.jpg')">
       <div class="overlay"></div>
@@ -27,12 +36,25 @@
             </tr>
             {% for patients in patient %}
             <tr>
-                <td>{{ patients.get_fname() }} {{ patients.get_lname() }}</td>
+                <td>
+                  <a href="#patientdropdown{{ patients.get_pubid() }}" data-toggle="collapse">
+                  {{ patients.get_fname() }} {{ patients.get_lname() }}
+                  </a>
+                </td>
                 <td>{{ patients.get_gender() }}</td>
                 <td>{{ patients.get_mobile() }}</td>
                 <td>{{ patients.get_nric() }}</td>
                 <td>{{ patients.get_admissiondate() }}</td>
                 <td><a href="/update/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
+            </tr>
+            <tr>
+              <td colspan="6">
+                <div id="patientdropdown{{ patients.get_pubid() }}" class="collapse">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+              </td>
             </tr>
             {% endfor %}
         </table>

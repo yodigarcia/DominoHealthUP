@@ -1020,20 +1020,20 @@ def chronic_illness_():
         bg_db = root.child('Diabetes_bg')
         bmi_db = root.child('Diabetes_bmi')
 
-        if diastolic and systolic != None:
+        if diastolic and systolic:
             bp_db.push({
                 'month': bp.get_month(),
                 'day': bp.get_day(),
                 'systolic': bp.get_systolic(),
                 'diastolic': bp.get_diastolic(),
             })
-        elif blood_glucose != None:
+        elif blood_glucose:
             bg_db.push({
                 'month': bg.get_month(),
                 'day': bg.get_day(),
                 'blood glucose': bg.get_blood_glucose(),
             })
-        elif weight and height != None:
+        elif weight and height:
             bmi_db.push({
                 'day': bmi.get_day(),
                 'month': bmi.get_month(),

@@ -63,15 +63,20 @@ img {
 .food_title2 {
     margin-top: 4px;
     margin-bottom: 13px;
-    margin-left: 7%;
+    margin-left: 25%;
 }
 
 .food_title3 {
     margin-top: 4px;
     margin-bottom: 13px;
-    margin-left: 12%;
+    margin-left: 16%;
 }
 
+.food_title4 {
+    margin-top: 4px;
+    margin-bottom: 13px;
+    margin-left: 13.5%;
+}
 
 .title-of-food {
     text-align: center;
@@ -88,4 +93,9 @@ img {
   -moz-transform: scale(1.1);
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.Food_data {
+    margin-left: 8%;
+    margin-right: 8%;
 }

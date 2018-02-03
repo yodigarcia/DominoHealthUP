@@ -33,11 +33,11 @@ from water import Water
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kheehing desktop --->
-# cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # <!--- kheehing laptop --->
 # cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://dominohealth.firebaseio.com'})
+default_app = firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
 # cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -882,7 +882,7 @@ def home():
 # --- KHEE HING  CLASS---
 class Aft_dis(Form):
     nric = StringField("", validators=[validators.DataRequired])
-    status = RadioField("",choices=[(33,'0% - 33%'),(66,'34% - 66'),(99,'67% - 99%')])
+    status = RadioField("",choices=[('0 - 33','0% - 33%'),('34 - 66','34% - 66'),('67 -  99','67% - 99%')])
     
     eye_bv = BooleanField('Blurred vision')
     eye_sp = BooleanField('Spots or lines in your vision')
@@ -931,6 +931,37 @@ class BloodA(Form):
 
 ####################################################################################################
 ######################################## KHEE HING APP ROUTE #######################################
+@app.route('/add', methods=["GET", "POST"])
+def after_discharge_display():
+    form = Aft_dis(request.form)
+    bmi = root.child('outpatient').get()
+    list = []
+    # try:
+    for data in bmi:
+        i = bmi[data]
+        if 'nric' in i:
+            if i['others']:
+                bmi_data = Information( i['nric'], i['status'], 
+                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
+                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
+                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
+                                        i['feet_'], 
+                                        i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
+                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'], i['others'])
+            elif i['nric']:
+                bmi_data = Information( i['nric'], i['status'], 
+                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
+                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
+                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
+                                        i['feet_'], 
+                                        i['nerves_bp'], i['nerves_n, nerves_to'], i['nerves_cd'], i['nerves_pw'], 
+                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'])
+            bmi_data.set_data(data)
+            list.append(bmi_data)
+    # except:
+    #     TypeError
+    return render_template('After_discharge_display.html', bmi = list)
+
 @app.route('/after_discharge', methods=["GET", "POST"])
 def after_discharge_():
     form = Aft_dis(request.form)

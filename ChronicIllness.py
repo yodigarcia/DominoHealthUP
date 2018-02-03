@@ -109,7 +109,13 @@ class Information():
         self.__neuropathy_ud = neuropathy_ud
         self.__medication = medication
         self.__others = others
-        
+        self.__data = ''
+
+    def get_data(self):
+        return self.__data
+    def set_data(self, data):
+        self.__data = data
+                
     def get_nric(self):
         return self.__nric
     def set_nric(self,nric):

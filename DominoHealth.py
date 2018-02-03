@@ -19,6 +19,7 @@ from water3 import Water3
 from water4 import Water4
 from Food_1 import Food
 from water import Water
+from Timedb import Timedb
 
 
 #<!--- yodi --->
@@ -469,7 +470,6 @@ def update_wiki(id):
         return render_template('updatewiki.html',form=form)
 
 
-
 # Update the user intake
 @app.route('/updatelong/<string:id>/', methods=['GET', 'POST'])
 def update_publication(id):
@@ -693,6 +693,19 @@ def register():
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
     form = Schedules(request.form)
+    timedbb = root.child('timedb').get()
+    timelist = []
+    
+    for i in timedbb:
+
+        timedata = timedbb[i]
+
+        if timedata['date']:
+            timedba = Timedb(timedata['date'], timedata['open'], timedata['close'])
+            timedba.set_id(i)
+            print(timedba.get_id())
+            timelist.append(timedba)
+
     if request.method == "POST" and form.validate():
         fullname = form.fullname.data
         gender = form.gender.data
@@ -726,7 +739,7 @@ def schedule():
          })
         return redirect(url_for('schedule'))
 
-    return render_template('schedule.html', form=form)
+    return render_template('schedule.html', form=form , timedbc = timelist)
 
 
 @app.route('/patientdb')

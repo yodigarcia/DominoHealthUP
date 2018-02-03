@@ -2,7 +2,7 @@
 class Food_Select:
     def __init__(self, food_quantity, food_quantity2, food_quantity3, food_quantity4,
                  food_quantity5, food_quantity6, food_quantity7, food_quantity8, food_quantity9,
-                 food_quantity10, food_quantity11, food_quantity12, total_calories):
+                 food_quantity10, food_quantity11, food_quantity12):
         self.__pubid = ''
         self.__food_quantity = food_quantity
         self.__food_quantity2 = food_quantity2
@@ -16,7 +16,6 @@ class Food_Select:
         self.__food_quantity10 = food_quantity10
         self.__food_quantity11 = food_quantity11
         self.__food_quantity12 = food_quantity12
-        self.__total_calories = total_calories
 
     def set_pubid(self, pubid):
         self.__pubid = pubid

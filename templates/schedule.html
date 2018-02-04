@@ -26,17 +26,19 @@
                             <th colspan="2" style="text-align:center;">General Information</th>
                         </tr>
                         <tr>
-                            <td>{{ render_field(form.doctoravail, class='form-control')}}</td>
+                            <td>Field</td>
                             <td>Patient's Name</td>
                             <td>{{ render_field(form.fullname, class='form-control')}}</td>
                         </tr>
                         <tr>
-                            <td></td>
+                            {% for i in timedbc %}
+                            <td>{{ i.get_open()[:5] }} - {{ i.get_close()[:5] }}</td>
                             <td>NRIC</td>
                             <td>{{ render_field(form.nric, class='form-control')}}</td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>{{ i.get_open()[:5] }} - {{ i.get_close()[:5] }}</td>
+                            {% endfor %}
                             <td>Phone</td>
                             <td>{{ render_field(form.contact, class='form-control')}}</td>
                         </tr>
@@ -53,7 +55,7 @@
                         <tr>
                             <td></td>
                             <td>Time</td>
-                            <td>{{ render_field(form.test, class='form-control')}}</td>
+                            <td>{{ render_field(form.time, class='form-control')}}</td>
                         </tr>
                         <tr>
                             <td></td>

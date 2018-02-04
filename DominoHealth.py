@@ -163,26 +163,15 @@ def fud():
         })
         return redirect(url_for("fud"))
 
-    # food_q = root.child('food_quantity').get()
-    # list = []
 
-    # try:
-    #         for pubid in food_q:
-    #             print(pubid)
-    #             fud_data = food_q[pubid]
-    #             # if fud_data['Steamed Rice'] != " ":
-    #             total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-    #                                                 fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-    #                                                 fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-    #             total_calories.set_pubid(pubid)
-    #             print(total_calories.get_pubid())
-    #             list.append(total_calories)
-    #             print(len(list))
+    return render_template('Fud.html', form=form, list1=list)
 
-    # except:
-    #     TypeError
+@app.route('/delete/<food_q>')
 
-    return render_template('Fud.html', form=form, list1=list, total_calories=list)
+def delete(food_q):
+    root.child('food_quantity').child(food_q).delete()
+    return redirect(url_for('calintake'))
+>>>>>>> parent of 6e864fb... merge
 
 @app.route('/menu', methods=["GET", "POST"])
 def food():

@@ -3,11 +3,11 @@ from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, 
 from wtforms.fields.html5 import DateField
 from wtforms_components import TimeField
 from firebase_admin import credentials, db
-from datetime import datetime 
+from datetime import datetime
+import datetime
 import firebase_admin
 import json
 from ChronicIllness import BloodPressure, BloodGlucose, Bmi, Information, Date
-from Calories_Graph import Calories
 from Food_Select import Food_Select
 from feedback import Feedback1
 from Schedule import Schedule
@@ -29,9 +29,9 @@ from Timedb import Timedb
 
 
 #<!--- kiahzuo desktop --->
-cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
-default_app = firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://dominohealth.firebaseio.com'})
+#cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
+#default_app = firebase_admin.initialize_app(cred, {
+#    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kheehing desktop --->
 # cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -46,8 +46,8 @@ default_app = firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop 2 --->
-# cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
+#cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+#default_app = firebase_admin.initialize_app(cred, {
 #      'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 app = Flask(__name__)
@@ -73,6 +73,10 @@ class Caloriess(Form):
     calories = StringField("")
 
 class Fud_Select(Form):
+    name = TextAreaField('Enter Your Name:')
+
+    time = SelectField(u'Time',choices=[('', '-'), ('Breakfast', 'Breakfast'), ('Lunch', 'Lunch'), ('Dinner', 'Dinner')])
+
     my_food_order = SelectField(u'Steamed Rice',
                                  choices=[(0, '-'), (295, '1 Serving (~295 cal)'), (590, '2 Servings (~590 cal)'),
                                           (885, '3 Servings (~885 cal)')])
@@ -130,6 +134,8 @@ def food_info():
 def fud():
     form = Fud_Select(request.form)
     if request.method == "POST":
+        name = form.name.data
+        f_time = form.time.data
         food_quantity = form.my_food_order.data
         food_quantity2 = form.my_food_order2.data
         food_quantity3 = form.my_food_order3.data
@@ -143,11 +149,13 @@ def fud():
         food_quantity11 = form.my_food_order11.data
         food_quantity12 = form.my_food_order12.data
 
-        food_q = Food_Select(food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
+        food_q = Food_Select(name, f_time, food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
                              food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12)
 
         food_q_db = root.child('food_quantity')
         food_q_db.push({
+            "f_name": food_q.get_name(),
+            "f_time": food_q.get_f_time(),
             "Steamed Rice": food_q.get_food_quantity(),
             "Vegetable Porridge": food_q.get_food_quantity2(),
             "Mixed Rice": food_q.get_food_quantity3(),
@@ -160,44 +168,30 @@ def fud():
             "Breakfast Set": food_q.get_food_quantity10(),
             "Vegetables & Rice": food_q.get_food_quantity11(),
             "Breakfast Omelette": food_q.get_food_quantity12(),
-            "total_calories" : food_q.get_total_calories()
+            "totalcal" : food_q.getTotalcalorie(),
         })
+
         return redirect(url_for("fud"))
 
-    food_q = root.child('food_quantity').get()
-    list = []
+    return render_template('Fud.html', form=form, list1=list)
 
-    try:
-            for pubid in food_q:
-                print(pubid)
-                fud_data = food_q[pubid]
-                # if fud_data['Steamed Rice'] != " ":
-                total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-                                                    fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-                                                    fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-                total_calories.set_pubid(pubid)
-                print(total_calories.get_pubid())
-                list.append(total_calories)
-                print(len(list))
+@app.route('/CalIntake')
+def calintake():
+    ref = db.reference('food_quantity')
+    food_q = ref.get()
 
-    except:
-        TypeError
+    return render_template('Your_Calorie_Intake.html', food_q = food_q )
 
-    return render_template('Fud.html', form=form, list1=list, total_calories=list)
+@app.route('/delete/<food_q>')
+
+def delete(food_q):
+    root.child('food_quantity').child(food_q).delete()
+    return redirect(url_for('calintake'))
 
 @app.route('/menu', methods=["GET", "POST"])
 def food():
-    form = Fooder(request.form)
-    if request.method == "POST":
-        quantity = form.quantity.data
 
-        send = Food(quantity)
-        send_db = root.child('selected')
-        send_db.push({
-            "Steamed_Rice": send.get_quantity(),
-        })
-
-    return render_template('food.html', form = form)
+    return render_template('food.html')
 
 ####################################################################################################
 ####################################################################################################

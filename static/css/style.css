@@ -77,7 +77,7 @@
     color: black;
 }
 
-#scheduletable td:nth-child(-n+3) {
+#scheduletable td:first-child {
     font-size: 17px;
 }
 

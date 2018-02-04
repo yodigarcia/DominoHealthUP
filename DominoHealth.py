@@ -19,7 +19,6 @@ from water3 import Water3
 from water4 import Water4
 from Food_1 import Food
 from water import Water
-from Timedb import Timedb
 
 
 #<!--- yodi --->
@@ -34,11 +33,11 @@ from Timedb import Timedb
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kheehing desktop --->
-# cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # <!--- kheehing laptop --->
 # cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://dominohealth.firebaseio.com'})
+default_app = firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
 # cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -164,9 +163,10 @@ def fud():
         })
         return redirect(url_for("fud"))
 
-    food_q = root.child('food_quantity').get()
-    list = []
+    # food_q = root.child('food_quantity').get()
+    # list = []
 
+<<<<<<< HEAD
     try:
         for pubid in food_q:
             print(pubid)
@@ -179,9 +179,23 @@ def fud():
             print(total_calories.get_pubid())
             list.append(total_calories)
             print(len(list))
+=======
+    # try:
+    #         for pubid in food_q:
+    #             print(pubid)
+    #             fud_data = food_q[pubid]
+    #             # if fud_data['Steamed Rice'] != " ":
+    #             total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
+    #                                                 fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
+    #                                                 fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
+    #             total_calories.set_pubid(pubid)
+    #             print(total_calories.get_pubid())
+    #             list.append(total_calories)
+    #             print(len(list))
+>>>>>>> 83d5a4c55892ab8206e90a06d9e9747a3223e0b3
 
-    except:
-        TypeError
+    # except:
+    #     TypeError
 
     return render_template('Fud.html', form=form, list1=list, total_calories=list)
 
@@ -466,6 +480,7 @@ def update_wiki(id):
         return render_template('updatewiki.html',form=form)
 
 
+
 # Update the user intake
 @app.route('/updatelong/<string:id>/', methods=['GET', 'POST'])
 def update_publication(id):
@@ -689,19 +704,6 @@ def register():
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
     form = Schedules(request.form)
-    timedbb = root.child('timedb').get()
-    timelist = []
-    
-    for i in timedbb:
-
-        timedata = timedbb[i]
-
-        if timedata['date']:
-            timedba = Timedb(timedata['date'], timedata['open'], timedata['close'])
-            timedba.set_id(i)
-            print(timedba.get_id())
-            timelist.append(timedba)
-
     if request.method == "POST" and form.validate():
         fullname = form.fullname.data
         gender = form.gender.data
@@ -735,7 +737,7 @@ def schedule():
          })
         return redirect(url_for('schedule'))
 
-    return render_template('schedule.html', form=form , timedbc = timelist)
+    return render_template('schedule.html', form=form)
 
 
 @app.route('/patientdb')
@@ -925,7 +927,7 @@ def home():
 ####################################################################################################
 # --- KHEE HING  CLASS---
 class Aft_dis(Form):
-    nric = StringField("", validators=[validators.DataRequired])
+    nric = StringField("", [validators.Regexp("^[sStTfFgG]\d{7}[a-zA-Z]$" ,message = "Wrong NRIC format")])
     status = RadioField("",choices=[('0 - 33','0% - 33%'),('34 - 66','34% - 66'),('67 -  99','67% - 99%')])
     
     eye_bv = BooleanField('Blurred vision')
@@ -952,11 +954,11 @@ class Aft_dis(Form):
     nerves_n = BooleanField('Numbness')
     nerves_to = BooleanField('Tingling or loss of feeling in the feet or lower legs')
     nerves_cd = BooleanField('Constipation and diarrhea')
-    nerves_pw = BooleanField('Problems with sexual function in both men and women')
+    nerves_pw = BooleanField('Problems with sexual function')
 
-    neuropathy_pn = BooleanField('Peripheral neuropathy: damage to the peripheral nervous system.')
-    neuropathy_at = BooleanField('Autonomic Type I: damage to the nerves of internal organs.')
-    neuropathy_gm = BooleanField('Gastroparesis: movement of food through the stomach slows or stops.')
+    neuropathy_pn = BooleanField('Peripheral neuropathy: damage to the peripheral nervous system')
+    neuropathy_at = BooleanField('Autonomic Type I: damage to the nerves of internal organs')
+    neuropathy_gm = BooleanField('Gastroparesis: movement of food through the stomach slows or stops')
     neuropathy_ph = BooleanField('Postural hypotension: drop in blood pressure due to change in body position')
     neuropathy_ud = BooleanField('Uncontrolled diarrhea')
 
@@ -980,6 +982,7 @@ def after_discharge_display():
     form = Aft_dis(request.form)
     bmi = root.child('outpatient').get()
     list = []
+<<<<<<< HEAD
     # try:
     for data in bmi:
         i = bmi[data]
@@ -1004,12 +1007,32 @@ def after_discharge_display():
             list.append(bmi_data)
     # except:
     #     TypeError
+=======
+    try:
+        for data in bmi:
+            i = bmi[data]
+            if 'nric' in i:
+                if i['nric']:
+                    bmi_data = Information( i['nric'], i['status'], 
+                                            i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
+                                            i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
+                                            i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
+                                            i['feet_'], 
+                                            i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
+                                            i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'],
+                                            i['medication'], i['others'])
+                    bmi_data.set_data(data)
+                    list.append(bmi_data)
+                    
+    except:
+        TypeError
+>>>>>>> 83d5a4c55892ab8206e90a06d9e9747a3223e0b3
     return render_template('After_discharge_display.html', bmi = list)
 
 @app.route('/after_discharge', methods=["GET", "POST"])
 def after_discharge_():
     form = Aft_dis(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and form.validate():
         nric = form.nric.data
         status = form.status.data
 
@@ -1096,6 +1119,7 @@ def after_discharge_():
                 'medication': info.get_medication(),
                 'others': info.get_others(),
             })
+        
         return redirect(url_for('after_discharge_'))
 
     return render_template('after_discharge.html', form = form)

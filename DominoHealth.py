@@ -173,26 +173,6 @@ def fud():
 
         return redirect(url_for("fud"))
 
-<<<<<<< HEAD
-    # food_q = root.child('food_quantity').get()
-    # list = []
-
-    # try:
-    #         for pubid in food_q:
-    #             print(pubid)
-    #             fud_data = food_q[pubid]
-    #             # if fud_data['Steamed Rice'] != " ":
-    #             total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-    #                                                 fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-    #                                                 fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-    #             total_calories.set_pubid(pubid)
-    #             print(total_calories.get_pubid())
-    #             list.append(total_calories)
-    #             print(len(list))
-
-    # except:
-    #     TypeError
-=======
     return render_template('Fud.html', form=form, list1=list)
 
 @app.route('/CalIntake')
@@ -203,7 +183,6 @@ def calintake():
     return render_template('Your_Calorie_Intake.html', food_q = food_q )
 
 @app.route('/delete/<food_q>')
->>>>>>> 0ba39d97db221e367c5b1916d7a9433351deba12
 
 def delete(food_q):
     root.child('food_quantity').child(food_q).delete()

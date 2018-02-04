@@ -24,9 +24,80 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
 			      <div class="container opensans">
-                
+              {% for i in bmi %}
+                <table class="kheehing">
+                  <tr>
+                    <th>title</th>
+                    <th>result</th>
+                  </tr>
+                  <tr>
+                    <td>Nric</td>
+                    <td>{{ i.get_nric() }}</td>
+                  </tr>
+                  <tr>
+                    <td>Recovery Status</td>
+                    <td>{{ i.get_status() }}% </td>
+                  </tr>
+                  <tr>
+                    <td>Blurred vision</td>
+                    <td>{{ i.get_eye_bv() }}</td>
+                  </tr>
+                  <tr>
+                    <td>Spots or lines in your vision</td>
+                    <td>{{ i.get_eye_sp() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Watery eyes</td>
+                      <td>{{ i.get_eye_we() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Eye discomfort</td>
+                      <td>{{ i.get_eye_ed() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Loss of vision</td>
+                      <td>{{ i.get_eye_lo() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Swelling of the hands, feet, and face</td>
+                      <td>{{ i.get_eye_sw() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Weight gain from edema</td>
+                      <td>{{ i.get_eye_wg() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Weight gain from edema</td>
+                      <td>{{ i.get_eye_id() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Shortness of breath</td>
+                      <td>{{ i.get_heart_brain_so() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Feeling faint</td>
+                      <td>{{ i.get_heart_brain_ff() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Sweating</td>
+                      <td>{{ i.get_heart_brain_fd() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Feeling dizzy</td>
+                      <td>{{ i.get_heart_brain_sw() }}</td>
+                  </tr>
+                  <tr>
+                      <td>Nausea</td>
+                      <td>{{ i.get_heart_brain_n() }}</td>
+                  </tr>
+                  <p>{{ i.get_feet_() }}</p>
 
-              
+                  <p>{{ i.get_nerves_bp() }}</p>
+
+                  <p>{{ i.get_neuropathy_pn() }}</p>
+
+                </table>
+              {% endfor %}
             </div>
         </div>
     </div>

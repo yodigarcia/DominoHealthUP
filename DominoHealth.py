@@ -6,7 +6,7 @@ from firebase_admin import credentials, db
 from datetime import datetime 
 import firebase_admin
 import json
-from ChronicIllness import BloodPressure, BloodGlucose, Weight, Information
+from ChronicIllness import BloodPressure, BloodGlucose, Bmi, Information, Date
 from Calories_Graph import Calories
 from Food_Select import Food_Select
 from feedback import Feedback1
@@ -19,12 +19,14 @@ from water3 import Water3
 from water4 import Water4
 from Food_1 import Food
 from water import Water
+from Timedb import Timedb
 
 
 #<!--- yodi --->
 # cred = credentials.Certificate(r"C:\Users\yodigarcia\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # default_app = firebase_admin.initialize_app(cred, {
 #    'databaseURL': 'https://dominohealth.firebaseio.com'})
+
 
 #<!--- kiahzuo desktop --->
 cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
@@ -36,13 +38,17 @@ default_app = firebase_admin.initialize_app(cred, {
 # <!--- kheehing laptop --->
 # cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # default_app = firebase_admin.initialize_app(cred, {
-    # 'databaseURL': 'https://dominohealth.firebaseio.com'})
+#     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
-#cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-#default_app = firebase_admin.initialize_app(cred, {
-#    'databaseURL': 'https://dominohealth.firebaseio.com'})
+# cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# default_app = firebase_admin.initialize_app(cred, {
+#     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
+#<!--- matthew laptop 2 --->
+# cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# default_app = firebase_admin.initialize_app(cred, {
+#      'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 app = Flask(__name__)
 root = db.reference()
@@ -68,51 +74,51 @@ class Caloriess(Form):
 
 class Fud_Select(Form):
     my_food_order = SelectField(u'Steamed Rice',
-                           choices=[('-', '-'), ('1 Steamed Rice', '1 Serving (~295 cal)'), ('2 Steamed Rice', '2 Servings (~590 cal)'),
-                                    ('3 Steamed Rice', '3 Servings (~885 cal)')])
+                                 choices=[(0, '-'), (295, '1 Serving (~295 cal)'), (590, '2 Servings (~590 cal)'),
+                                          (885, '3 Servings (~885 cal)')])
 
     my_food_order2 = SelectField(u'Vegetable Porridge',
-                           choices=[('-', '-'), ('1 Porridge', '1 Serving (~240 Cal)'), ('2 Porridge', '2 Servings (~480 cal)'),
-                                    ('3 Porridge', '3 Servings (~720 cal)')])
+                                 choices=[(0, '-'), (240, '1 Serving (~240 Cal)'), (480, '2 Servings (~480 cal)'),
+                                          (720, '3 Servings (~720 cal)')])
 
     my_food_order3 = SelectField(u'Mixed Rice(Beef)',
-                           choices=[('-', '-'), ('1 Mixed Rice', '1 Serving (~390 cal)'), ('2 Mixed Rice', '2 Servings (~780 cal)'),
-                                    ('3 Mixed Rice', '3 Servings (~1,170 cal)')])
+                                 choices=[(0, '-'), (390, '1 Serving (~390 cal)'), (780, '2 Servings (~780 cal)'),
+                                    (1170, '3 Servings (~1,170 cal)')])
 
     my_food_order4 = SelectField(u'Vegetable Fusilli',
-                                 choices=[('-', '-'), ('1 Vegetable Fusilli', '1 Serving (~345 cal)'), ('2 Vegetable Fusilli', '2 Servings (~690 cal)'),
-                                          ('3 Vegetable Fusilli', '3 Servings (~1,035 cal)')])
+                                 choices=[(0, '-'), (345, '1 Serving (~345 cal)'), (690, '2 Servings (~690 cal)'),
+                                          (1035, '3 Servings (~1,035 cal)')])
 
     my_food_order5 = SelectField(u'Mixed Fruit Yogurt',
-                                 choices=[('-', '-'), ('1 Mixed Fruit Yogurt', '1 Serving (~218 cal)'), ('2 Mixed Fruit Yogurt', '2 Servings (~436 cal)'),
-                                          ('3 Mixed Fruit Yogurt', '3 Servings (~654 cal)')])
+                                 choices=[(0, '-'), (218, '1 Serving (~218 cal)'), (436, '2 Servings (~436 cal)'),
+                                          (654, '3 Servings (~654 cal)')])
 
     my_food_order6 = SelectField(u'Mushroom Soup',
-                                 choices=[('-', '-'), ('1 Mushroom Soup', '1 Serving (~110 cal)'), ('2 Mushroom Soup', '2 Servings (~220 cal)'),
-                                          ('3 Mushroom Soup', '3 Servings (~330 cal)')])
+                                 choices=[(0, '-'), (110, '1 Serving (~110 cal)'), (220, '2 Servings (~220 cal)'),
+                                          (330, '3 Servings (~330 cal)')])
 
     my_food_order7 = SelectField(u'Yogurt Special',
-                                 choices=[('-', '-'), ('1 Yogurt Special', '1 Serving (~145 cal)'), ('2 Yogurt Specials', '2 Servings (~290 cal)'),
-                                          ('3 Yogurt Specials', '3 Servings (~345 cal)')])
+                                 choices=[(0, '-'), (145, '1 Serving (~145 cal)'), (290, '2 Servings (~290 cal)'),
+                                          (345, '3 Servings (~345 cal)')])
 
     my_food_order8 = SelectField(u'Steamed Salmon',
-                                 choices=[('-', '-'), ('1 Steamed Salmon', '1 Serving (~436 cal)'), ('2 Steamed Salmon', '2 Servings (~872 cal)')])
+                                 choices=[(0, '-'), (436, '1 Serving (~436 cal)'), (872, '2 Servings (~872 cal)')])
 
     my_food_order9 = SelectField(u'Salad & Eggs',
-                                 choices=[('-', '-'), ('1 Salad & Eggs', '1 Serving (~238 cal)'), ('2 Salad & Eggs', '2 Servings (~476 cal)'),
-                                          ('3 Salad & Eggs', '3 Servings (~714 cal)')])
+                                 choices=[(0, '-'), (238, '1 Serving (~238 cal)'), (476, '2 Servings (~476 cal)'),
+                                          (714, '3 Servings (~714 cal)')])
 
     my_food_order10 = SelectField(u'Breakfast Set',
-                                 choices=[('-', '-'), ('1 Breakfast Set', '1 Serving (~550 cal)'), ('2 Breakfast Set', '2 Servings (~1,100 cal)'),
-                                          ('3 Breakfast Set', '3 Servings (~1,650 cal)')])
+                                 choices=[(0, '-'), (550, '1 Serving (~550 cal)'), (1100, '2 Servings (~1,100 cal)'),
+                                          (1650, '3 Servings (~1,650 cal)')])
 
     my_food_order11 = SelectField(u'Vegetables & Rice',
-                                 choices=[('-', '-'), ('1 Vegetables & Rice', '1 Serving (~320 cal)'), ('2 Vegetables & Rice', '2 Servings (~640 cal)'),
-                                          ('3 Vegetables & Rice', '3 Servings (~960 cal)')])
+                                 choices=[(0, '-'), (320, '1 Serving (~320 cal)'), (640, '2 Servings (~640 cal)'),
+                                          (960, '3 Servings (~960 cal)')])
 
     my_food_order12 = SelectField(u'Breakfast Omelette',
-                                  choices=[('-', '-'), ('1 Omelette', '1 Serving (~140 cal)'), ('2 Omelette', '2 Servings (~280 cal)'),
-                                           ('3 Omelette', '3 Servings (~400 cal)')])
+                                  choices=[(0, '-'), (140, '1 Serving (~140 cal)'), (280, '2 Servings (~280 cal)'),
+                                           (400, '3 Servings (~400 cal)')])
 
 ####################################################################################################
 ######################################## MATTHEW APP ROUTE #########################################
@@ -142,50 +148,42 @@ def fud():
 
         food_q_db = root.child('food_quantity')
         food_q_db.push({
-            "food_queue": food_q.get_food_quantity(),
-            "food_queue2": food_q.get_food_quantity2(),
-            "food_queue3": food_q.get_food_quantity3(),
-            "food_queue4": food_q.get_food_quantity4(),
-            "food_queue5": food_q.get_food_quantity5(),
-            "food_queue6": food_q.get_food_quantity6(),
-            "food_queue7": food_q.get_food_quantity7(),
-            "food_queue8": food_q.get_food_quantity8(),
-            "food_queue9": food_q.get_food_quantity9(),
-            "food_queue10": food_q.get_food_quantity10(),
-            "food_queue11": food_q.get_food_quantity11(),
-            "food_queue12": food_q.get_food_quantity12(),
+            "Steamed Rice": food_q.get_food_quantity(),
+            "Vegetable Porridge": food_q.get_food_quantity2(),
+            "Mixed Rice": food_q.get_food_quantity3(),
+            "Vegetable Fusilli": food_q.get_food_quantity4(),
+            "Mixed Fruit Yogurt": food_q.get_food_quantity5(),
+            "Mushroom Soup": food_q.get_food_quantity6(),
+            "Yogurt Special": food_q.get_food_quantity7(),
+            "Steamed Salmon": food_q.get_food_quantity8(),
+            "Salad & Eggs": food_q.get_food_quantity9(),
+            "Breakfast Set": food_q.get_food_quantity10(),
+            "Vegetables & Rice": food_q.get_food_quantity11(),
+            "Breakfast Omelette": food_q.get_food_quantity12(),
+            "total_calories" : food_q.get_total_calories()
         })
+        return redirect(url_for("fud"))
 
-    return render_template('Fud.html', form=form)
-
-@app.route('/Food_Health', methods= ["GET", "POST"])
-def Food_Health():
-    form = Caloriess(request.form)
-    if request.method == "POST":
-        time = form.time.data
-        calories = form.calories.data
-
-        calories = Calories(time, calories)
-
-        calories_db = root.child('Calories')
-        calories_db.push({
-            "time": calories.get_time(),
-            "calories": calories.get_calories(),
-        })
-
-    calories = root.child('Calories').get()
+    food_q = root.child('food_quantity').get()
     list = []
 
-    for pubid in calories:
-        timecalories = calories[pubid]
+    try:
+            for pubid in food_q:
+                print(pubid)
+                fud_data = food_q[pubid]
+                # if fud_data['Steamed Rice'] != " ":
+                total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
+                                                    fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
+                                                    fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
+                total_calories.set_pubid(pubid)
+                print(total_calories.get_pubid())
+                list.append(total_calories)
+                print(len(list))
 
-        if timecalories['time'] != '':
-            timecaloriespatient = Calories(timecalories["calories"], timecalories["time"])
-            timecaloriespatient.set_pubid(pubid)
-            print(timecaloriespatient.get_pubid())
-            list.append(timecaloriespatient)
+    except:
+        TypeError
 
-    return render_template("Food_Health.html", form=form, calories=list)
+    return render_template('Fud.html', form=form, list1=list, total_calories=list)
 
 @app.route('/menu', methods=["GET", "POST"])
 def food():
@@ -468,7 +466,6 @@ def update_wiki(id):
         return render_template('updatewiki.html',form=form)
 
 
-
 # Update the user intake
 @app.route('/updatelong/<string:id>/', methods=['GET', 'POST'])
 def update_publication(id):
@@ -666,7 +663,7 @@ def register():
         address = form.address.data
         contact = form.contact.data
         zip = form.zip.data
-        nric = form.nric.data
+        nric = form.nric.data.upper()
         date_o_birth = str(form.date_o_birth.data)
         admission_date = str(form.admission_date.data)
 
@@ -692,6 +689,19 @@ def register():
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
     form = Schedules(request.form)
+    timedbb = root.child('timedb').get()
+    timelist = []
+    
+    for i in timedbb:
+
+        timedata = timedbb[i]
+
+        if timedata['date']:
+            timedba = Timedb(timedata['date'], timedata['open'], timedata['close'])
+            timedba.set_id(i)
+            print(timedba.get_id())
+            timelist.append(timedba)
+
     if request.method == "POST" and form.validate():
         fullname = form.fullname.data
         gender = form.gender.data
@@ -725,7 +735,7 @@ def schedule():
          })
         return redirect(url_for('schedule'))
 
-    return render_template('schedule.html', form=form)
+    return render_template('schedule.html', form=form , timedbc = timelist)
 
 
 @app.route('/patientdb')
@@ -749,7 +759,7 @@ def patientdb():
 
     return render_template('patientdb.html', booked=list)
 
-@app.route('/patientdatabase')
+@app.route('/patientsdatabase')
 def patientsdb():
     patientdata = root.child('Patient_Information').get()
     list = []
@@ -860,7 +870,7 @@ def home():
 # --- KHEE HING  CLASS---
 class Aft_dis(Form):
     nric = StringField("", validators=[validators.DataRequired])
-    status = RadioField("",choices=[(33,'0% - 33%'),(66,'34% - 66'),(99,'67% - 99%')])
+    status = RadioField("",choices=[('0 - 33','0% - 33%'),('34 - 66','34% - 66'),('67 -  99','67% - 99%')])
     
     eye_bv = BooleanField('Blurred vision')
     eye_sp = BooleanField('Spots or lines in your vision')
@@ -900,13 +910,46 @@ class Aft_dis(Form):
 class BloodA(Form):
     month = IntegerField("Month", [validators.NumberRange(min=1, max=12, message='Invalid month')])
     day = IntegerField("Day", [validators.NumberRange(min=1, max=31, message='Invalid day')])
-    blood_glucose = FloatField("Blood Glucose")
-    blood_pressure = FloatField("Blood Pressure")
-    weight = FloatField("Weight")
+    blood_glucose = FloatField("Blood Glucose (mmol/L)")
+    systolic = IntegerField("Systolic")
+    diastolic = IntegerField("Diastolic")
+    weight = FloatField("Weight (KG)")
+    height = FloatField("Height (M)")
     text_doc = StringField("Text")
 
 ####################################################################################################
 ######################################## KHEE HING APP ROUTE #######################################
+@app.route('/add', methods=["GET", "POST"])
+def after_discharge_display():
+    form = Aft_dis(request.form)
+    bmi = root.child('outpatient').get()
+    list = []
+    # try:
+    for data in bmi:
+        i = bmi[data]
+        if 'nric' in i:
+            if i['others']:
+                bmi_data = Information( i['nric'], i['status'], 
+                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
+                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
+                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
+                                        i['feet_'], 
+                                        i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
+                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'], i['others'])
+            elif i['nric']:
+                bmi_data = Information( i['nric'], i['status'], 
+                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
+                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
+                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
+                                        i['feet_'], 
+                                        i['nerves_bp'], i['nerves_n, nerves_to'], i['nerves_cd'], i['nerves_pw'], 
+                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'])
+            bmi_data.set_data(data)
+            list.append(bmi_data)
+    # except:
+    #     TypeError
+    return render_template('After_discharge_display.html', bmi = list)
+
 @app.route('/after_discharge', methods=["GET", "POST"])
 def after_discharge_():
     form = Aft_dis(request.form)
@@ -988,7 +1031,6 @@ def after_discharge_():
                 'nerves_cd': info.get_nerves_cd(),
                 'nerves_pw': info.get_nerves_pw(),
 
-
                 'neuropathy_pn': info.get_neuropathy_pn(),
                 'neuropathy_at': info.get_neuropathy_at(),
                 'neuropathy_gm': info.get_neuropathy_gm(),
@@ -1007,83 +1049,87 @@ def chronic_illness_():
     form = BloodA(request.form)
     if request.method == "POST" and form.validate():
         month = form.month.data
-        month = month-1 
+        month -= 1 
         day = form.day.data
-        blood_pressure = form.blood_pressure.data
+        systolic = form.systolic.data
+        diastolic = form.diastolic.data
         blood_glucose = form.blood_glucose.data
         weight = form.weight.data
+        height = form.height.data
         bg = BloodGlucose(month, day, blood_glucose)
-        bp = BloodPressure(month, day, blood_pressure)
-        weight = Weight(month, day, weight)
+        bp = BloodPressure(month, day, systolic, diastolic)
+        bmi = Bmi(month, day, weight, height)
 
         bp_db = root.child('Diabetes_bp')
         bg_db = root.child('Diabetes_bg')
-        weight_db = root.child('Diabetes_weight')
-        if blood_pressure != None:
+        bmi_db = root.child('Diabetes_bmi')
+
+        if diastolic and systolic:
             bp_db.push({
                 'month': bp.get_month(),
                 'day': bp.get_day(),
-                'blood pressure': bp.get_blood_pressure(),
+                'systolic': bp.get_systolic(),
+                'diastolic': bp.get_diastolic(),
             })
-        elif blood_glucose != None:
+        elif blood_glucose:
             bg_db.push({
                 'month': bg.get_month(),
                 'day': bg.get_day(),
                 'blood glucose': bg.get_blood_glucose(),
             })
-        elif weight != None:
-            weight_db.push({
-                'month': weight.get_month(),
-                'day': weight.get_day(),
-                'weight': weight.get_weight(),
+        elif weight and height:
+            bmi_db.push({
+                'day': bmi.get_day(),
+                'month': bmi.get_month(),
+                'weight': bmi.get_weight(),
+                'height': bmi.get_height(),
+                'bmi': bmi.get_bmi(),
             })
         return redirect(url_for('chronic_illness_'))
 
     bp = root.child('Diabetes_bp').get()
     bg = root.child('Diabetes_bg').get()
-    wi = root.child('Diabetes_weight').get()
+    bmi = root.child('Diabetes_bmi').get()
+
     list_bg = []
     list_bp = []
-    list_wi = []
-
+    list_bmi = []
+    
     try:
         for data in bp:
             i = bp[data]
-            if 'blood pressure' in i:
-                if i['blood pressure'] != None:
-                    db_data = BloodPressure(i['month'], i['day'], i['blood pressure'])
+            if 'systolic' and 'diastolic' in i:
+                if i['systolic'] and i['diastolic']:
+                    db_data = BloodPressure(i['month'], i['day'], i['systolic'],i['diastolic'])
                     db_data.set_data(data)
-                    # print(db_data.get_data())
                     list_bp.append(db_data)
         for data in bg:
             j = bg[data]
             if 'blood glucose' in j:
-                if j['blood glucose'] != None:
+                if j['blood glucose']:
                     db_data = BloodGlucose(j['month'], j['day'], j['blood glucose'])
                     db_data.set_data(data)
-                    # print(db_data.get_data())
                     list_bg.append(db_data)
-        for data in wi:
-            k = wi[data]
-            if 'weight' in k:
-                if k['weight'] != None:
-                    db_data = Weight(k['month'], k['day'], k['weight'])
+        for data in bmi:
+            k = bmi[data]
+            if 'weight' and 'height' in k:
+                if k['bmi']:
+                    db_data = Bmi(k['month'], k['day'], k['weight'], k['height'])
                     db_data.set_data(data)
-                    # print(db_data.get_data())
-                    list_wi.append(db_data)
+                    list_bmi.append(db_data)
     except:
         TypeError
 
-    return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg,wi=list_wi)
+    return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg, bmi=list_bmi)
 
-@app.route('/outpatient_display')
+@app.route('/after_dd')
 def outpd():
     return render_template('After_discharge_display.html')
-###**  #######  #   #  ###    **###
-###**  #        ##  #  #  #   **###
-###**  ####     # # #  #   #  **###
-###**  #        #  ##  #  #   **###
-###**  #######  #   #  ###    **###
+###**  #######  ##    #  ####    **###
+###**  #        # #   #  #   #   **###
+###**  #####    #  #  #  #    #  **###
+###**  #        #   # #  #   #   **###
+###**  #######  #    ##  ####    **###
 if __name__ == '__main__':
     app.secret_key = 'secret123'
     app.run(debug=True)

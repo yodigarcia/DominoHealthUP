@@ -7,33 +7,35 @@ class Date:
 
     def get_data(self):
         return self.__data
-
     def set_data(self, data):
         self.__data = data
 
     def get_day(self):
         return self.__day
-
     def set_day(self, day):
         self.__day = day
 
     def get_month(self):
         return self.__month
-
     def set_month(self, month):
         self.__month = month
 
 
 class BloodPressure(Date):
-    def __init__(self, month, day, blood_pressure):
+    def __init__(self, month, day, systolic, diastolic):
         super().__init__(month, day)
-        self.__blood_pressure = blood_pressure
+        self.__systolic = systolic
+        self.__diastolic = diastolic
 
-    def get_blood_pressure(self):
-            return self.__blood_pressure
+    def get_systolic(self):
+            return self.__systolic
+    def set_systolic(self, systolic):
+            self.__systolic = systolic
 
-    def set_blood_pressure(self, blood_pressure):
-            self.__blood_pressure = blood_pressure
+    def get_diastolic(self):
+            return self.__diastolic
+    def set_diastolic(self, diastolic):
+            self.__diastolic = diastolic
 
 
 class BloodGlucose(Date):
@@ -48,16 +50,25 @@ class BloodGlucose(Date):
         self.__blood_glucose = blood_glucose
 
 
-class Weight(Date):
-    def __init__(self,month , day, weight):
+class Bmi(Date):
+    def __init__(self,month , day, weight, height):
         super().__init__(month,day)
         self.__weight = weight
+        self.__height = height
 
     def get_weight(self):
         return self.__weight
-
     def set_weight(self, weight):
         self.__weight = weight
+    
+    def get_height(self):
+        return self.__height
+    def set_height(self,height):
+        self.__height = height
+    
+    def get_bmi(self):
+        return self.__weight / (self.__height * self.__height)
+
 
 class Information():
     def __init__(self, nric, status, 
@@ -98,7 +109,13 @@ class Information():
         self.__neuropathy_ud = neuropathy_ud
         self.__medication = medication
         self.__others = others
-        
+        self.__data = ''
+
+    def get_data(self):
+        return self.__data
+    def set_data(self, data):
+        self.__data = data
+                
     def get_nric(self):
         return self.__nric
     def set_nric(self,nric):

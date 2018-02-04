@@ -1,6 +1,22 @@
 {% extends 'layout.html' %}
 {% block body %}
-
+        <script>
+          $(function(){
+            $('div').click(function(){
+               var pat = $(this).attr('id');
+               if (pat != undefined) {
+                 $('#'+ pat).slideUp(300);
+               }
+            });
+            $('a').click(function(){
+               var pot = $(this).attr('href');
+               if (pot != undefined) {
+                 $(pot).slideDown(300);
+                 $(pot).css('display', 'block');
+               }
+            });
+         });
+        </script>
 <!-- Page Header -->
     <header class="masthead" style="background-image: url('../static/images/maxresdefault.jpg')">
       <div class="overlay"></div>
@@ -27,12 +43,25 @@
             </tr>
             {% for patients in patient %}
             <tr>
-                <td>{{ patients.get_fname() }} {{ patients.get_lname() }}</td>
+                <td>
+                  <a href="#patientdropdown{{ patients.get_pubid() }}" >
+                  {{ patients.get_fname() }} {{ patients.get_lname() }}
+                  </a>
+                </td>
                 <td>{{ patients.get_gender() }}</td>
                 <td>{{ patients.get_mobile() }}</td>
                 <td>{{ patients.get_nric() }}</td>
                 <td>{{ patients.get_admissiondate() }}</td>
                 <td><a href="/update/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
+            </tr>
+            <tr>
+              <td colspan="6">
+                <div id="patientdropdown{{ patients.get_pubid() }}" style="display:none;">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+              </td>
             </tr>
             {% endfor %}
         </table>

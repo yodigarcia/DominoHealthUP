@@ -7,35 +7,34 @@
                         <a href="/home"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Domino_pizza_logo.svg/1200px-Domino_pizza_logo.svg.png" height=20px><b> Domino Healthcare</b></a>
                     </li>
                     <br>
-{#                    <li>#}
-{#                        <a href="/"><small>{{ Staff_or_Patient }}</small></a>#}
-{#                    </li><!-- show that which type of account is activated -->#}
-                    <li>
-                        <a href="/profile"><strong>Profile</strong></a>
-                    </li><!-- name of login user -->
                     <li>
                         <a href="/select">Self-Tracker Patient</a>
-                    </li><!-- staff:edit | patient:see -->
+                    </li>
                     {% if session.usertype == 'Doctor' %}
                     <li>
                     <a href="/doctorselect">Doctor Select</a>
-                    </li><!-- staff:edit | patient:see -->
+                    </li>
                     {% endif %}
                     <li>
                         <a href="/events">Events</a>
-                    </li><!-- staff:edit | patient:see -->
+                    </li>
                     <li>
                         <a href="/fud">Order Food</a>
-                    </li><!-- staff:see | patient:edit -->
+                    </li>
                     <li>
                         <a href="/menu"> Menu </a>
-                    </li><!-- staff:see | patient:edit -->
+                    </li>
                     <li>
                         <a href="/chronic_illness">Chronic illness</a>
-                    </li><!-- staff:see | patient:edit -->
+                    </li>
                     <li>
-                        <a href="/After_discharge">After Discharge</a>
-                    </li><!-- staff:see | patient:edit -->
+                        <a href="/after_discharge">After Discharge</a>
+                    </li>
+                    {% if session.usertype == 'Doctor' %}
+                    <li>
+                    <a href="/after_dd">After Discharge Display</a>
+                    </li>
+                    {% endif %}
                     <li>
 {#                        <a href="/">Services</a>#}
 {#                    </li><!-- patient:see -->#}

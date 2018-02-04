@@ -163,15 +163,26 @@ def fud():
         })
         return redirect(url_for("fud"))
 
+    # food_q = root.child('food_quantity').get()
+    # list = []
 
-    return render_template('Fud.html', form=form, list1=list)
+    # try:
+    #         for pubid in food_q:
+    #             print(pubid)
+    #             fud_data = food_q[pubid]
+    #             # if fud_data['Steamed Rice'] != " ":
+    #             total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
+    #                                                 fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
+    #                                                 fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
+    #             total_calories.set_pubid(pubid)
+    #             print(total_calories.get_pubid())
+    #             list.append(total_calories)
+    #             print(len(list))
 
-@app.route('/delete/<food_q>')
+    # except:
+    #     TypeError
 
-def delete(food_q):
-    root.child('food_quantity').child(food_q).delete()
-    return redirect(url_for('calintake'))
->>>>>>> parent of 6e864fb... merge
+    return render_template('Fud.html', form=form, list1=list, total_calories=list)
 
 @app.route('/menu', methods=["GET", "POST"])
 def food():
@@ -913,10 +924,6 @@ def after_discharge_display():
                                             i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
                                             i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'],
                                             i['medication'], i['others'])
-                    # bmi_data.set_data(data)
-                    # list.append(bmi_data)
-                    # if 'eye_bv' == True:
-                    # bmi_data = Information(i['eye_bv'])
                     bmi_data.set_data(data)
                     list.append(bmi_data)
                     

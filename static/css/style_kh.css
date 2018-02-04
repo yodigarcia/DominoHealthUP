@@ -48,12 +48,13 @@ table.kheehing {
     width: 100%;
 }
 
-table.kheehing td, th {
+.kheehing td, th {
+    border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
 
-table.kheehing tr:nth-child(odd) {
+.kheehing tr:nth-child(odd) {
     background-color: #00457A;
     color:white;
 }
@@ -206,28 +207,4 @@ button {
     background-color: red;
     margin: -4px 0 0 -4px;
     margin-left: auto;
-}
-opt{
-    width: 100%;
-    border: none !important;
-}
-opt th, .opt td{
-    border:none !important;
-    width: 100%;
-}
-
-#opf input{
-    position: inherit;
-    margin-bottom: 5px;
-}
-#opf .help-inline{
-    color:red;
-    border: 1px red solid;
-    padding: 3px 10px 3px 10px;
-    border-radius: 5px;
-}
-#lbtn{
-    padding: 0 0 0 0;
-    margin-top: -40px;
-    position: absolute;
 }

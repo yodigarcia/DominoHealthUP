@@ -9,6 +9,5 @@
     "python.unitTest.unittestEnabled": false,
     "python.unitTest.promptToConfigure": false,
     "python.unitTest.pyTestEnabled": false,
-    "python.unitTest.nosetestsEnabled": false,
-    "python.pythonPath": "${workspaceFolder}\\venv\\Scripts\\python.exe"
+    "python.unitTest.nosetestsEnabled": false
 }

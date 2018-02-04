@@ -115,9 +115,9 @@
     display: block;
 }
 
-/* #patientsdb tr:nth-child(2) td:nth-last-child(1):hover {
-    background-color: #006491;
-} */
+#patientsdb td:first-child:hover{
+    cursor: pointer;
+}
 
 #patientsdb td a:hover{
     color: white;

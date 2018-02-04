@@ -168,17 +168,17 @@ def fud():
     list = []
 
     try:
-            for pubid in food_q:
-                print(pubid)
-                fud_data = food_q[pubid]
-                # if fud_data['Steamed Rice'] != " ":
-                total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-                                                    fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-                                                    fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-                total_calories.set_pubid(pubid)
-                print(total_calories.get_pubid())
-                list.append(total_calories)
-                print(len(list))
+        for pubid in food_q:
+            print(pubid)
+            fud_data = food_q[pubid]
+            # if fud_data['Steamed Rice'] != " ":
+            total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
+                                        fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
+                                        fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
+            total_calories.set_pubid(pubid)
+            print(total_calories.get_pubid())
+            list.append(total_calories)
+            print(len(list))
 
     except:
         TypeError
@@ -759,27 +759,8 @@ def patientdb():
 
     return render_template('patientdb.html', booked=list)
 
-@app.route('/patientsdatabase')
-def patientsdb():
-    patientdata = root.child('Patient_Information').get()
-    list = []
 
-    for pubid in patientdata:
-
-        patient = patientdata[pubid]
-
-        if patient['firstname']:
-            patientsdata = Patient(patient['firstname'], patient['lastname'], patient['gender'], 
-                                   patient['contact'], patient['address'], patient['zip'], 
-                                   patient['dateofbirth'], patient['admission date'], patient['nric'])
-
-            patientsdata.set_pubid(pubid)
-            print(patientsdata.get_pubid())
-            list.append(patientsdata)
-
-    return render_template('patientsdb.html', patient=list)
-
-@app.route('/update/<string:id>/', methods=["GET","POST"])
+@app.route('/updatesched/<string:id>/', methods=["GET","POST"])
 def update_patient(id):
     form = Schedules(request.form)
     if request.method == "POST":
@@ -841,6 +822,81 @@ def update_patient(id):
             form.time.data = datetime.strptime(bookedpatient.get_time(), '%H:%M:%S')
 
         return render_template('updatepatient.html', form=form)
+
+
+@app.route('/patientsdatabase')
+def patientsdb():
+    patientdata = root.child('Patient_Information').get()
+    list = []
+
+    for pubid in patientdata:
+
+        patient = patientdata[pubid]
+
+        if patient['firstname']:
+            patientsdata = Patient(patient['firstname'], patient['lastname'], patient['gender'], 
+                                   patient['contact'], patient['address'], patient['zip'], 
+                                   patient['dateofbirth'], patient['admission date'], patient['nric'])
+
+            patientsdata.set_pubid(pubid)
+            print(patientsdata.get_pubid())
+            list.append(patientsdata)
+
+    return render_template('patientsdb.html', patient=list)
+
+
+@app.route('/updateinfo/<string:id>/', methods=["GET","POST"])
+def update_patientinfo(id):
+    form = Patients(request.form)
+    if request.method == "POST" and form.validate():
+        fname = form.firstname.data
+        lname = form.lastname.data
+        gender = form.gender.data
+        address = form.address.data
+        contact = form.contact.data
+        zip = form.zip.data
+        nric = form.nric.data.upper()
+        date_o_birth = str(form.date_o_birth.data)
+        admission_date = str(form.admission_date.data)
+
+        pdb = Patient(fname, lname, gender, contact, address, zip, date_o_birth, admission_date, nric)
+
+        pdb_db = root.child('Patient_Information/'+ id)
+        pdb_db.set({
+            'firstname': pdb.get_fname(),
+            'lastname': pdb.get_lname(),
+            'gender': pdb.get_gender(),
+            'address': pdb.get_address(),
+            'contact': pdb.get_mobile(),
+            'zip': pdb.get_zip(),
+            'dateofbirth': pdb.get_dateobirth(),
+            'admission date': pdb.get_admissiondate(),
+            'nric': pdb.get_nric()
+         })
+        flash('Updated successfully', 'success')
+        return redirect(url_for('patientsdb'))
+
+    else:
+        url = 'Patient_Information/'+id
+        patient = root.child(url).get()
+
+        if patient['firstname']:
+            patientsdata = Patient(patient['firstname'], patient['lastname'], patient['gender'], 
+                                   patient['contact'], patient['address'], patient['zip'], 
+                                   patient['dateofbirth'], patient['admission date'], patient['nric'])
+            patientsdata.set_pubid(id)
+            form.firstname.data = patientsdata.get_fname()
+            form.lastname.data = patientsdata.get_lname()
+            form.gender.data = patientsdata.get_gender()
+            form.address.data = patientsdata.get_gender()
+            form.contact.data = patientsdata.get_mobile()
+            form.zip.data = patientsdata.get_zip()
+            form.nric.data = patientsdata.get_nric()
+            form.date_o_birth.data = patientsdata.get_dateobirth()
+            form.admission_date.data = patientsdata.get_admissiondate()
+
+        return render_template('updateinfo.html', form=form)
+
 
 ####################################################################################################
 ####################################################################################################
@@ -942,8 +998,8 @@ def after_discharge_display():
                                         i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
                                         i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
                                         i['feet_'], 
-                                        i['nerves_bp'], i['nerves_n, nerves_to'], i['nerves_cd'], i['nerves_pw'], 
-                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'])
+                                        i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
+                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'], i['others'])
             bmi_data.set_data(data)
             list.append(bmi_data)
     # except:

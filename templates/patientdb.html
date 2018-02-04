@@ -32,7 +32,7 @@
                 <td>{{ patients.get_schedule() }}</td>
                 <td>{{ patients.get_mobile() }}</td>
                 <td>{{ patients.get_time() }}</td>
-                <td><a href="/update/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
+                <td><a href="/updatesched/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
             </tr>
             {% endfor %}
         </table>

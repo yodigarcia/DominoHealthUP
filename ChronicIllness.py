@@ -115,7 +115,7 @@ class Information():
         return self.__data
     def set_data(self, data):
         self.__data = data
-                
+
     def get_nric(self):
         return self.__nric
     def set_nric(self,nric):
@@ -277,3 +277,6 @@ class Information():
         return self.__others
     def set_others(self,others):
         self.__others = others
+
+    def get_all(self):
+        return  self.__nric,self.__status,self.__eye_bv, self.__eye_sp, self.__eye_we, self.__eye_ed, self.__eye_lo, self.__kiney_sw, self.__kiney_wg, self.__kiney_id, self.__heart_brain_so, self.__heart_brain_ff,self.__heart_brain_fd, self.__heart_brain_sw, self.__heart_brain_n,self.__heart_brain_cp,self.__heart_brain_sj,self.__feet_,self.__nerves_bp, self.__nerves_n,self.__nerves_to,self.__nerves_cd,self.__nerves_pw,self.__neuropathy_pn,self.__neuropathy_at,self.__neuropathy_gm,self.__neuropathy_ph,self.__neuropathy_ud,self.__medication,self.__others

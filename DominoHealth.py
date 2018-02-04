@@ -163,24 +163,24 @@ def fud():
         })
         return redirect(url_for("fud"))
 
-    food_q = root.child('food_quantity').get()
-    list = []
+    # food_q = root.child('food_quantity').get()
+    # list = []
 
-    try:
-            for pubid in food_q:
-                print(pubid)
-                fud_data = food_q[pubid]
-                # if fud_data['Steamed Rice'] != " ":
-                total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-                                                    fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-                                                    fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-                total_calories.set_pubid(pubid)
-                print(total_calories.get_pubid())
-                list.append(total_calories)
-                print(len(list))
+    # try:
+    #         for pubid in food_q:
+    #             print(pubid)
+    #             fud_data = food_q[pubid]
+    #             # if fud_data['Steamed Rice'] != " ":
+    #             total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
+    #                                                 fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
+    #                                                 fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
+    #             total_calories.set_pubid(pubid)
+    #             print(total_calories.get_pubid())
+    #             list.append(total_calories)
+    #             print(len(list))
 
-    except:
-        TypeError
+    # except:
+    #     TypeError
 
     return render_template('Fud.html', form=form, list1=list, total_calories=list)
 
@@ -856,7 +856,7 @@ def home():
 ####################################################################################################
 # --- KHEE HING  CLASS---
 class Aft_dis(Form):
-    nric = StringField("", validators=[validators.DataRequired])
+    nric = StringField("", [validators.Regexp("^[sStTfFgG]\d{7}[a-zA-Z]$" ,message = "Wrong NRIC format")])
     status = RadioField("",choices=[('0 - 33','0% - 33%'),('34 - 66','34% - 66'),('67 -  99','67% - 99%')])
     
     eye_bv = BooleanField('Blurred vision')
@@ -883,11 +883,11 @@ class Aft_dis(Form):
     nerves_n = BooleanField('Numbness')
     nerves_to = BooleanField('Tingling or loss of feeling in the feet or lower legs')
     nerves_cd = BooleanField('Constipation and diarrhea')
-    nerves_pw = BooleanField('Problems with sexual function in both men and women')
+    nerves_pw = BooleanField('Problems with sexual function')
 
-    neuropathy_pn = BooleanField('Peripheral neuropathy: damage to the peripheral nervous system.')
-    neuropathy_at = BooleanField('Autonomic Type I: damage to the nerves of internal organs.')
-    neuropathy_gm = BooleanField('Gastroparesis: movement of food through the stomach slows or stops.')
+    neuropathy_pn = BooleanField('Peripheral neuropathy: damage to the peripheral nervous system')
+    neuropathy_at = BooleanField('Autonomic Type I: damage to the nerves of internal organs')
+    neuropathy_gm = BooleanField('Gastroparesis: movement of food through the stomach slows or stops')
     neuropathy_ph = BooleanField('Postural hypotension: drop in blood pressure due to change in body position')
     neuropathy_ud = BooleanField('Uncontrolled diarrhea')
 
@@ -911,36 +911,34 @@ def after_discharge_display():
     form = Aft_dis(request.form)
     bmi = root.child('outpatient').get()
     list = []
-    # try:
-    for data in bmi:
-        i = bmi[data]
-        if 'nric' in i:
-            if i['others']:
-                bmi_data = Information( i['nric'], i['status'], 
-                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
-                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
-                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
-                                        i['feet_'], 
-                                        i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
-                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'], i['others'])
-            elif i['nric']:
-                bmi_data = Information( i['nric'], i['status'], 
-                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
-                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
-                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
-                                        i['feet_'], 
-                                        i['nerves_bp'], i['nerves_n, nerves_to'], i['nerves_cd'], i['nerves_pw'], 
-                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'])
-            bmi_data.set_data(data)
-            list.append(bmi_data)
-    # except:
-    #     TypeError
+    try:
+        for data in bmi:
+            i = bmi[data]
+            if 'nric' in i:
+                if i['nric']:
+                    bmi_data = Information( i['nric'], i['status'], 
+                                            i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
+                                            i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
+                                            i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
+                                            i['feet_'], 
+                                            i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
+                                            i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'],
+                                            i['medication'], i['others'])
+                    # bmi_data.set_data(data)
+                    # list.append(bmi_data)
+                    # if 'eye_bv' == True:
+                    # bmi_data = Information(i['eye_bv'])
+                    bmi_data.set_data(data)
+                    list.append(bmi_data)
+                    
+    except:
+        TypeError
     return render_template('After_discharge_display.html', bmi = list)
 
 @app.route('/after_discharge', methods=["GET", "POST"])
 def after_discharge_():
     form = Aft_dis(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and form.validate():
         nric = form.nric.data
         status = form.status.data
 
@@ -1027,6 +1025,7 @@ def after_discharge_():
                 'medication': info.get_medication(),
                 'others': info.get_others(),
             })
+        
         return redirect(url_for('after_discharge_'))
 
     return render_template('after_discharge.html', form = form)

@@ -18,19 +18,12 @@
                     <li>
                         <a href="/events">Events</a>
                     </li>
-                    {% if session.usertype == 'Doctor' %}
-                    <li>
-                    <a href="/CalIntake">Patient's Calorie Intake</a>
-                    </li>
-                    {% endif %}
-                    {% if session.usertype == 'Patient' %}
                     <li>
                         <a href="/fud">Order Food</a>
                     </li>
                     <li>
-                        <a href="/food_info">Food Information</a>
+                        <a href="/menu"> Menu </a>
                     </li>
-                    {% endif %}
                     <li>
                         <a href="/chronic_illness">Chronic illness</a>
                     </li>

@@ -2,12 +2,6 @@ body {
     background-color: #f2f2f2;
 }
 
-.f_menu {
-    text-align: center;
-    margin-right: 1%;
-    font-size: 50px;
-}
-
 .box-pos {
     display: inline-block;
     width: 250px;
@@ -58,27 +52,6 @@ img {
     height: 80px;
     width: 350px;
     font-size: 40px;
-}
-
-.Food_quantity2 {
-    margin-left: 36%;
-    text-align: center;
-    height: 80px;
-    width: 350px;
-    font-size: 40px;
-}
-
-.Food_quantity3 {
-    margin-left: 36%;
-    text-align: center;
-    height: 80px;
-    width: 350px;
-    font-size: 20px;
-}
-
-.f_title {
-    text-align: center;
-    margin-right: 3%;
 }
 
 .food_title {

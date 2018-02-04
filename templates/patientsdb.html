@@ -5,14 +5,7 @@
             $('div').click(function(){
                var pat = $(this).attr('id');
                if (pat != undefined) {
-                 $('#'+ pat).slideUp(300);
-               }
-            });
-            $('a').click(function(){
-               var pot = $(this).attr('href');
-               if (pot != undefined) {
-                 $(pot).slideDown(300);
-                 $(pot).css('display', 'block');
+                 $('#'+ pat).attr('class', 'collapse');
                }
             });
          });
@@ -44,7 +37,7 @@
             {% for patients in patient %}
             <tr>
                 <td>
-                  <a href="#patientdropdown{{ patients.get_pubid() }}" >
+                  <a href="#patientdropdown{{ patients.get_pubid() }}" data-toggle="collapse">
                   {{ patients.get_fname() }} {{ patients.get_lname() }}
                   </a>
                 </td>
@@ -56,7 +49,7 @@
             </tr>
             <tr>
               <td colspan="6">
-                <div id="patientdropdown{{ patients.get_pubid() }}" style="display:none;">
+                <div id="patientdropdown{{ patients.get_pubid() }}" class="collapse">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

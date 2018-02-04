@@ -8,25 +8,24 @@
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
               <h1>Feeling Hungry?</h1>
-                <h2>Our nutritious meals & snacks will fill you up! </h2> <br>
-                <h5>Food is STRICTLY for Patients only</h5>
-                <h5>!!! Orders above 1,800 calories & without name and time will not be served !!!</h5>
+                <h3>Our nutritious meals & snacks will fill you up! </h3> <h5>(Do take note that our portions are smaller than usual)</h5> <br>
+                <h6>Food is STRICTLY for Patients only</h6>
             </div>
           </div>
         </div>
       </div>
 
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyCqk7saUxrniqmu914PiyznojPxVLnikc4",
-            authDomain: "dominohealth.firebaseapp.com",
-            databaseURL: "https://dominohealth.firebaseio.com",
-            storageBucket: "dominohealth.appspot.com"
-        };
-        firebase.initializeApp(config);
-    </script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCqk7saUxrniqmu914PiyznojPxVLnikc4",
+                authDomain: "dominohealth.firebaseapp.com",
+                databaseURL: "https://dominohealth.firebaseio.com",
+                storageBucket: "dominohealth.appspot.com"
+            };
+            firebase.initializeApp(config);
+        </script>
 
     </header>
 
@@ -38,9 +37,6 @@
 
     <div class="container">
         <form method="post" action="/fud">
-
-            <h2 class="f_menu">~~~~ Menu ~~~~</h2><br>
-
             <div class="box-pos">
                 <div class="ins-box">
                     <div class="inn-box food-item">
@@ -186,19 +182,37 @@
             </div>
             <br><br>
 
-            <div>
-                <div>
-                    <h5 class="f_title">Please Enter Your Name:</h5>
-                    {{ render_field(form.name, class="form-control col-sm-3 Food_quantity2") }}
-                    <h5 class="f_title">Please Enter The Time:</h5>
-                    {{ render_field(form.time, class="form-control col-sm-3 Food_quantity3") }}
-                </div>
-            </div> <br>
-
             <input type="submit" value="Order" class="form-control Food_quantity" formaction="/fud">
         </form>
-    </div>
+    </div><br><br>
 
+
+
+    <table>
+        {% for food_sel in list %}
+    <tr>
+        <td>{{ food_sel.get_total_calories() }} CAL</td>
+{#        <td><form action="{{url_for('delete_publication', id=food_sel.get_pubid())}}" method="post">#}
+{#            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"></form></td>#}
+    </tr>
+          {% endfor %}
+    </table>
+    <table class="table table-bordered Food_data" id="customers">
+        <thead>
+        <tr>
+            <th>Total Calories in Meals</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for food_sel in list %}
+    <tr>
+        <td>{{ food_sel.get_total_calories() }} CAL</td>
+{        <td><form action="{{url_for('delete_publication', id=food_sel.get_pubid())}}" method="post">#}
+{            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"></form></td>#}
+    </tr>
+          {% endfor %}
+        </tbody>
+</table>
 
     </body>
 

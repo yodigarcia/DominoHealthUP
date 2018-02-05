@@ -24,9 +24,9 @@ from events_submissions import event_submissions
 
 
 #<!--- yodi --->
-# cred = credentials.Certificate(r"C:\Users\yodigarcia\Downloads\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#    'databaseURL': 'https://dominohealth.firebaseio.com'})
+cred = credentials.Certificate(r"C:\Users\yodigarcia\Downloads\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+default_app = firebase_admin.initialize_app(cred, {
+   'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 #<!--- kiahzuo desktop --->
@@ -867,7 +867,7 @@ def update_patientinfo(id):
             form.firstname.data = patientsdata.get_fname()
             form.lastname.data = patientsdata.get_lname()
             form.gender.data = patientsdata.get_gender()
-            form.address.data = patientsdata.get_gender()
+            form.address.data = patientsdata.get_address()
             form.contact.data = patientsdata.get_mobile()
             form.zip.data = patientsdata.get_zip()
             form.nric.data = patientsdata.get_nric()

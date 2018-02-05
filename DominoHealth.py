@@ -29,9 +29,9 @@ from Timedb import Timedb
 
 
 #<!--- kiahzuo desktop --->
-#cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
-#default_app = firebase_admin.initialize_app(cred, {
-#    'databaseURL': 'https://dominohealth.firebaseio.com'})
+cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
+default_app = firebase_admin.initialize_app(cred, {
+   'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kheehing desktop --->
 # cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -198,12 +198,12 @@ def food():
 ####################################################################################################
 # --- KIAH ZUO CLASS ---
 class Waterer(Form):
-    water = TextAreaField("General Information")
-    water2 = TextAreaField("Symptoms")
+    water = TextAreaField("Symptoms")
+    water2 = TextAreaField("General Information")
     water3 = TextAreaField("Is Surgery Required for my instance")
     note1= TextAreaField("What are the different type of diabetes")
-    note2= TextAreaField("How long do I need to stay in the hospital")
-    pain1 = TextAreaField("Will there be long term consequences ?")
+    note2= TextAreaField("What are some myths about diabetes")
+    pain1 = TextAreaField("How long do I need to stay in the hospital")
 
 class Waterer4(Form):
     water41 = SelectField(u'Morning',
@@ -267,7 +267,7 @@ def selfprofile():
         waterdata= water4[pubid]
 
         if waterdata['water44'] != " ":
-            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
+            waterdatapatient=Water4(waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['water44'],waterdata['name4'])
             waterdatapatient.set_pubid(pubid)
             print(waterdatapatient.get_pubid())
             list.append(waterdatapatient)
@@ -326,7 +326,7 @@ def docupdate():
         waterdata= water4[pubid]
 
         if waterdata['water44'] != " ":
-            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
+            waterdatapatient=Water4(waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['water44'],waterdata['name4'])
             waterdatapatient.set_pubid(pubid)
             print(waterdatapatient.get_pubid())
             list.append(waterdatapatient)
@@ -466,8 +466,8 @@ def update_publication(id):
     form = Waterer4(request.form)
     if request.method == 'POST':
             morning=form.water41.data
-            afternoon=form.water43.data
-            night=form.water42.data
+            afternoon=form.water42.data
+            night=form.water43.data
             date=str(form.water44.data)
             name=form.name4.data
 
@@ -475,9 +475,9 @@ def update_publication(id):
             longupdate_db = root.child('long/' + id)
 
             longupdate_db.set({
-                "water41":longupdate.get_water43(),
+                "water41":longupdate.get_water41(),
                 "water42":longupdate.get_water42(),
-                "water43":longupdate.get_water41(),
+                "water43":longupdate.get_water43(),
                 "water44":longupdate.get_water44(),
                 "name4":longupdate.get_name4()
 
@@ -492,10 +492,10 @@ def update_publication(id):
         waterdata = root.child(url).get()
 
         if waterdata['name4'] != " ":
-            waterdatapatient = Water4(waterdata['water43'], waterdata['water41'], waterdata['water42'],
+            waterdatapatient = Water4(waterdata['water41'], waterdata['water42'], waterdata['water43'],
                                           waterdata['water44'], waterdata['name4'])
             waterdatapatient.set_pubid(id)
-            form.water44.data=datetime.strptime(waterdatapatient.get_water44(), '%Y-%m-%d')
+            form.water44.data=datetime.datetime.strptime(waterdatapatient.get_water44(), '%Y-%m-%d')
             form.water43.data=waterdatapatient.get_water43()
             form.water42.data=waterdatapatient.get_water42()
             form.water41.data=waterdatapatient.get_water41()

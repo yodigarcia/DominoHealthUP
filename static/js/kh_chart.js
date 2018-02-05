@@ -128,19 +128,18 @@ function round(value, decimals) {
 // Graph 1
 function show_chart() {
 	var cip_blood_chart = new CanvasJS.Chart("cip_blood_chart", {
-		animationEnabled: true,
+	animationEnabled: true,
 	theme: "light2",
 	axisY:{
-		includeZero: false
+		includeZero: false,
 	},
 	axisX:{
-		valueFormatString: "DD MMM",
+		valueFormatString:  "D MMM",
 		gridColor: "Silver",
 	},
 	legend:{
 		cursor:"pointer",
 		verticalAlign: "bottom",
-		horizontalAlign: "left",
 		dockInsidePlotArea: true,
 	},
 	toolTip:{

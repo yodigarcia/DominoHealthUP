@@ -1,6 +1,33 @@
 {% extends "layout.html" %}
 {% block body %}
 {% from "includes/_formhelper.html" import render_field %}
+<script>
+    onload = function kh_id() {
+      window.x = document.getElementsByClassName("get_nric_opt");
+      window.y = document.getElementsByClassName("give_id");
+      window.nric_list = [];
+      for(i=0;i<x.length;i++){
+        nric_list.push(x[i].innerHTML);
+      };
+      for(i=0;i<x.length;i++){
+        y[i].id = nric_list[i];
+        console.log(nric_list[i]);
+      };
+      for(i=0;i<x.length;i++){
+      var z = document.getElementById(nric_list[i])
+      z.style.display = "None";
+      };
+    }
+    function show_nric(){
+      var show = document.getElementById("show_nric").value;
+      var ashow = document.getElementById(show);
+      for(i=0;i<x.length;i++){
+        var z = document.getElementById(nric_list[i])
+        z.style.display = "None";
+      };
+      ashow.style.display = "block";
+    };
+</script>
 <!-- Page Content -->
     <header class="masthead" style="background-image: url('../static/images/header_head.jpg')">
       <div class="overlay"></div>
@@ -20,86 +47,249 @@
     <div id="wrapper">
 
         {% include 'includes/sidebar.html' %}
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-			      <div class="container opensans">
-              {% for i in bmi %}
-                <table class="kheehing">
-                  <tr>
-                    <th>title</th>
-                    <th>result</th>
-                  </tr>
-                  <tr>
-                    <td>Nric</td>
-                    <td>{{ i.get_nric() }}</td>
-                  </tr>
-                  <tr>
-                    <td>Recovery Status</td>
-                    <td>{{ i.get_status() }}% </td>
-                  </tr>
-                  <tr>
-                    <td>Blurred vision</td>
-                    <td>{{ i.get_eye_bv() }}</td>
-                  </tr>
-                  <tr>
-                    <td>Spots or lines in your vision</td>
-                    <td>{{ i.get_eye_sp() }}</td>
-                  </tr>
-                  <tr>
+        <div class="container">
+            <form>
+              <label for="show_nric">Nric of patient:</label>
+              <input type="text" class="form-control" id="show_nric">
+  
+            </form>
+              <button onclick="show_nric()" class="form-control">Find</button>
+          </div>
+          <div id="opt_br">
+          </div>
+          <!-- Page Content -->
+          <div id="page-content-wrapper">
+                    <div class="container opensans" id="forloop_opt">
+                {% for i in bmi %}
+                  <table class="give_id opt"> 
+                    <tr>
+                      <td>NRIC</td>
+                      <td class="get_nric_opt">{{ i.get_nric() }}</td>
+                    </tr>
+                    <tr>
+                      <td>Recovery Status</td>
+                      <td>{{ i.get_status() }}%</td>
+                    </tr>
+                    {% if i.get_medication() != "" %}
+                    <tr>
+                        <td>medication problem<small>if any</small></td>
+                        <td>{{ i.get_medication() }}</td>
+                      </tr>
+                      {% endif %}
+                    {% if i.get_others() != "" %}
+                    <tr>
+                        <td>Do you have any other enquires ?</td>
+                        <td>{{ i.get_others() }}</td>
+                      </tr>
+                      {% endif %}
+                    <tr>
+                      <th>Conditions</th>
+                      <th>Results</th>
+                    </tr>
+                    <tr>
+                      <th>Eyes</th>
+                      {% if i.get_eye_bv() == False and i.get_eye_sp() == False and i.get_eye_we() == False and i.get_eye_ed() == False and i.get_eye_lo() == False %}
+                      <td>No Problem stated</td>{% endif %}
+                    </tr>
+                    {% if i.get_eye_bv() == True %}
+                    <tr>
+                      <td>Blurred vision</td>
+                      <td>{{ i.get_eye_bv() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_eye_sp() == True %}
+                    <tr>
+                      <td>Spots or lines in your vision</td>
+                      <td>{{ i.get_eye_sp() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_eye_we() == True %}
+                    <tr>
                       <td>Watery eyes</td>
                       <td>{{ i.get_eye_we() }}</td>
-                  </tr>
-                  <tr>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_eye_ed() == True %}
+                    <tr>
                       <td>Eye discomfort</td>
                       <td>{{ i.get_eye_ed() }}</td>
-                  </tr>
-                  <tr>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_eye_lo() == True %}
+                    <tr>
                       <td>Loss of vision</td>
                       <td>{{ i.get_eye_lo() }}</td>
-                  </tr>
-                  <tr>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Kiney</th>
+                        {% if i.get_kiney_sw() == False and
+                              i.get_kiney_wg() == False and
+                              i.get_kiney_id() == False %}<td>No Problem stated</td>{% endif %}
+                      </tr>
+                    {% if i.get_kiney_sw() == True %}
+                    <tr>
                       <td>Swelling of the hands, feet, and face</td>
-                      <td>{{ i.get_eye_sw() }}</td>
-                  </tr>
-                  <tr>
+                      <td>{{ i.get_kiney_sw() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_kiney_wg() == True %}
+                    <tr>
                       <td>Weight gain from edema</td>
-                      <td>{{ i.get_eye_wg() }}</td>
-                  </tr>
-                  <tr>
+                      <td>{{ i.get_kiney_wg() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_kiney_id() == True %}
+                    <tr>
                       <td>Weight gain from edema</td>
-                      <td>{{ i.get_eye_id() }}</td>
-                  </tr>
-                  <tr>
+                      <td>{{ i.get_kiney_id() }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Heart & Brain</th>
+                        {% if i.get_heart_brain_so() == False and
+                              i.get_heart_brain_ff() == False and
+                              i.get_heart_brain_fd() == False and
+                              i.get_heart_brain_sw() == False and
+                              i.get_heart_brain_cp() == False and
+                              i.get_heart_brain_sj() == False and
+                              i.get_heart_brain_n() == False %}<td>No Problem stated</td>{% endif %}
+                    </tr>
+                    {% if i.get_heart_brain_so() == True %}
+                    <tr>
                       <td>Shortness of breath</td>
                       <td>{{ i.get_heart_brain_so() }}</td>
-                  </tr>
-                  <tr>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_heart_brain_ff() == True %}
+                    <tr>
                       <td>Feeling faint</td>
                       <td>{{ i.get_heart_brain_ff() }}</td>
-                  </tr>
-                  <tr>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_heart_brain_fd() == True %}
+                    <tr>
                       <td>Sweating</td>
                       <td>{{ i.get_heart_brain_fd() }}</td>
-                  </tr>
-                  <tr>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_heart_brain_sw() == True %}
+                    <tr>
                       <td>Feeling dizzy</td>
                       <td>{{ i.get_heart_brain_sw() }}</td>
-                  </tr>
-                  <tr>
+                    </tr>
+  
+                    {% endif %}
+                    {% if i.get_heart_brain_n() == True %}
+                    <tr>
                       <td>Nausea</td>
                       <td>{{ i.get_heart_brain_n() }}</td>
-                  </tr>
-                  <p>{{ i.get_feet_() }}</p>
-
-                  <p>{{ i.get_nerves_bp() }}</p>
-
-                  <p>{{ i.get_neuropathy_pn() }}</p>
-
-                </table>
-              {% endfor %}
-            </div>
-        </div>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_heart_brain_cp() == True %}
+                    <tr>
+                      <td>Chest pain or pressure</td>
+                      <td>{{ i.get_heart_brain_cp() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_heart_brain_sj() == True %}
+                    <tr>
+                      <td>Pain in the shoulders, jaw, and left arm</td>
+                      <td>{{ i.get_heart_brain_sj() }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Feet</th>
+                        {% if i.get_feet_() == False %}<td>No Problem stated</td>{% endif %}
+                    </tr>
+                    {% if i.get_feet_() == True %}
+                    <tr>
+                      <td>slow healing of sores.<br>severe pain, but you can also lose feeling in your feet<br></td>
+                      <td>{{ i.get_feet_() }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Nerves</th>
+                        {% if i.get_nerves_bp() == False and
+                              i.get_nerves_to() == False and
+                              i.get_nerves_cd() == False and
+                              i.get_nerves_pw() == False and
+                              i.get_nerves_n() == False %}<td>No Problem stated</td>{% endif %}
+                    </tr>
+                    {% if i.get_nerves_bp() == True %}
+                    <tr>
+                      <td>Burning pain</td>
+                      <td>{{ i.get_nerves_bp() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_nerves_n() == True %}
+                    <tr>
+                      <td>Numbness</td>
+                      <td>{{ i.get_nerves_n() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_nerves_to() == True %}
+                    <tr>
+                      <td>Tingling or loss of feeling in the feet or lower legs</td>
+                      <td>{{ i.get_nerves_to() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_nerves_cd() == True %}
+                    <tr>
+                      <td>Constipation and diarrhea</td>
+                      <td>{{ i.get_nerves_cd() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_nerves_pw() == True %}
+                    <tr>
+                      <td>Problems with sexual function</td>
+                      <td>{{ i.get_nerves_pw() }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th>Neuropathy</th>
+                        {% if i.get_neuropathy_pn() == False and
+                              i.get_neuropathy_at() == False and
+                              i.get_neuropathy_gm() == False and
+                              i.get_neuropathy_ph() == False and
+                              i.get_neuropathy_ph() == False %}<td>No Problem stated</td>{% endif %}
+                    </tr>
+                    {% if i.get_neuropathy_pn() == True %}
+                    <tr>
+                      <td>Peripheral neuropathy: damage to the peripheral nervous system</td>
+                      <td>{{ i.get_neuropathy_pn() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_neuropathy_at() == True %}
+                    <tr>
+                      <td>Autonomic Type I: damage to the nerves of internal organs</td>
+                      <td>{{ i.get_neuropathy_at() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_neuropathy_gm() == True %}
+                    <tr>
+                      <td>Gastroparesis: movement of food through the stomach slows or stops</td>
+                      <td>{{ i.get_neuropathy_gm() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_neuropathy_ph() == True %}
+                    <tr>
+                      <td>Postural hypotension: drop in blood pressure due to change in body position</td>
+                      <td>{{ i.get_neuropathy_ph() }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if i.get_neuropathy_ud() == True %}
+                    <tr>
+                      <td>Uncontrolled diarrhea</td>
+                      <td>{{ i.get_neuropathy_ud() }}</td>
+                    </tr>
+                    {% endif %}
+                  </table>
+                {% endfor %}
+              </div>
+          </div>
+      </div>
+       
     </div>
     <br>
     <br>

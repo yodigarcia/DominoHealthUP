@@ -2,21 +2,25 @@
 {% block body %}
         <script>
           $(function(){
-            $('div').click(function(){
-               var pat = $(this).attr('id');
-               if (pat != undefined) {
-                 $('#'+ pat).slideUp(300);
-               }
+              $('td').click(function(event){
+                var pot = $(this).attr('href');
+                if (pot != 'nav-link'){
+                  if (pot != undefined) {
+                    event.preventDefault();
+                    $(pot).slideToggle(300);
+                  };
+                };
+              });
             });
-            $('a').click(function(){
-               var pot = $(this).attr('href');
-               if (pot != undefined) {
-                 $(pot).slideDown(300);
-                 $(pot).css('display', 'block');
-               }
-            });
-         });
         </script>
+        <style>
+          p {
+            margin: 10px 0;
+          }
+          h4 {
+            color: #555555;
+          }
+        </style>
 <!-- Page Header -->
     <header class="masthead" style="background-image: url('../static/images/maxresdefault.jpg')">
       <div class="overlay"></div>
@@ -34,32 +38,37 @@
     <div class="container">
         <table class="table" id="patientsdb">
             <tr>
-                <th>Full Name</th>
-                <th>Gender</th>
-                <th>Contact</th>
-                <th>NRIC</th>
-                <th>Admission Date</th>
-                <th>Update</th>
+              <th>Full Name</th>
+              <th>Gender</th>
+              <th>Contact</th>
+              <th>NRIC</th>
+              <th>Admission Date</th>
+              <th>Update</th>
             </tr>
+
             {% for patients in patient %}
-            <tr>
-                <td>
-                  <a href="#patientdropdown{{ patients.get_pubid() }}" >
-                  {{ patients.get_fname() }} {{ patients.get_lname() }}
-                  </a>
-                </td>
-                <td>{{ patients.get_gender() }}</td>
-                <td>{{ patients.get_mobile() }}</td>
-                <td>{{ patients.get_nric() }}</td>
-                <td>{{ patients.get_admissiondate() }}</td>
-                <td><a href="/update/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
+            <tr style="text-align:center;">
+              <td href="#patientdropdown{{ patients.get_pubid() }}" id="test">
+                {{ patients.get_fname() }} {{ patients.get_lname() }}
+              </td>
+              </td>
+              <td>{{ patients.get_gender() }}</td>
+              <td>{{ patients.get_mobile() }}</td>
+              <td>{{ patients.get_nric() }}</td>
+              <td>{{ patients.get_admissiondate() }}</td>
+              <td><a href="/updateinfo/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
             </tr>
+            <tr>
+              
             <tr>
               <td colspan="6">
-                <div id="patientdropdown{{ patients.get_pubid() }}" style="display:none;">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <div id="patientdropdown{{ patients.get_pubid() }}" style="display:none; text-align:center;">
+                  <h4>Address</h4>
+                  <p>{{ patients.get_address() }}</p>
+                  <h4>Postal code</h4>
+                  <p>{{ patients.get_zip() }}</p>
+                  <h4>Date of Birth</h4>
+                  <p>{{ patients.get_dateobirth() }}</p>
                 </div>
               </td>
             </tr>

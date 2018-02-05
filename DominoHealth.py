@@ -1,3 +1,4 @@
+# C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe (ignore this line its for me [Kheehing])
 from flask import Flask, render_template, request, url_for, redirect, session, flash
 from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, TextAreaField, validators, FloatField ,SelectField,TextAreaField,BooleanField
 from wtforms.fields.html5 import DateField
@@ -23,9 +24,9 @@ from events_submissions import event_submissions
 
 
 #<!--- yodi --->
-cred = credentials.Certificate(r"C:\Users\yodigarcia\Downloads\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-default_app = firebase_admin.initialize_app(cred, {
-   'databaseURL': 'https://dominohealth.firebaseio.com'})
+# cred = credentials.Certificate(r"C:\Users\yodigarcia\Downloads\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# default_app = firebase_admin.initialize_app(cred, {
+#    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 #<!--- kiahzuo desktop --->
@@ -1010,15 +1011,11 @@ def after_discharge_display():
                                             i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
                                             i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'],
                                             i['medication'], i['others'])
-                    # bmi_data.set_data(data)
-                    # list.append(bmi_data)
-                    # if 'eye_bv' == True:
-                    # bmi_data = Information(i['eye_bv'])
                     bmi_data.set_data(data)
                     list.append(bmi_data)
-                    
     except:
         TypeError
+        
     return render_template('After_discharge_display.html', bmi = list)
 
 @app.route('/after_discharge', methods=["GET", "POST"])

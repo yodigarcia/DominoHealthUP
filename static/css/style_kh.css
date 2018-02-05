@@ -49,6 +49,7 @@ table.kheehing {
 }
 
 table.kheehing td, th {
+    border: none;
     text-align: left;
     padding: 8px;
 }
@@ -213,8 +214,9 @@ opt{
 }
 opt th, .opt td{
     border:none !important;
-    width: 100%;
+    width: 83%;
 }
+
 
 #opf input{
     position: inherit;

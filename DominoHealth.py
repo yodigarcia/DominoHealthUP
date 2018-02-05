@@ -3,11 +3,10 @@ from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, 
 from wtforms.fields.html5 import DateField
 from wtforms_components import TimeField
 from firebase_admin import credentials, db
-from datetime import datetime 
+from datetime import datetime
 import firebase_admin
 import json
 from ChronicIllness import BloodPressure, BloodGlucose, Bmi, Information, Date
-from Calories_Graph import Calories
 from Food_Select import Food_Select
 from feedback import Feedback1
 from Schedule import Schedule
@@ -19,25 +18,27 @@ from water3 import Water3
 from water4 import Water4
 from Food_1 import Food
 from water import Water
+from Timedb import Timedb
+from events_submissions import event_submissions
 
 
 #<!--- yodi --->
-# cred = credentials.Certificate(r"C:\Users\yodigarcia\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
-#    'databaseURL': 'https://dominohealth.firebaseio.com'})
+cred = credentials.Certificate(r"C:\Users\yodigarcia\Downloads\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+default_app = firebase_admin.initialize_app(cred, {
+   'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 #<!--- kiahzuo desktop --->
 # cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 # default_app = firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://dominohealth.firebaseio.com'})
+#    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- kheehing desktop --->
-cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
 # <!--- kheehing laptop --->
 # cred = credentials.Certificate(r"C:\Users\kheehing\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-default_app = firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://dominohealth.firebaseio.com'})
+# default_app = firebase_admin.initialize_app(cred, {
+#     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop --->
 # cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -45,8 +46,8 @@ default_app = firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 #<!--- matthew laptop 2 --->
-# cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-# default_app = firebase_admin.initialize_app(cred, {
+#cred = credentials.Certificate(r"C:\Users\matth\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+#default_app = firebase_admin.initialize_app(cred, {
 #      'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 app = Flask(__name__)
@@ -72,6 +73,10 @@ class Caloriess(Form):
     calories = StringField("")
 
 class Fud_Select(Form):
+    name = TextAreaField('Enter Your Name:')
+
+    time = SelectField(u'Time',choices=[('', '-'), ('Breakfast', 'Breakfast'), ('Lunch', 'Lunch'), ('Dinner', 'Dinner')])
+
     my_food_order = SelectField(u'Steamed Rice',
                                  choices=[(0, '-'), (295, '1 Serving (~295 cal)'), (590, '2 Servings (~590 cal)'),
                                           (885, '3 Servings (~885 cal)')])
@@ -129,6 +134,8 @@ def food_info():
 def fud():
     form = Fud_Select(request.form)
     if request.method == "POST":
+        name = form.name.data
+        f_time = form.time.data
         food_quantity = form.my_food_order.data
         food_quantity2 = form.my_food_order2.data
         food_quantity3 = form.my_food_order3.data
@@ -142,11 +149,13 @@ def fud():
         food_quantity11 = form.my_food_order11.data
         food_quantity12 = form.my_food_order12.data
 
-        food_q = Food_Select(food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
+        food_q = Food_Select(name, f_time, food_quantity, food_quantity2, food_quantity3, food_quantity4, food_quantity5, food_quantity6,
                              food_quantity7, food_quantity8, food_quantity9, food_quantity10, food_quantity11, food_quantity12)
 
         food_q_db = root.child('food_quantity')
         food_q_db.push({
+            "f_name": food_q.get_name(),
+            "f_time": food_q.get_f_time(),
             "Steamed Rice": food_q.get_food_quantity(),
             "Vegetable Porridge": food_q.get_food_quantity2(),
             "Mixed Rice": food_q.get_food_quantity3(),
@@ -159,71 +168,42 @@ def fud():
             "Breakfast Set": food_q.get_food_quantity10(),
             "Vegetables & Rice": food_q.get_food_quantity11(),
             "Breakfast Omelette": food_q.get_food_quantity12(),
-            "total_calories" : food_q.get_total_calories()
+            "totalcal" : food_q.getTotalcalorie(),
         })
+
         return redirect(url_for("fud"))
 
-    # food_q = root.child('food_quantity').get()
-    # list = []
+    return render_template('Fud.html', form=form, list1=list)
 
-<<<<<<< HEAD
-    try:
-        for pubid in food_q:
-            print(pubid)
-            fud_data = food_q[pubid]
-            # if fud_data['Steamed Rice'] != " ":
-            total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-                                        fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-                                        fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-            total_calories.set_pubid(pubid)
-            print(total_calories.get_pubid())
-            list.append(total_calories)
-            print(len(list))
-=======
-    # try:
-    #         for pubid in food_q:
-    #             print(pubid)
-    #             fud_data = food_q[pubid]
-    #             # if fud_data['Steamed Rice'] != " ":
-    #             total_calories = Food_Select(fud_data['Steamed Rice'], fud_data['Vegetable Porridge'], fud_data['Mixed Rice'], fud_data['Vegetable Fusilli'],
-    #                                                 fud_data['Mixed Fruit Yogurt'], fud_data['Mushroom Soup'], fud_data['Yogurt Special'], fud_data['Steamed Salmon'],
-    #                                                 fud_data['Salad & Eggs'], fud_data['Breakfast Set'], fud_data['Vegetables & Rice'], fud_data['Breakfast Omelette'], fud_data['total_calories'])
-    #             total_calories.set_pubid(pubid)
-    #             print(total_calories.get_pubid())
-    #             list.append(total_calories)
-    #             print(len(list))
->>>>>>> 83d5a4c55892ab8206e90a06d9e9747a3223e0b3
+@app.route('/CalIntake')
+def calintake():
+    ref = db.reference('food_quantity')
+    food_q = ref.get()
 
-    # except:
-    #     TypeError
+    return render_template('Your_Calorie_Intake.html', food_q = food_q )
 
-    return render_template('Fud.html', form=form, list1=list, total_calories=list)
+@app.route('/delete/<food_q>')
+
+def delete(food_q):
+    root.child('food_quantity').child(food_q).delete()
+    return redirect(url_for('calintake'))
 
 @app.route('/menu', methods=["GET", "POST"])
 def food():
-    form = Fooder(request.form)
-    if request.method == "POST":
-        quantity = form.quantity.data
 
-        send = Food(quantity)
-        send_db = root.child('selected')
-        send_db.push({
-            "Steamed_Rice": send.get_quantity(),
-        })
-
-    return render_template('food.html', form = form)
+    return render_template('food.html')
 
 ####################################################################################################
 ####################################################################################################
 ####################################################################################################
 # --- KIAH ZUO CLASS ---
 class Waterer(Form):
-    water = TextAreaField("General Information")
-    water2 = TextAreaField("Symptoms")
+    water = TextAreaField("Symptoms")
+    water2 = TextAreaField("General Information")
     water3 = TextAreaField("Is Surgery Required for my instance")
     note1= TextAreaField("What are the different type of diabetes")
-    note2= TextAreaField("How long do I need to stay in the hospital")
-    pain1 = TextAreaField("Will there be long term consequences ?")
+    note2= TextAreaField("What are some myths about diabetes")
+    pain1 = TextAreaField("How long do I need to stay in the hospital")
 
 class Waterer4(Form):
     water41 = SelectField(u'Morning',
@@ -287,7 +267,7 @@ def selfprofile():
         waterdata= water4[pubid]
 
         if waterdata['water44'] != " ":
-            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
+            waterdatapatient=Water4(waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['water44'],waterdata['name4'])
             waterdatapatient.set_pubid(pubid)
             print(waterdatapatient.get_pubid())
             list.append(waterdatapatient)
@@ -346,7 +326,7 @@ def docupdate():
         waterdata= water4[pubid]
 
         if waterdata['water44'] != " ":
-            waterdatapatient=Water4(waterdata['water44'],waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['name4'])
+            waterdatapatient=Water4(waterdata['water41'],waterdata['water42'],waterdata['water43'],waterdata['water44'],waterdata['name4'])
             waterdatapatient.set_pubid(pubid)
             print(waterdatapatient.get_pubid())
             list.append(waterdatapatient)
@@ -480,15 +460,14 @@ def update_wiki(id):
         return render_template('updatewiki.html',form=form)
 
 
-
 # Update the user intake
 @app.route('/updatelong/<string:id>/', methods=['GET', 'POST'])
 def update_publication(id):
     form = Waterer4(request.form)
     if request.method == 'POST':
             morning=form.water41.data
-            afternoon=form.water43.data
-            night=form.water42.data
+            afternoon=form.water42.data
+            night=form.water43.data
             date=str(form.water44.data)
             name=form.name4.data
 
@@ -496,9 +475,9 @@ def update_publication(id):
             longupdate_db = root.child('long/' + id)
 
             longupdate_db.set({
-                "water41":longupdate.get_water43(),
+                "water41":longupdate.get_water41(),
                 "water42":longupdate.get_water42(),
-                "water43":longupdate.get_water41(),
+                "water43":longupdate.get_water43(),
                 "water44":longupdate.get_water44(),
                 "name4":longupdate.get_name4()
 
@@ -513,10 +492,10 @@ def update_publication(id):
         waterdata = root.child(url).get()
 
         if waterdata['name4'] != " ":
-            waterdatapatient = Water4(waterdata['water43'], waterdata['water41'], waterdata['water42'],
+            waterdatapatient = Water4(waterdata['water41'], waterdata['water42'], waterdata['water43'],
                                           waterdata['water44'], waterdata['name4'])
             waterdatapatient.set_pubid(id)
-            form.water44.data=datetime.strptime(waterdatapatient.get_water44(), '%Y-%m-%d')
+            form.water44.data=datetime.datetime.strptime(waterdatapatient.get_water44(), '%Y-%m-%d')
             form.water43.data=waterdatapatient.get_water43()
             form.water42.data=waterdatapatient.get_water42()
             form.water41.data=waterdatapatient.get_water41()
@@ -613,8 +592,6 @@ class Schedules(Form):
     gender = RadioField('Gender ', choices=[('Male', 'Male'), ('Female', 'Female')])
     contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
     nric = StringField('NRIC ')
-    contact = IntegerField('Contact ', [validators.NumberRange(min=8, message='Invalid number provided')])
-    nric = IntegerField('NRIC ')
     address = StringField('Address ')
     date_o_birth = DateField('Date of Birth ', format='%Y-%m-%d')
     condition = TextAreaField('')
@@ -622,7 +599,7 @@ class Schedules(Form):
     contactname = StringField('')
     email = StringField('')
     emergency = IntegerField('', [validators.NumberRange(min=8, message='Invalid number provided')])
-    time = TimeField('', format='%H:%M:%S')
+    time = TimeField('', format='%H:%M')
 
 ####################################################################################################
 ########################################## YODI APP ROUTE ##########################################
@@ -704,7 +681,7 @@ def register():
 @app.route('/schedule', methods=['GET', 'POST'])
 def schedule():
     form = Schedules(request.form)
-    if request.method == "POST" and form.validate():
+    if request.method == "POST":
         fullname = form.fullname.data
         gender = form.gender.data
         contact = form.contact.data
@@ -797,14 +774,14 @@ def update_patient(id):
             'time': schd.get_time()
         })
         flash('Updated successfully', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('patientdb'))
 
     else:
         url = 'Checkup/'+id
         bookedpatients = root.child(url).get()
 
         if bookedpatients['fullname'] != '':
-            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['emergencycontact'], 
+            bookedpatient = Schedule(bookedpatients['fullname'], bookedpatients['gender'], bookedpatients['contact'], 
                                      bookedpatients['address'], bookedpatients['dateofbirth'], bookedpatients['nric'], 
                                      bookedpatients['condition'], bookedpatients['email'], bookedpatients['scheduledate'],
                                      bookedpatients['emergencycontactname'],bookedpatients['emergencycontact'], bookedpatients['time'])
@@ -877,7 +854,6 @@ def update_patientinfo(id):
          })
         flash('Updated successfully', 'success')
         return redirect(url_for('patientsdb'))
-
     else:
         url = 'Patient_Information/'+id
         patient = root.child(url).get()
@@ -894,40 +870,79 @@ def update_patientinfo(id):
             form.contact.data = patientsdata.get_mobile()
             form.zip.data = patientsdata.get_zip()
             form.nric.data = patientsdata.get_nric()
-            form.date_o_birth.data = patientsdata.get_dateobirth()
-            form.admission_date.data = patientsdata.get_admissiondate()
+            form.date_o_birth.data = datetime.strptime(patientsdata.get_dateobirth(), '%Y-%m-%d')
+            form.admission_date.data = datetime.strptime(patientsdata.get_admissiondate(), '%Y-%m-%d')
 
         return render_template('updateinfo.html', form=form)
-
 
 ####################################################################################################
 ####################################################################################################
 ####################################################################################################
 # --- GARETH ClASS---
 class EventForms(Form):
-    title = StringField('Title')
-    category = SelectField('Category', choices=[('', 'Select'), ('6:00', '6:00'), ('6.30', '6.30'),
-                                                ('THRILLER', 'Thriller'), ('CRIME', 'Crime'), ('BUSINESS', 'Business')],
-                           default='')
-    publisher = StringField('Publisher')
-    status = SelectField('Status', choices=[('', 'Select'), ('P', 'Pending'), ('A', 'Available For Borrowing'),
-                                            ('R', 'Only For Reference')], default='')
-    isbn = StringField('ISBN No')
-    author = StringField('Author')
-    synopsis = TextAreaField('Synopsis')
-    frequency = RadioField('Frequency', choices=[('D', 'Daily'), ('W', 'Weekly'), ('M', 'Monthly')])
+    title = StringField('Event Title')
+    location = StringField('Event Location')
+    date = StringField('Event Date and time')
+    time = SelectField('', choices=[('', 'Select'), ('6:00', '6:00'), ('6.30', '6.30'),
+                                                ('7:00', '7:00'), ('7:30', '7:30'), ('8:00', '8:00'), ('8:30', '8:30'),
+                                                ('9:00', '9:00'), ('9:30', '9:30'), ('10:00', '10:00'),
+                                                ('10:30', '10:30'), ('11:00', '11:00'), ('11:30', '11:30'),
+                                                ('12:00', '12:00'), ('12:30', '12:30'), ('13:00', '13:00'),
+                                                ('13:30', '13:30'), ('14:00', '14:00'), ('14:30', '14:30'),
+                                                ('15:00', '15:00'), ('15:30', '15:30'), ('16:00', '16:00'),
+                                                ('16:30', '16:30'), ('17:00', '17:00'), ('17:30', '17:30'),
+                                                ('18:00', '18:00'), ('18:30', '18:30'), ('19:00', '19:00'),
+                                                ('19:30', '19:30'), ('20:00', '20:00'), ('20:30', '20:30'),
+                                                ('21:00', '21:00')], default='')
+    description = TextAreaField('Event Description')
 ####################################################################################################
 ######################################### Gareth APP ROUTE #########################################
 @app.route('/')
 def home():
     return render_template('home.html')
 
+
+@app.route('/events', methods=["GET", "POST"])
+def events():
+    form = EventForms(request.form)
+    if request.method == "POST":
+        title = form.title.data
+        location = form.location.data
+        date = form.date.data
+        time = form.time.data
+        desc = form.description.data
+        es = event_submissions(title, location, date, time, desc)
+
+        event_form = root.child('Event_Data')
+        event_form.push({
+            'title': es.get_event_title(),
+            'location': es.get_event_location(),
+            'date': es.get_event_date(),
+            'time': es.get_event_time(),
+            'desc': es.get_event_desc(),
+        })
+        return redirect(url_for('events'))
+
+    try:
+        ev = root.child('Event_Data').get()
+        list_ev = []
+        for data in ev:
+            i = ev[data]
+            if i['title']:
+                ev_data = event_submissions(i['title'], i['location'], i['date'], i['time'], i['desc'])
+                ev_data.set_data(data)
+                list_ev.append(ev_data)
+
+    except:
+        TypeError
+
+    return render_template('Events.html', form=form)
 ####################################################################################################
 ####################################################################################################
 ####################################################################################################
 # --- KHEE HING  CLASS---
 class Aft_dis(Form):
-    nric = StringField("", [validators.Regexp("^[sStTfFgG]\d{7}[a-zA-Z]$" ,message = "Wrong NRIC format")])
+    nric = StringField("", [validators.Regexp("^[STFG]\d{7}[A-Z]$" ,message = "Wrong NRIC format")])
     status = RadioField("",choices=[('0 - 33','0% - 33%'),('34 - 66','34% - 66'),('67 -  99','67% - 99%')])
     
     eye_bv = BooleanField('Blurred vision')
@@ -982,32 +997,6 @@ def after_discharge_display():
     form = Aft_dis(request.form)
     bmi = root.child('outpatient').get()
     list = []
-<<<<<<< HEAD
-    # try:
-    for data in bmi:
-        i = bmi[data]
-        if 'nric' in i:
-            if i['others']:
-                bmi_data = Information( i['nric'], i['status'], 
-                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
-                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
-                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
-                                        i['feet_'], 
-                                        i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
-                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'], i['others'])
-            elif i['nric']:
-                bmi_data = Information( i['nric'], i['status'], 
-                                        i['eye_bv'], i['eye_sp'], i['eye_we'], i['eye_ed'], i['eye_lo'], 
-                                        i['kiney_sw'], i['kiney_wg'], i['kiney_id'], 
-                                        i['heart_brain_so'], i['heart_brain_ff'], i['heart_brain_fd'], i['heart_brain_sw'], i['heart_brain_n'], i['heart_brain_cp'], i['heart_brain_sj'], 
-                                        i['feet_'], 
-                                        i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
-                                        i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'], i['medication'], i['others'])
-            bmi_data.set_data(data)
-            list.append(bmi_data)
-    # except:
-    #     TypeError
-=======
     try:
         for data in bmi:
             i = bmi[data]
@@ -1021,16 +1010,19 @@ def after_discharge_display():
                                             i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
                                             i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'],
                                             i['medication'], i['others'])
+                    # bmi_data.set_data(data)
+                    # list.append(bmi_data)
+                    # if 'eye_bv' == True:
+                    # bmi_data = Information(i['eye_bv'])
                     bmi_data.set_data(data)
                     list.append(bmi_data)
                     
     except:
         TypeError
->>>>>>> 83d5a4c55892ab8206e90a06d9e9747a3223e0b3
     return render_template('After_discharge_display.html', bmi = list)
 
 @app.route('/after_discharge', methods=["GET", "POST"])
-def after_discharge_():
+def after_discharge():
     form = Aft_dis(request.form)
     if request.method == "POST" and form.validate():
         nric = form.nric.data
@@ -1119,10 +1111,9 @@ def after_discharge_():
                 'medication': info.get_medication(),
                 'others': info.get_others(),
             })
-        
-        return redirect(url_for('after_discharge_'))
+        return redirect(url_for('after_discharge'))
 
-    return render_template('after_discharge.html', form = form)
+    return render_template('After_discharge.html', form = form)
 
 @app.route('/chronic_illness', methods=["GET", "POST"])
 def chronic_illness_():
@@ -1202,9 +1193,6 @@ def chronic_illness_():
 
     return render_template('Chronic_illness_patient.html', form=form, bp=list_bp, bg=list_bg, bmi=list_bmi)
 
-@app.route('/after_dd')
-def outpd():
-    return render_template('After_discharge_display.html')
 ###**  #######  ##    #  ####    **###
 ###**  #        # #   #  #   #   **###
 ###**  #####    #  #  #  #    #  **###

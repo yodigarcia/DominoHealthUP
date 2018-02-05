@@ -77,7 +77,7 @@
     color: black;
 }
 
-#scheduletable td:first-child {
+#scheduletable td:nth-child(-n+3) {
     font-size: 17px;
 }
 
@@ -115,9 +115,9 @@
     display: block;
 }
 
-#patientsdb td:first-child:hover{
-    cursor: pointer;
-}
+/* #patientsdb tr:nth-child(2) td:nth-last-child(1):hover {
+    background-color: #006491;
+} */
 
 #patientsdb td a:hover{
     color: white;

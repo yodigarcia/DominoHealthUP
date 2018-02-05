@@ -2,26 +2,16 @@
 {% block body %}
         <script>
           $(function(){
-<<<<<<< HEAD
-            $('td').click(function(event){
-              event.preventDefault();
-              var pot = $(this).attr('href');
-              if (pot != 'nav-link'){
-                if (pot != undefined) {
-                  $(pot).slideToggle(300);
+              $('td').click(function(event){
+                var pot = $(this).attr('href');
+                if (pot != 'nav-link'){
+                  if (pot != undefined) {
+                    event.preventDefault();
+                    $(pot).slideToggle(300);
+                  };
                 };
-              };
+              });
             });
-          });
-=======
-            $('div').click(function(){
-               var pat = $(this).attr('id');
-               if (pat != undefined) {
-                 $('#'+ pat).attr('class', 'collapse');
-               }
-            });
-         });
->>>>>>> 83d5a4c55892ab8206e90a06d9e9747a3223e0b3
         </script>
         <style>
           p {
@@ -57,9 +47,8 @@
             </tr>
 
             {% for patients in patient %}
-<<<<<<< HEAD
             <tr style="text-align:center;">
-              <td href="#patientdropdown{{ patients.get_pubid() }}">
+              <td href="#patientdropdown{{ patients.get_pubid() }}" id="test">
                 {{ patients.get_fname() }} {{ patients.get_lname() }}
               </td>
               </td>
@@ -68,25 +57,11 @@
               <td>{{ patients.get_nric() }}</td>
               <td>{{ patients.get_admissiondate() }}</td>
               <td><a href="/updateinfo/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
-=======
-            <tr>
-                <td>
-                  <a href="#patientdropdown{{ patients.get_pubid() }}" data-toggle="collapse">
-                  {{ patients.get_fname() }} {{ patients.get_lname() }}
-                  </a>
-                </td>
-                <td>{{ patients.get_gender() }}</td>
-                <td>{{ patients.get_mobile() }}</td>
-                <td>{{ patients.get_nric() }}</td>
-                <td>{{ patients.get_admissiondate() }}</td>
-                <td><a href="/update/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
->>>>>>> 83d5a4c55892ab8206e90a06d9e9747a3223e0b3
             </tr>
             <tr>
               
             <tr>
               <td colspan="6">
-<<<<<<< HEAD
                 <div id="patientdropdown{{ patients.get_pubid() }}" style="display:none; text-align:center;">
                   <h4>Address</h4>
                   <p>{{ patients.get_address() }}</p>
@@ -94,12 +69,6 @@
                   <p>{{ patients.get_zip() }}</p>
                   <h4>Date of Birth</h4>
                   <p>{{ patients.get_dateobirth() }}</p>
-=======
-                <div id="patientdropdown{{ patients.get_pubid() }}" class="collapse">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
->>>>>>> 83d5a4c55892ab8206e90a06d9e9747a3223e0b3
                 </div>
               </td>
             </tr>

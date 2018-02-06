@@ -1,5 +1,26 @@
 {% extends 'layout.html' %}
 {% block body %}
+<script>
+  $(function(){
+      $('td').click(function(event){
+        var pot = $(this).attr('href');
+        if (pot != 'nav-link'){
+          if (pot != undefined) {
+            event.preventDefault();
+            $(pot).slideToggle(300);
+          };
+        };
+      });
+    });
+</script>
+<style>
+  p {
+    margin: 10px 0;
+  }
+  h4 {
+    color: #555555;
+  }
+</style>
 
 <!-- Page Header -->
     <header class="masthead" style="background-image: url('../static/images/maxresdefault.jpg')">
@@ -26,13 +47,29 @@
                 <th>Update</th>
             </tr>
             {% for patients in booked %}
-            <tr>
-                <td>{{ patients.get_fullname() }}</td>
+            <tr style="text-align:center;">
+                <td href="#patientdropdown{{ patients.get_pubid() }}">{{ patients.get_fullname() }}</td>
                 <td>{{ patients.get_condition() }}</td>
                 <td>{{ patients.get_schedule() }}</td>
                 <td>{{ patients.get_mobile() }}</td>
                 <td>{{ patients.get_time() }}</td>
                 <td><a href="/updatesched/{{ patients.get_pubid() }}" class="btn-btn-warning">Update</a></td>
+            </tr>
+            <tr>
+              <td colspan="6">
+                <div id="patientdropdown{{ patients.get_pubid() }}" style="display:none; text-align:center;">
+                  <h4>Email</h4>
+                  <p>{{ patients.get_email() }}</p>
+                  <h4>NRIC</h4>
+                  <p>{{ patients.get_nric() }}</p>
+                  <h4>Address</h4>
+                  <p>{{ patients.get_address() }}</p>
+                  <h4>Emergency Contact Name</h4>
+                  <p>{{ patients.get_emgname() }}</p>
+                  <h4>Emergency Contact</h4>
+                  <p>{{ patients.get_emergency() }}</p>
+                </div>
+              </td>
             </tr>
             {% endfor %}
         </table>

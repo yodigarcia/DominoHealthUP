@@ -1,3 +1,4 @@
+# C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe (ignore this line its for me [Kheehing])
 from flask import Flask, render_template, request, url_for, redirect, session, flash
 from wtforms import Form, StringField, PasswordField, RadioField, IntegerField, TextAreaField, validators, FloatField ,SelectField,TextAreaField,BooleanField
 from wtforms.fields.html5 import DateField
@@ -29,11 +30,14 @@ from events_submissions import event_submissions
 
 
 #<!--- kiahzuo desktop --->
+<<<<<<< HEAD
 
 cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 default_app = firebase_admin.initialize_app(cred, {
    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
+=======
+>>>>>>> b7e4ba956dd2929620713dfb5f05bbce59fc1a9d
 # cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 # default_app = firebase_admin.initialize_app(cred, {
 #    'databaseURL': 'https://dominohealth.firebaseio.com'})
@@ -871,7 +875,7 @@ def update_patientinfo(id):
             form.firstname.data = patientsdata.get_fname()
             form.lastname.data = patientsdata.get_lname()
             form.gender.data = patientsdata.get_gender()
-            form.address.data = patientsdata.get_gender()
+            form.address.data = patientsdata.get_address()
             form.contact.data = patientsdata.get_mobile()
             form.zip.data = patientsdata.get_zip()
             form.nric.data = patientsdata.get_nric()
@@ -1015,15 +1019,11 @@ def after_discharge_display():
                                             i['nerves_bp'], i['nerves_n'], i['nerves_to'], i['nerves_cd'], i['nerves_pw'], 
                                             i['neuropathy_pn'], i['neuropathy_at'], i['neuropathy_gm'], i['neuropathy_ph'], i['neuropathy_ud'],
                                             i['medication'], i['others'])
-                    # bmi_data.set_data(data)
-                    # list.append(bmi_data)
-                    # if 'eye_bv' == True:
-                    # bmi_data = Information(i['eye_bv'])
                     bmi_data.set_data(data)
                     list.append(bmi_data)
-                    
     except:
         TypeError
+        
     return render_template('After_discharge_display.html', bmi = list)
 
 @app.route('/after_discharge', methods=["GET", "POST"])

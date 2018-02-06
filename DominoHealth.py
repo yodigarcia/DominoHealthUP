@@ -23,21 +23,20 @@ from events_submissions import event_submissions
 
 
 #<!--- yodi --->
-cred = credentials.Certificate(r"C:\Users\yodigarcia\Downloads\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
-default_app = firebase_admin.initialize_app(cred, {
-   'databaseURL': 'https://dominohealth.firebaseio.com'})
+# cred = credentials.Certificate(r"C:\Users\yodigarcia\Downloads\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
+# default_app = firebase_admin.initialize_app(cred, {
+#    'databaseURL': 'https://dominohealth.firebaseio.com'})
 
 
 #<!--- kiahzuo desktop --->
-<<<<<<< HEAD
+
 cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 default_app = firebase_admin.initialize_app(cred, {
    'databaseURL': 'https://dominohealth.firebaseio.com'})
-=======
+
 # cred = credentials.Certificate(r'C:\Users\kiah zuo\PycharmProjects\DominoHealth-master\DominoHealth-master\cred\dominohealth-firebase-adminsdk-anpr6-1509e334db.json')
 # default_app = firebase_admin.initialize_app(cred, {
 #    'databaseURL': 'https://dominohealth.firebaseio.com'})
->>>>>>> d8a44d85de394c2c36a78580486b0ac7bc7b551e
 
 #<!--- kheehing desktop --->
 # cred = credentials.Certificate(r"C:\Users\lightcreaater\Documents\GitHub\DominoHealthUP\cred\dominohealth-firebase-adminsdk-anpr6-8fddaeda58.json")
@@ -501,7 +500,7 @@ def update_publication(id):
             waterdatapatient = Water4(waterdata['water41'], waterdata['water42'], waterdata['water43'],
                                           waterdata['water44'], waterdata['name4'])
             waterdatapatient.set_pubid(id)
-            form.water44.data=datetime.datetime.strptime(waterdatapatient.get_water44(), '%Y-%m-%d')
+            form.water44.data=datetime.strptime(waterdatapatient.get_water44(), '%Y-%m-%d')
             form.water43.data=waterdatapatient.get_water43()
             form.water42.data=waterdatapatient.get_water42()
             form.water41.data=waterdatapatient.get_water41()
